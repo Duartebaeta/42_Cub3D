@@ -1,4 +1,4 @@
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 static char	*ft_free(char *buffer, char *buf)
 {
