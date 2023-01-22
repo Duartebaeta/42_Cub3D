@@ -1,62 +1,111 @@
-GREEN		=	\033[0;32m
-YELLOW		=	\033[0;33m
-RED			=	\033[0;31m
-RESET		=	\033[0m
+### OPERATING SYSTEM ###
+OS			:=	$(shell uname -s)
 
-NAME			:=	cub3d
-CC				:=	cc
-CFLAGS			:= -g -Wall -Wextra -Werror 
+### EXECUTABLE ###
+NAME		:=	cub3d
 
+### COMPILATION ###
+CC			:=	gcc
+CFLAGS		:=	-Wall -Werror -Wextra -g -fsanitize=address
 
-INCS			=	-I$(LIBFT_DIR)
+### PATHS ###
+LIBFT_PATH	:=	./libft/
+INCL_PATH	:=	incl/
+SRCS_PATH	:=	src/
+OBJS_PATH	:=	obj/
+ifeq ($(OS), Linux)
+	MLX_PATH:=	./minilibx-linux/
+else
+	MLX_PATH:=	./minilibx_macos/
+endif
 
-PATH_SRC		:=	./src
-PATH_INCLUDES	:=	./includes
-PATH_BUILD		:=	./build
+### SOURCE FILES ###
+SRC_NAME	:=	$(NAME).c
+#SRC_BONUS=	$(NAME)_bonus.c
+SRCS		:=	get_next_line.c \
+				structs.c \
+				arg_check.c
+SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
+#SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))
 
-LIBFT		=	./libft/libft.a
-LIBFT_DIR	=	./libft
+### OBJECT FILES ###
+OBJ_NAME	:=	$(SRC_NAME:.c=.o)
+#OBJ_BONUS	:=	$(SRC_BONUS:.c=.o)
+OBJS		:=	$(SRCS:.c=.o)
+OBJS_NAME	:=	$(addprefix $(OBJS_PATH), $(OBJ_NAME) $(OBJS))
+#OBJS_BONUS	:=	$(addprefix $(OBJS_PATH), $(OBJ_BONUS) $(OBJS))
 
-PATH_OBJS		:= $(PATH_BUILD)/objs
+### LIBFT ###
+LIBFTMAKE	:=	make bonus --silent -C $(LIBFT_PATH)
+LIBFT		:=	-L$(LIBFT_PATH) -lft
 
-BIN				:=	./$(NAME)
+### MLXLIB ###
+MLXMAKE		:=	make --silent -C $(MLX_PATH)
+ifeq ($(OS), Linux)
+	MLX		:=	-L$(MLX_PATH) -lmlx_Linux -lX11 -lXext -lm -lz -O3
+else
+	MLX		:=	-L$(MLX_PATH) -lmlx -lm -framework OpenGL -framework AppKit -O3
+endif
 
-SRCS			:= $(PATH_SRC)/main.c \
-					$(PATH_SRC)/arg_check.c \
-					$(PATH_SRC)/get_next_line.c
+### INCLUDES ###
+INC			:=	-I $(LIBFT_PATH)$(INCL_PATH) -I $(INCL_PATH) -I $(MLX_PATH)
 
+### COLOURS ###
+ifeq ($(OS), Linux)
+	ECHO	:=	echo "
+else
+	ECHO	:=	echo "
+endif
+GREEN= $(addprefix $(ECHO), \033[1;32m)
+RED= $(addprefix $(ECHO), \033[1;31m)
+DEFAULT= \033[0m"
 
-OBJ				:= $(subst .c,.o,$(subst $(PATH_SRC), $(PATH_OBJS), $(SRCS)))
+### IMPLICT RULES ###
+%.o: %.c
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
-all:$(BIN)
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
-$(BIN): $(LIBFT) $(OBJ)
-		@$(CC) -o $(@) $^ -I$(PATH_INCLUDES) $(LIBFT) $(INCS)
-		@printf "\033[44m[$(NAME) built!]\033[0m\n"
+### ACTIVE RULES ###
+all: $(NAME) ## compiles cub3d with mandatory requirements
 
-$(PATH_OBJS)/%.o: $(PATH_SRC)/%.c | $(PATH_BUILD)
-		@$(CC) $(CFLAGS) -c $(^) -o $@ 
-		@printf "\033[36m[Building ${@F}]\033[0m\n"
+bonus: $(NAME) ## compiles cub3d with bonus requirements
 
+$(NAME): $(OBJS_PATH) $(OBJS_NAME)
+	@$(LIBFTMAKE)
+	@$(MLXMAKE)
+	@$(CC) $(CFLAGS) $(OBJS_NAME) $(INC) $(LIBFT) $(MLX) -o $(NAME)
+	@$(GREEN)$(NAME) Program created$(DEFAULT)
 
-$(PATH_BUILD):
-		@mkdir -p $(PATH_BUILD)
-		@mkdir -p $(PATH_OBJS)
+$(OBJS_PATH):
+	@mkdir -p $@
 
-$(LIBFT):
-	@printf "\033[4;32m[Building Libft]\033[0m\n"
-	@ $(MAKE) -C ./libft --silent
+clean: ## removes object files
+	@make bonus $@ --silent -C $(LIBFT_PATH)
+	@rm -rf $(OBJS_PATH)
+	@$(RED)Object files removed$(DEFAULT)
 
-clean:
-		@printf "\033[38;5;1m[Cleaning objects!]\033[0m\n"
-		@rm -rf $(PATH_OBJS)
+fclean: clean ## removes object files and binary
+	@make $@ --silent -C $(LIBFT_PATH)
+	@$(RED)Libft removed$(DEFAULT)
+	@rm -f $(NAME)
+	@$(RED)$(NAME) Program removed$(DEFAULT)
 
-fclean: clean
-		@ $(MAKE) fclean -C $(LIBFT_DIR) --silent
-		@rm -rf $(PATH_BUILD) $(NAME)
-		@rm -rf $(BIN)
-		@printf "\033[38;5;1m[Cleaning Bin!]\033[0m\n"
+re: fclean all ## recompiles cub3d
 
-re: fclean all
+### NORMINETTE ###
+norm: ## checks norminette requirements
+	@norminette -R CheckForbiddenSourceHeader $(SRCS_PATH)
+	@norminette -R CheckForbiddenSourceHeader $(INCL_PATH)
+	@norminette -R CheckDefine $(SRCS_PATH)
+	@norminette -R CheckDefine $(INCL_PATH)
 
-.PHONY: all clean
+### HELP ###
+help:  ## show this help
+	@echo "usage: make [target]"
+	@echo ""
+	@egrep "^(.+)\:\ .*##\ (.+)" ${MAKEFILE_LIST} | sed 's/:.*##/#/' | column -t -c 2 -s '#'
+
+### PHONY RULE ###
+.PHONY:	all help bonus clean fclean re norm
