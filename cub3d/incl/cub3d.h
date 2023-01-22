@@ -3,9 +3,13 @@
 
 # include "libft.h"
 # include <stdio.h>
+# include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <stdarg.h>
+
+/* ERROR CODES */
+# define NUM_ARGS 2
 
 typedef struct s_data
 {
@@ -56,5 +60,10 @@ typedef struct s_cub3d
 int		arg_checker(char *filename, t_data *data);
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
+/* UTILS */
+void *protected_calloc(size_t count, size_t size);
+/* ERROR HANDLING */
+void program_errors(char *errname, bool clear, bool stop);
+void clear_data(void);
 
 #endif
