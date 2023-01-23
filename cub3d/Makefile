@@ -24,7 +24,9 @@ SRC_NAME	:=	$(NAME).c
 #SRC_BONUS=	$(NAME)_bonus.c
 SRCS		:=	get_next_line.c \
 				structs.c \
-				arg_check.c
+				arg_check.c \
+				utils.c \
+				error_handling.c
 SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
 #SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))
 
