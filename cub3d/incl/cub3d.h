@@ -14,7 +14,14 @@
 typedef struct s_data
 {
 	char **map;
+	char **map1; //Just map info from char**map
 } t_data;
+
+typedef struct s_point
+{
+	int		x;
+	int		y;
+} t_point;
 
 typedef struct s_coord
 {
@@ -58,6 +65,7 @@ typedef struct s_cub3d
 } t_cub3d;
 
 int		arg_checker(char *filename, t_data *data);
+void	check_map(t_data *data);
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
 /* UTILS */
