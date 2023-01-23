@@ -9,7 +9,7 @@
 
 typedef struct s_data
 {
-	char **map;
+	char **input;
 } t_data;
 
 typedef struct s_coord
