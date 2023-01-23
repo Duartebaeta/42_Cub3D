@@ -60,7 +60,7 @@ typedef struct s_cub3d
 	int map_x;
 	int map_y;
 	char *filename;
-	t_coord ***map;
+	char **map;
 	t_image *img;
 } t_cub3d;
 
@@ -70,6 +70,8 @@ int		main(int argc, char **argv);
 char	*get_next_line(int fd);
 /* UTILS */
 void *protected_calloc(size_t count, size_t size);
+bool	ft_isspace(int c);
+t_cub3d	*cub(void);
 /* ERROR HANDLING */
 void program_errors(char *errname, bool clear, bool stop);
 void clear_data(void);

@@ -9,6 +9,6 @@ int main(int argc, char **argv)
 	data = protected_calloc(1, sizeof(t_data));
 	arg_checker(argv[1], data);
 	check_map(data);
-
+	// free(data->map);
 	return (EXIT_SUCCESS);
 }

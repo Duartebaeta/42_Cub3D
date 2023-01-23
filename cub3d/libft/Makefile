@@ -52,6 +52,7 @@ SRC=	ft_atoi.c \
 		ft_get_next_line.c \
 		ft_strequal.c \
 		ft_strarray_clear.c \
+		ft_strarray_dup.c \
 		ft_strdel.c \
 		ft_memdel.c
 BONUS=	ft_lstnew.c \

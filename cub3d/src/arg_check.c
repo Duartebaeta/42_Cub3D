@@ -44,9 +44,9 @@ int	arg_checker(char *filename, t_data *data)
 		return (2);
 	}
 	get_input(fd, data);
-	for (size_t i = 0; data->map[i]; i++)
-	{
-		printf("%s\n", data->map[i]);
-	}
+	// for (size_t i = 0; data->map[i]; i++)
+	// {
+	// 	printf("%s\n", data->map[i]);
+	// }
 	return 0;
 }
