@@ -24,7 +24,7 @@ static int parse_textures(t_data *data)
 		}
 	}
 
-
+	return (0);
 }
 
 static void	get_input(int fd, t_data *data)
@@ -69,6 +69,8 @@ int	arg_checker(char *filename, t_data *data)
 		return (2);
 	}
 	get_input(fd, data);
+	if (parse_textures(data))
+		return (1);
 	// for (size_t i = 0; data->map[i]; i++)
 	// {
 	// 	printf("%s\n", data->map[i]);
