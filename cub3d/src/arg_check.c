@@ -3,19 +3,20 @@
 static int	check_values(char **values)
 {
 	char	*tmp;
+	int		counter;
 
+	counter = -1;
 	while(*values)
 	{
 		tmp = ft_strtrim(*values, " ");
-		while(*tmp)
+		while(tmp[++counter])
 		{
-			if (!ft_isdigit(*tmp))
+			if (!ft_isdigit(tmp[counter]))
 			{
 				ft_strarray_clear(&values);
 				free(tmp);
 				return (1);
 			}
-			tmp++;
 		}
 		free(tmp);
 		values++;
@@ -23,11 +24,18 @@ static int	check_values(char **values)
 	return (0);
 }
 
-static int	assign_values(char **path)
+static int	assign_values(t_cub3d *cub3d, char **path)
 {
 	char	**values;
+	int		counter;
 
-	values = ft_split(*path, ',');
+	values = ft_split(path[1], ',');
+	printf("%s\n", path[1]);
+	for (size_t i = 0; values[i]; i++)
+	{
+		printf("(%s)\n", values[i]);
+	}
+	printf("%i\n", array_len(values));
 	if (array_len(values) != 3)
 	{
 		ft_strarray_clear(&values);
@@ -35,11 +43,17 @@ static int	assign_values(char **path)
 	}
 	if (check_values(values))
 		return (2);
+	counter = -1;
 	if (ft_strncmp("F\0", path[0], 2) == 0)
-		cub()->no->addr = path[1]; //Change to floor and ceiling
+	{
+		while(values[++counter])
+			cub3d->floor[counter] = ft_atoi(values[counter]); //Change to floor and ceiling
+	}
 	else if (ft_strncmp("C\0", path[0], 2) == 0)
-		cub()->so->addr = path[1];
-		
+	{
+		while(values[++counter])
+			cub3d->ceiling[counter] = ft_atoi(values[counter]);
+	}
 	return (0);
 }
 
@@ -49,10 +63,11 @@ static int	check_path(t_cub3d *cub3d, char **path, int counter)
 
 	// TODO: Protect against files with spaces in the name
 	if (counter >= 4)
-		assign_values(path);
+	{
+		return (assign_values(cub3d, path));
+	}
 	else
-		return 0;
-
+		return (0);
 	if (ft_strnstr(path[1], ".xpm", ft_strlen(path[1])) == NULL)
 		return (1);
 	fd = open(path[1], O_RDONLY);
@@ -70,15 +85,15 @@ static int	check_path(t_cub3d *cub3d, char **path, int counter)
 	return (0);
 }
 
-static int	check_coord(t_cub3d *cub3d, char *coord, int c)
+static int	check_coord(char *coord, int c)
 {
 	static int		*coord_bool;
-	char	**textures;
-	int		counter;
+	char			**textures;
+	int				counter;
 
-	textures = ft_split("NO SO WE EA F C\0", ' ');
 	if (!coord_bool)
 		coord_bool = protected_calloc(6, sizeof(int));
+	textures = ft_split("NO SO WE EA F C\0", ' ');
 	counter = -1;
 	while (++counter < 6)
 	{
@@ -94,7 +109,6 @@ static int	check_coord(t_cub3d *cub3d, char *coord, int c)
 	}
 	ft_strarray_clear(&textures);
 	free(coord_bool);
-	(void) cub3d;
 	return (1);
 }
 
@@ -116,9 +130,9 @@ static int	parse_textures(t_cub3d *cub3d)
 		}
 		tmp = ft_split(line, ' ');
 		free(line);
-		if (array_len(tmp) < 2 || check_coord(cub3d, tmp[0], counter))
+		if (array_len(tmp) < 2 || check_coord(tmp[0], counter))
 			break ;
-		else if (check_path(cub3d, tmp, counter) != 0)
+		else if (check_path(cub3d, tmp, counter))
 			break ;
 		ft_strarray_clear(&tmp);
 		counter++;
