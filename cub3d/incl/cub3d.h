@@ -11,20 +11,6 @@
 /* ERROR CODES */
 # define NUM_ARGS 2
 
-typedef struct s_data
-{
-	char **input;
-} t_data;
-
-typedef struct s_coord
-{
-	float x;
-	float y;
-	float z;
-	bool end;
-	int color;
-} t_coord;
-
 typedef struct s_image
 {
 	void *img;
@@ -45,23 +31,42 @@ typedef struct s_image
 	double angle;
 } t_image;
 
+typedef struct s_texture
+{
+	void	*img;
+	char	*addr;
+	int		fd;
+
+}t_texture;
+
 typedef struct s_cub3d
 {
-	void *mlx;
-	void *win;
-	int fd;
-	int map_x;
-	int map_y;
-	char *filename;
-	t_coord ***map;
-	t_image *img;
+	void		*mlx;
+	void		*win;
+	int			fd;
+	int			map_x;
+	int			map_y;
+	char		*filename;
+	char		**input;
+	char		**map;
+	t_image		*img;
+	t_texture	*no;
+	t_texture	*so;
+	t_texture	*we;
+	t_texture	*ea;
+	int			floor[3];
+	int			ceiling[3];
+
 } t_cub3d;
 
-int		arg_checker(char *filename, t_data *data);
+/* FILE PARSING */
+int		arg_checker(t_cub3d *cub3d);
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
 /* UTILS */
-void *protected_calloc(size_t count, size_t size);
+void	*protected_calloc(size_t count, size_t size);
+int		array_len(char **array);
+t_cub3d	*cub(void);
 /* ERROR HANDLING */
 void program_errors(char *errname, bool clear, bool stop);
 void clear_data(void);

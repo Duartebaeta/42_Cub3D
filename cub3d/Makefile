@@ -5,8 +5,8 @@ OS			:=	$(shell uname -s)
 NAME		:=	cub3d
 
 ### COMPILATION ###
-CC			:=	gcc
-CFLAGS		:=	-Wall -Werror -Wextra -g -fsanitize=address
+CC			:=	cc
+CFLAGS		:=	-Wall -Werror -Wextra -g
 
 ### PATHS ###
 LIBFT_PATH	:=	./libft/
