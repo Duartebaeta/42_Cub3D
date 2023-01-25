@@ -1,17 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arg_check.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 01:01:54 by dhomem-d          #+#    #+#             */
+/*   Updated: 2023/01/25 01:16:49 by dhomem-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static int	check_values(char **values)
 {
 	char	*tmp;
 	int		counter;
+	int		array_counter;
 
-	counter = -1;
-	while(*values)
+	array_counter = -1;
+	while (values[++array_counter])
 	{
-		tmp = ft_strtrim(*values, " ");
-		while(tmp[++counter])
+		tmp = ft_strtrim(values[array_counter], " ");
+		counter = -1;
+		while (tmp[++counter])
 		{
-			if (!ft_isdigit(tmp[counter]))
+			if (!ft_isdigit(tmp[counter]) || ft_atoi(tmp) < 0
+				|| ft_atoi(tmp) > 255)
 			{
 				ft_strarray_clear(&values);
 				free(tmp);
@@ -19,7 +34,6 @@ static int	check_values(char **values)
 			}
 		}
 		free(tmp);
-		values++;
 	}
 	return (0);
 }
@@ -30,12 +44,6 @@ static int	assign_values(t_cub3d *cub3d, char **path)
 	int		counter;
 
 	values = ft_split(path[1], ',');
-	printf("%s\n", path[1]);
-	for (size_t i = 0; values[i]; i++)
-	{
-		printf("(%s)\n", values[i]);
-	}
-	printf("%i\n", array_len(values));
 	if (array_len(values) != 3)
 	{
 		ft_strarray_clear(&values);
@@ -46,12 +54,12 @@ static int	assign_values(t_cub3d *cub3d, char **path)
 	counter = -1;
 	if (ft_strncmp("F\0", path[0], 2) == 0)
 	{
-		while(values[++counter])
-			cub3d->floor[counter] = ft_atoi(values[counter]); //Change to floor and ceiling
+		while (values[++counter])
+			cub3d->floor[counter] = ft_atoi(values[counter]);
 	}
 	else if (ft_strncmp("C\0", path[0], 2) == 0)
 	{
-		while(values[++counter])
+		while (values[++counter])
 			cub3d->ceiling[counter] = ft_atoi(values[counter]);
 	}
 	return (0);
@@ -99,13 +107,13 @@ static int	check_coord(char *coord, int c)
 	{
 		if (ft_strncmp(coord, textures[counter], ft_strlen(coord)) == 0
 			&& !coord_bool[counter])
-			{
-				coord_bool[counter] = 1;
-				ft_strarray_clear(&textures);
-				if (c == 5)
-					free(coord_bool);
-				return (0);
-			}
+		{
+			coord_bool[counter] = 1;
+			ft_strarray_clear(&textures);
+			if (c == 5)
+				free(coord_bool);
+			return (0);
+		}
 	}
 	ft_strarray_clear(&textures);
 	free(coord_bool);
@@ -116,7 +124,7 @@ static int	parse_textures(t_cub3d *cub3d)
 {
 	int		counter;
 	char	*line;
-	char	**tmp;
+	char	**split;
 
 	counter = 0;
 	while (counter < 6 && cub3d->input)
@@ -126,21 +134,24 @@ static int	parse_textures(t_cub3d *cub3d)
 		{
 			free(line);
 			cub3d->input++;
-			continue;
+			continue ;
 		}
-		tmp = ft_split(line, ' ');
-		free(line);
-		if (array_len(tmp) < 2 || check_coord(tmp[0], counter))
-			break ;
-		else if (check_path(cub3d, tmp, counter))
-			break ;
-		ft_strarray_clear(&tmp);
-		counter++;
-		cub3d->input++;
+		else
+		{
+			split = ft_split(line, ' ');
+			free(line);
+			if (array_len(split) < 2 || check_coord(split[0], counter))
+				break ;
+			else if (check_path(cub3d, split, counter))
+				break ;
+			ft_strarray_clear(&split);
+			counter++;
+			cub3d->input++;
+		}
 	}
 	if (counter == 6)
 		return (0);
-	ft_strarray_clear(&tmp);
+	ft_strarray_clear(&split);
 	return (1);
 }
 
@@ -184,12 +195,7 @@ int	arg_checker(t_cub3d *cub3d)
 		return (2);
 	}
 	get_input(cub3d);
-	return (parse_textures(cub3d));
-	// if (parse_textures(cub3d))
-	// 	return (1);
-	// for (size_t i = 0; data->map[i]; i++)
-	// {
-	// 	printf("%s\n", data->map[i]);
-	// }
+	if (parse_textures(cub3d))
+		return (1);
 	return 0;
 }
