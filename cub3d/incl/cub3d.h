@@ -65,7 +65,8 @@ typedef struct s_cub3d
 } t_cub3d;
 
 int		arg_checker(char *filename, t_data *data);
-void	check_map(t_data *data);
+char **create_map_from_file(char **file);
+void check_map(t_data *data);
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
 /* UTILS */

@@ -6,7 +6,7 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 13:38:37 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/01/16 22:05:29 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/01/24 23:07:24 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int		ft_min_int(int n, ...);
 int		ft_max_int(int n, ...);
 bool	ft_strequal(char *s1, char *s2);
 void	ft_strarray_clear(char ***str_array);
+size_t	ft_strarray_len(char **s);
 char	**ft_strarray_dup(char **str_array);
 void	ft_strdel(char **str);
 void	ft_memdel(void **mem);

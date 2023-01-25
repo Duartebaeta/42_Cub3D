@@ -28,3 +28,10 @@ bool	ft_isspace(int c)
 	else
 		return (false);
 }
+
+bool is_map_char(char c)
+{
+	if (c && !ft_isspace(c))
+		return (true);
+	return (false);
+}
