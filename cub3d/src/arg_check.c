@@ -2,7 +2,7 @@
 
 //ENOENT
 
-static void	get_input(int fd, t_data *data)
+static void	get_input(int fd)
 {
 	char	*map;
 	char	*tmp;
@@ -23,11 +23,11 @@ static void	get_input(int fd, t_data *data)
 		gnl_tmp = get_next_line(fd);
 	}
 	free(gnl_tmp);
-	data->map = ft_split(map, '\n');
+	cub()->file = ft_split(map, '\n');
 	free(map);
 }
 
-int	arg_checker(char *filename, t_data *data)
+int	arg_checker(char *filename)
 {
 	int	fd;
 
@@ -43,7 +43,7 @@ int	arg_checker(char *filename, t_data *data)
 		}
 		return (2);
 	}
-	get_input(fd, data);
+	get_input(fd);
 	// for (size_t i = 0; data->map[i]; i++)
 	// {
 	// 	printf("%s\n", data->map[i]);

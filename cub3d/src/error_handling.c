@@ -11,5 +11,6 @@ void program_errors(char *errname, bool clear, bool stop)
 
 void clear_data(void)
 {
-	//TODO: Implement me
+	ft_strarray_clear(&cub()->file);
+	ft_strarray_clear(&cub()->map);
 }

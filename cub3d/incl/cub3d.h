@@ -11,12 +11,6 @@
 /* ERROR CODES */
 # define NUM_ARGS 2
 
-typedef struct s_data
-{
-	char **map;
-	char **map1; //Just map info from char**map
-} t_data;
-
 typedef struct s_point
 {
 	int		x;
@@ -60,13 +54,14 @@ typedef struct s_cub3d
 	int map_x;
 	int map_y;
 	char *filename;
+	char **file;
 	char **map;
 	t_image *img;
 } t_cub3d;
 
-int		arg_checker(char *filename, t_data *data);
-char **create_map_from_file(char **file);
-void check_map(t_data *data);
+int		arg_checker(char *filename);
+void create_map_from_file();
+void check_map();
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
 /* UTILS */

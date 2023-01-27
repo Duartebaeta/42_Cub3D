@@ -5,10 +5,11 @@ static bool is_closed(char **map, t_point p, int max_x, int max_y);
 static bool check_map_edges(char **map, t_point p, int max_x, int max_y);
 static bool is_map_char(char c);
 
-void check_map(t_data *data)
+void check_map()
 {
-	cub()->map = ft_strarray_dup(&data->map[6]);
-	is_map_closed(cub()->map);
+	create_map_from_file();
+
+	// is_map_closed(cub()->map);
 }
 
 void is_map_closed(char **map)
