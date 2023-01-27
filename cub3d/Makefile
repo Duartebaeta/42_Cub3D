@@ -26,7 +26,9 @@ SRCS		:=	get_next_line.c \
 				structs.c \
 				arg_check.c \
 				utils.c \
-				error_handling.c
+				error_handling.c \
+				input_map.c
+
 SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
 #SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))
 

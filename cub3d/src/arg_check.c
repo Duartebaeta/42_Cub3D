@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 01:01:54 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/01/25 01:16:49 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/01/27 02:25:12 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,11 @@ static int	assign_values(t_cub3d *cub3d, char **path)
 	return (0);
 }
 
-static int	check_path(t_cub3d *cub3d, char **path, int counter)
+static int	check_path(t_cub3d *cub3d, char **path)
 {
 	int		fd;
 
-	// TODO: Protect against files with spaces in the name
-	if (counter >= 4)
+	if (ft_strncmp(path[0], "F\0", 2) == 0 || ft_strncmp(path[0], "C\0", 2) == 0)
 	{
 		return (assign_values(cub3d, path));
 	}
@@ -123,65 +122,40 @@ static int	check_coord(char *coord, int c)
 static int	parse_textures(t_cub3d *cub3d)
 {
 	int		counter;
+	int		in_counter;
 	char	*line;
 	char	**split;
 
 	counter = 0;
-	while (counter < 6 && cub3d->input)
+	in_counter = -1;
+	while (counter < 6 && cub3d->input[++in_counter])
 	{
-		line = ft_strtrim(*(cub3d->input), " ");
+		line = ft_strtrim(cub3d->input[in_counter], " ");
 		if (ft_strlen(line) == 0)
-		{
 			free(line);
-			cub3d->input++;
-			continue ;
-		}
 		else
 		{
 			split = ft_split(line, ' ');
 			free(line);
 			if (array_len(split) < 2 || check_coord(split[0], counter))
 				break ;
-			else if (check_path(cub3d, split, counter))
+			else if (check_path(cub3d, split))
 				break ;
 			ft_strarray_clear(&split);
 			counter++;
-			cub3d->input++;
 		}
 	}
+	return (counter == 6 ? counter : 0)
 	if (counter == 6)
-		return (0);
-	ft_strarray_clear(&split);
-	return (1);
-}
-
-static void	get_input(t_cub3d *cub3d)
-{
-	char	*input;
-	char	*tmp;
-	char	*gnl_tmp;
-
-	input = ft_strdup("");
-	gnl_tmp = get_next_line(cub3d->fd);
-	while (gnl_tmp != NULL)
-	{
-		if (ft_strlen(gnl_tmp) != 0)
-		{
-			tmp = ft_strjoin(input, gnl_tmp);
-			free(input);
-			input = ft_strdup(tmp);
-			free(tmp);
-		}
-		free(gnl_tmp);
-		gnl_tmp = get_next_line(cub3d->fd);
-	}
-	free(gnl_tmp);
-	cub3d->input = ft_split(input, '\n');
-	free(input);
+		return (in_counter);
+	// ft_strarray_clear(&split);
+	return (0);
 }
 
 int	arg_checker(t_cub3d *cub3d)
 {
+	int	split_index;
+
 	if (ft_strnstr(cub3d->filename, ".cub", ft_strlen(cub3d->filename)) == NULL)
 		return (3);
 	cub3d->fd = open(cub3d->filename, O_RDONLY);
@@ -195,7 +169,8 @@ int	arg_checker(t_cub3d *cub3d)
 		return (2);
 	}
 	get_input(cub3d);
-	if (parse_textures(cub3d))
+	split_index = parse_textures(cub3d);
+	if (split_index == 0)
 		return (1);
 	return 0;
 }

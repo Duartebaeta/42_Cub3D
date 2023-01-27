@@ -68,6 +68,8 @@ void	*protected_calloc(size_t count, size_t size);
 int		array_len(char **array);
 t_cub3d	*cub(void);
 char	*join_multiples(char **array, int start, int end);
+/* INPUT HANDLING */
+void	get_input(t_cub3d *cub3d);
 /* ERROR HANDLING */
 void program_errors(char *errname, bool clear, bool stop);
 void clear_data(void);
