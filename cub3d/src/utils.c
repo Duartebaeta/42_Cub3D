@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/27 21:41:45 by jocaetan          #+#    #+#             */
+/*   Updated: 2023/01/27 21:41:46 by jocaetan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void *protected_calloc(size_t count, size_t size)
+void	*protected_calloc(size_t count, size_t size)
 {
-	void *ptr;
+	void	*ptr;
 
 	errno = ENOMEM;
 	ptr = ft_calloc(count, size);
@@ -29,7 +41,7 @@ bool	ft_isspace(int c)
 		return (false);
 }
 
-bool is_map_char(char c)
+bool	is_map_char(char c)
 {
 	if (c && !ft_isspace(c))
 		return (true);

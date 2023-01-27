@@ -1,23 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_checker.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/27 21:46:06 by jocaetan          #+#    #+#             */
+/*   Updated: 2023/01/27 21:46:07 by jocaetan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-static void is_map_closed(char **map);
-static bool is_closed(char **map, t_point p, int max_x, int max_y);
-static bool check_map_edges(char **map, t_point p, int max_x, int max_y);
-static bool is_map_char(char c);
+static void	is_map_closed(char **map);
+static bool	is_closed(char **map, t_point p, int max_x, int max_y);
+static bool	check_map_edges(char **map, t_point p, int max_x, int max_y);
+static bool	is_map_char(char c);
 
-void check_map()
+void	check_map(void)
 {
 	create_map_from_file();
-
-	// is_map_closed(cub()->map);
+	is_map_closed(cub()->map);
 }
 
-void is_map_closed(char **map)
+void	is_map_closed(char **map)
 {
-	int i;
-	int j;
-	int max_y;
-	int max_x;
+	int	i;
+	int	j;
+	int	max_y;
+	int	max_x;
 
 	i = -1;
 	max_y = ft_strarray_len(map);
@@ -35,9 +46,9 @@ void is_map_closed(char **map)
 	}
 }
 
-static bool is_closed(char **map, t_point p, int max_x,int max_y)
+static bool	is_closed(char **map, t_point p, int max_x, int max_y)
 {
-	int adjacent;
+	int	adjacent;
 
 	errno = ENOEXEC;
 	adjacent = 0;
@@ -51,7 +62,7 @@ static bool is_closed(char **map, t_point p, int max_x,int max_y)
 			adjacent++;
 		if (map[p.y][p.x - 1] && is_map_char(map[p.y][p.x - 1]))
 			adjacent++;
-		if (map[p.y][p.x + 1]  && is_map_char(map[p.y][p.x + 1]))
+		if (map[p.y][p.x + 1] && is_map_char(map[p.y][p.x + 1]))
 			adjacent++;
 		if (adjacent == 4)
 			return (true);
@@ -59,7 +70,7 @@ static bool is_closed(char **map, t_point p, int max_x,int max_y)
 	return (false);
 }
 
-static bool check_map_edges(char **map, t_point p, int max_x, int max_y)
+static bool	check_map_edges(char **map, t_point p, int max_x, int max_y)
 {
 	if (p.y == 0 && (map[p.y][p.x] == '1' || ft_isspace(map[p.y][p.x])))
 		return (true);
@@ -72,7 +83,7 @@ static bool check_map_edges(char **map, t_point p, int max_x, int max_y)
 	return (false);
 }
 
-static bool is_map_char(char c)
+static bool	is_map_char(char c)
 {
 	if (c && !ft_isspace(c))
 		return (true);
