@@ -27,7 +27,7 @@ SRCS		:=	get_next_line.c \
 				arg_check.c \
 				utils.c \
 				error_handling.c \
-				input_map.c
+				textures_checker.c
 
 SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
 #SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))

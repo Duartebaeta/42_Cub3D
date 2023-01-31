@@ -63,13 +63,12 @@ typedef struct s_cub3d
 int		arg_checker(t_cub3d *cub3d);
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
+int		check_textures(t_cub3d *cub3d, char *line, int counter);
 /* UTILS */
 void	*protected_calloc(size_t count, size_t size);
 int		array_len(char **array);
 t_cub3d	*cub(void);
 char	*join_multiples(char **array, int start, int end);
-/* INPUT HANDLING */
-void	get_input(t_cub3d *cub3d);
 /* ERROR HANDLING */
 void program_errors(char *errname, bool clear, bool stop);
 void clear_data(void);
