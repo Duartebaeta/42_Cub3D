@@ -74,5 +74,7 @@ static char **reformat_map(char **map, int max_x)
 			map[y] = result;
 		}
 	}
+	cub()->map_x = max_x;
+	cub()->map_y = y;
 	return (map);
 }

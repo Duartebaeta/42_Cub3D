@@ -2,6 +2,7 @@
 # define CUB3D_H
 
 # include "libft.h"
+# include <mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -46,6 +47,14 @@ typedef struct s_image
 	double angle;
 } t_image;
 
+typedef struct s_texture
+{
+	void	*img;
+	char	*addr;
+	int		fd;
+
+}t_texture;
+
 typedef struct s_cub3d
 {
 	void *mlx;
@@ -57,6 +66,12 @@ typedef struct s_cub3d
 	char **file;
 	char **map;
 	t_image *img;
+	t_texture	*no;
+	t_texture	*so;
+	t_texture	*we;
+	t_texture	*ea;
+	int		floor[3];
+	int		ceiling[3];
 } t_cub3d;
 
 int		arg_checker(char *filename);
@@ -64,12 +79,16 @@ void create_map_from_file();
 void check_map();
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
+int		check_textures(t_cub3d *cub3d, char *line, int counter);
 /* UTILS */
 void *protected_calloc(size_t count, size_t size);
 bool	ft_isspace(int c);
+int	array_len(char **array);
 t_cub3d	*cub(void);
 /* ERROR HANDLING */
 void program_errors(char *errname, bool clear, bool stop);
 void clear_data(void);
+/*MAP GENERATING*/
+int	generate_map(t_cub3d *cub3d);
 
 #endif

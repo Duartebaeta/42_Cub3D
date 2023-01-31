@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:41:45 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/01/27 21:41:46 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/01/31 16:22:12 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,14 @@ bool	is_map_char(char c)
 	if (c && !ft_isspace(c))
 		return (true);
 	return (false);
+}
+
+int	array_len(char **array)
+{
+	int	counter;
+
+	counter = 0;
+	while (array[counter] != NULL)
+		counter++;
+	return (counter);
 }
