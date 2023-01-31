@@ -3,7 +3,7 @@
 static char *replace_tab_to_spaces(char *line);
 static char **reformat_map(char **map, int max_x);
 
-void create_map_from_file()
+void create_map_from_file(t_cub3d *cub3d)
 {
 	char	**map;
 	int		x;
@@ -21,9 +21,15 @@ void create_map_from_file()
 		{
 			if (x > max_x)
 				max_x = x;
+			if (map[y][x] == 'N')
+			{
+				cub3d->player.x = x;
+				cub3d->player.y = y;
+			}
 		}
 	}
 	cub()->map = reformat_map(map, max_x);
+	cub3d->map[cub3d->player.y][cub3d->player.x] = '0';
 }
 
 static char *replace_tab_to_spaces(char *line)

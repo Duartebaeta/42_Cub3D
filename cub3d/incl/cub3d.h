@@ -14,8 +14,8 @@
 
 typedef struct s_point
 {
-	int		x;
-	int		y;
+	float	x;
+	float	y;
 } t_point;
 
 typedef struct s_coord
@@ -72,10 +72,11 @@ typedef struct s_cub3d
 	t_texture	*ea;
 	int		floor[3];
 	int		ceiling[3];
+	t_point	player;
 } t_cub3d;
 
 int		arg_checker(char *filename);
-void create_map_from_file();
+void create_map_from_file(t_cub3d *cub3d);
 void check_map();
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);

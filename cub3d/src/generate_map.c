@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/01/31 21:50:13 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/01/31 23:28:11 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static void print_player(t_cub3d *cub3d, int x, int y)
 {
 	int counter;
 
-	counter = -1;
-	while (++counter < 32)
-		print_horizontal(cub3d, x, y + counter, 0x99999999);
+	counter = 1;
+	while (++counter < 31)
+		print_horizontal(cub3d, x + 1, y + counter, 0x99999999);
 }
 
 static void print_lines(t_cub3d *cub3d)
@@ -71,15 +71,6 @@ static void print_lines(t_cub3d *cub3d)
 				print_vertical(cub3d, sub * 32, counter * 32, 0xFFFFF);
 				print_vertical(cub3d, (sub + 1) * 32, counter * 32, 0xFFFFF);
 			}
-			if (cub3d->map[counter][sub] == 'N')
-			{
-				printf("was here");
-				print_player(cub3d, sub * 32, counter * 32);
-				print_horizontal(cub3d, sub * 32, counter * 32, 0xFFFFF);
-				print_horizontal(cub3d, sub * 32, (counter + 1) * 32, 0xFFFFF);
-				print_vertical(cub3d, sub * 32, counter * 32, 0xFFFFF);
-				print_vertical(cub3d, (sub + 1) * 32, counter * 32, 0xFFFFF);
-			}
 		}
 	}
 }
@@ -91,6 +82,7 @@ int	generate_map(t_cub3d *cub3d)
 	cub3d->win = mlx_new_window(cub3d->mlx, cub()->map_x * 32, cub()->map_y * 32, "teste");
 	mlx_hook(cub3d->win, 17, 0L, close_window, &test);
 	print_lines(cub3d);
+	print_player(cub3d, cub3d->player.x * 32, cub3d->player.y * 32);
 	mlx_loop(cub3d->mlx);
 	return 1;
 }

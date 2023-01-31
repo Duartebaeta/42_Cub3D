@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:46:06 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/01/27 21:46:07 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/01/31 22:35:48 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	is_map_char(char c);
 
 void	check_map(void)
 {
-	create_map_from_file();
+	create_map_from_file(cub());
 	is_map_closed(cub()->map);
 }
 
