@@ -8,15 +8,34 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <stdarg.h>
+# include <math.h>
 
 /* ERROR CODES */
 # define NUM_ARGS 2
 
+/* KEY CODES */
+# define KEY_ESC 65307
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_LEFT 65361
+# define KEY_UP 38
+# define KEY_RIGHT 65363
+# define KEY_DOWN 40
+
 typedef struct s_point
+{
+	int	x;
+	int	y;
+} t_point;
+
+typedef struct s_player
 {
 	float	x;
 	float	y;
-} t_point;
+	double	angle;
+} t_player;
 
 typedef struct s_coord
 {
@@ -72,7 +91,7 @@ typedef struct s_cub3d
 	t_texture	*ea;
 	int		floor[3];
 	int		ceiling[3];
-	t_point	player;
+	t_player	player;
 } t_cub3d;
 
 int		arg_checker(char *filename);

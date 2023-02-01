@@ -25,11 +25,12 @@ void create_map_from_file(t_cub3d *cub3d)
 			{
 				cub3d->player.x = x;
 				cub3d->player.y = y;
+				cub3d->player.angle = 0;
 			}
 		}
 	}
 	cub()->map = reformat_map(map, max_x);
-	cub3d->map[cub3d->player.y][cub3d->player.x] = '0';
+	cub3d->map[(int)cub3d->player.y][(int)cub3d->player.x] = '0';
 }
 
 static char *replace_tab_to_spaces(char *line)
