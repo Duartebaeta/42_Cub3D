@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/01 19:29:21 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/09 00:35:59 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,22 @@ static void print_square(t_cub3d *cub3d, int x, int y, int color)
 	while (++counter < 32)
 		print_horizontal(cub3d, x, y + counter, color);
 }
-static int get_ray_len(int x, int y, double angle)
+static float handle_ninety(float x, float y)
+{
+	float counter;
+	counter = roundf(y) - y < 0 ? 1.0 + (roundf(y) - y) : roundf(y) - y;
+	if (cub()->map[(int)y][(int)x] == '1')
+		y++;
+	printf("%f\n", counter);
+	while(cub()->map[(int)y][(int)x] != '1')
+		y++, counter++;
+	return (counter);
+}
+static int get_ray_len(float x, float y, float angle)
 {
 	int	counter;
-	float	ray_x;
-	float	ray_y;
+	int		ray_x;
+	int		ray_y;
 
 	counter = 0;
 	ray_x = x + counter * cos(angle);
@@ -59,42 +70,58 @@ static int get_ray_len(int x, int y, double angle)
 	counter++;
 	while (cub()->map[(int)ray_y][(int)ray_x] != '1' && cub()->map[(int)ray_y][(int)ray_x])
 	{
-		printf("%c\n, %f, %f\n", cub()->map[(int)ray_y][(int)ray_x], ray_x, ray_y);
 		ray_x = x + counter * cos(angle);
 		ray_y = y + counter * sin(angle);
+		// print_horizontal(cub(), ray_x * 32, ray_y * 32, create_trgb(1, 0, 0, 255));
 		counter++;
 	}
-	printf("OUT:: %c\n, %f, %f\n", cub()->map[(int)ray_y][(int)ray_x], ray_x, ray_y);
-	return (counter);
+	printf("%f\n", angle);
+	// printf("%i, %i\n", ray_x, ray_y);
+	if (angle < (float)1.570794 && angle > (float)-1.570794 )
+	{
+		float x_len = (float)ray_x - x;
+		float y_len = x_len * tan(angle);
+		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
+		for (int i = 0; i <= ray_len * 32; i++)
+		{
+			int	new_x = round(x * 32 + i * cos(angle));
+			int new_y = round(y * 32 + i * sin(angle));
+			//printf("%i, %f\n", new_x, cub()->player.x * 32);
+			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+		}
+	}
+	else if (angle == (float)1.570794 || angle == (float)-1.570794)
+	{
+		float ray_len = handle_ninety(cub()->player.x, cub()->player.y);
+		for (int i = 0; i <= ray_len * 32; i++)
+		{
+			int	new_x = round(x * 32 + i * cos(angle));
+			int new_y = round(y * 32 + i * sin(angle));
+			//printf("%i, %f\n", new_x, cub()->player.x * 32);
+			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+		}
+	}
+	else
+	{
+		float x_len = x - (float)ray_x - 1;
+		float y_len = x_len * tan(angle);
+		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
+		for (int i = 0; i <= ray_len * 32; i++)
+		{
+			int	new_x = round(x * 32 + i * cos(angle));
+			int new_y = round(y * 32 + i * sin(angle));
+			//printf("%i, %f\n", new_x, cub()->player.x * 32);
+			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+		}
+	}
+	return 1;
 }
 static void print_ray()
 {
-	int	len = get_ray_len(cub()->player.x, cub()->player.y, cub()->player.angle);
-	printf("LEN:: %i\n", len);
-	
-	int	counter = -1;
-	double	ray_x;
-	double	ray_y;
-
-	while (++counter < len)
-	{
-		ray_x = ((cub()->player.x * 32) + counter * (cos(cub()->player.angle)) * 4) + counter;
-		ray_y = ((cub()->player.y * 32) + counter * (sin(cub()->player.angle) * 4)) + counter;
-		mlx_pixel_put(cub()->mlx, cub()->win, ray_x, ray_y, create_trgb(1, 255, 0, 0));
-	}
+	get_ray_len(cub()->player.x, cub()->player.y, cub()->player.angle);
 }
 static void print_player(t_cub3d *cub3d, float x, float y)
 {
-	// int counter;
-	// int	sub;
-
-	// counter = 8;
-	// while (++counter < 24)
-	// {
-	// 	sub = 8;
-	// 	while (++sub < 24)
-	// 		mlx_pixel_put(cub3d->mlx, cub3d->win, x + sub, y + counter, create_trgb(1, 70, 120 , 20));
-	// }
 	static const double PI = 3.1415926535;
 	double i, angle, x1, y1;
 
@@ -150,11 +177,13 @@ int	keyhook(int keycode, t_cub3d *cub3d)
 	else if (keycode == KEY_D)
 		cub()->player.x += 0.25;
 	else if (keycode == KEY_LEFT)
-		cub()->player.angle += 0.25;
+		cub()->player.angle -= 0.261799;
 	else if (keycode == KEY_RIGHT)
-		cub()->player.angle -= 0.25;
+		cub()->player.angle += 0.261799;
 	else if (keycode == KEY_ESC)
 		close_window(1);
+	if (cub()->player.angle >= 6.283175 || cub()->player.angle <= -6.283175)
+		cub()->player.angle = 0;
 	print_lines(cub());
 	print_player(cub(), cub()->player.x * 32, cub()->player.y * 32);
 	return (0);

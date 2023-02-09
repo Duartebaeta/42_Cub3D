@@ -34,7 +34,7 @@ typedef struct s_player
 {
 	float	x;
 	float	y;
-	double	angle;
+	float	angle;
 } t_player;
 
 typedef struct s_coord
