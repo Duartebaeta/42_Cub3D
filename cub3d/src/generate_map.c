@@ -6,11 +6,20 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/09 00:35:59 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:57:12 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
+
+static int	rd(float n)
+{
+	return (round(n) - n < 0 ? round(n) : round(n) - 1);
+}
+static int to_deg(float radian)
+{
+	return (round(radian * 57.295779513));
+}
 
 static int	create_trgb(int t, int r, int g, int b)
 {
@@ -50,34 +59,55 @@ static void print_square(t_cub3d *cub3d, int x, int y, int color)
 static float handle_ninety(float x, float y)
 {
 	float counter;
-	counter = roundf(y) - y < 0 ? 1.0 + (roundf(y) - y) : roundf(y) - y;
-	if (cub()->map[(int)y][(int)x] == '1')
-		y++;
-	printf("%f\n", counter);
-	while(cub()->map[(int)y][(int)x] != '1')
-		y++, counter++;
+	if (to_deg(cub()->player.angle) == 90 || to_deg(cub()->player.angle) == -270)
+	{
+		counter = roundf(y) - y < 0 ? 1.0 + (roundf(y) - y) : roundf(y) - y;
+		y += counter;
+		while(cub()->map[(int)y][(int)x] != '1')
+			y++, counter++;
+	}
+	else
+	{
+		counter = roundf(y) - y < 0 ? (roundf(y) - y) : 1.0 - (roundf(y) - y);
+		if (counter < 0)
+			counter *= -1;
+		y -= counter;
+		printf("%f, %f\n", y, counter);
+		while(cub()->map[rd(y)][rd(x)] != '1')
+			y--, counter++;
+	}
 	return (counter);
 }
 static int get_ray_len(float x, float y, float angle)
 {
-	int	counter;
+	float	counter;
 	int		ray_x;
 	int		ray_y;
 
 	counter = 0;
-	ray_x = x + counter * cos(angle);
-	ray_y = y + counter * sin(angle);
-	counter++;
-	while (cub()->map[(int)ray_y][(int)ray_x] != '1' && cub()->map[(int)ray_y][(int)ray_x])
+	ray_x = rd(x + counter * cos(angle));
+	ray_y = rd(y + counter * sin(angle));
+	counter += 0.25;
+	while (cub()->map[ray_y][ray_x] != '1' && cub()->map[ray_y][ray_x])
 	{
-		ray_x = x + counter * cos(angle);
-		ray_y = y + counter * sin(angle);
-		// print_horizontal(cub(), ray_x * 32, ray_y * 32, create_trgb(1, 0, 0, 255));
-		counter++;
+		ray_x = rd(x + counter * cos(angle));
+		ray_y = rd(y + counter * sin(angle));
+		counter += 0.25;
 	}
-	printf("%f\n", angle);
-	// printf("%i, %i\n", ray_x, ray_y);
-	if (angle < (float)1.570794 && angle > (float)-1.570794 )
+	print_square(cub(), ray_x * 32, ray_y * 32, create_trgb(1, 0, 255, 0));
+	printf("%i, %i\n", ray_x, ray_y);
+	if (to_deg(angle) == 90 || to_deg(angle) == -90 || to_deg(angle) == 270 || to_deg(angle) == -270)
+	{
+		float ray_len = handle_ninety(cub()->player.x, cub()->player.y);
+		for (int i = 0; i <= ray_len * 32; i++)
+		{
+			int	new_x = round(x * 32 + i * cos(angle));
+			int new_y = round(y * 32 + i * sin(angle));
+			//printf("%i, %f\n", new_x, cub()->player.x * 32);
+			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+		}
+	}
+	else if (angle < (float)1.570794 && angle > (float)-1.570794 )
 	{
 		float x_len = (float)ray_x - x;
 		float y_len = x_len * tan(angle);
@@ -90,21 +120,11 @@ static int get_ray_len(float x, float y, float angle)
 			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
 		}
 	}
-	else if (angle == (float)1.570794 || angle == (float)-1.570794)
-	{
-		float ray_len = handle_ninety(cub()->player.x, cub()->player.y);
-		for (int i = 0; i <= ray_len * 32; i++)
-		{
-			int	new_x = round(x * 32 + i * cos(angle));
-			int new_y = round(y * 32 + i * sin(angle));
-			//printf("%i, %f\n", new_x, cub()->player.x * 32);
-			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
-		}
-	}
 	else
 	{
 		float x_len = x - (float)ray_x - 1;
 		float y_len = x_len * tan(angle);
+		printf("%f. %f\n", x_len, y_len);
 		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
 		for (int i = 0; i <= ray_len * 32; i++)
 		{
