@@ -6,16 +6,19 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/10 16:57:12 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:13:24 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
+static void print_square(t_cub3d *cub3d, int x, int y, int color);
+
 static int	rd(float n)
 {
 	return (round(n) - n < 0 ? round(n) : round(n) - 1);
 }
+
 static int to_deg(float radian)
 {
 	return (round(radian * 57.295779513));
@@ -24,6 +27,112 @@ static int to_deg(float radian)
 static int	create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+static int is_onx(int ray_x, int ray_y, float angle)
+{
+	int new_angle = to_deg(angle);
+	float	counter;
+	int		new_x;
+	int		new_y;
+	if ((new_angle >= 0 && new_angle <= 180) || (new_angle <= -180))
+	{
+
+		counter = 0;
+		new_x = rd(cub()->player.x + counter * cos(angle));
+		new_y = rd(cub()->player.y + counter * sin(angle));
+		counter += 0.25;
+		while (new_x != ray_x && new_y != ray_y)
+		{
+			new_x = rd(cub()->player.x + counter * cos(angle));
+			new_y = rd(cub()->player.y + counter * sin(angle));
+			if (new_x == ray_x && new_y == ray_y - 1)
+			{
+				print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 255, 0, 0));
+				return 1;
+			}
+				
+			counter += 0.25;
+		}
+	}
+	else
+	{
+		counter = 0;
+		new_x = rd(cub()->player.x + counter * cos(angle));
+		new_y = rd(cub()->player.y + counter * sin(angle));
+		counter += 0.25;
+		while (new_x != ray_x && new_y != ray_y)
+		{
+			new_x = rd(cub()->player.x + counter * cos(angle));
+			new_y = rd(cub()->player.y + counter * sin(angle));
+			if (new_x == ray_x && new_y == ray_y + 1)
+			{
+				print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 255, 0, 0));
+				return 1;
+			}
+			counter += 0.25;
+		}
+	}
+	return 0;
+}
+
+static void right_ray(int ray_x, int ray_y, float angle)
+{
+	float y_len;
+	float x_len;
+	if (is_onx(ray_x, ray_y, angle))
+	{
+		y_len = (float)ray_y - cub()->player.y + 1;
+		if ((to_deg(angle) < 90 && to_deg(angle) > 0) || to_deg(angle) < -270)
+		{
+			printf("here");
+			y_len--;
+		}
+		x_len = y_len / tan(angle);
+	}
+	else
+	{
+		x_len = (float)ray_x - cub()->player.x;
+		y_len = x_len * tan(angle);
+	}
+	float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
+	for (int i = 0; i <= ray_len * 32; i++)
+	{
+		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
+		int new_y = round(cub()->player.y * 32 + i * sin(angle));
+		mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+	}
+}
+
+static void left_ray(int ray_x, int ray_y, float angle)
+{
+	float y_len;
+	float x_len;
+	if (is_onx(ray_x, ray_y, angle))
+	{
+		y_len = cub()->player.y - (float)ray_y - 1;
+		if ((to_deg(angle) < 180 && to_deg(angle) > 90) || to_deg(angle) < -180)
+		{
+			printf("here");
+			y_len++;
+		}
+		x_len = y_len / tan(angle);
+		x_len = y_len / tan(angle);
+		printf("%f, %f\n", y_len, x_len);
+	}
+	else
+	{
+		x_len = cub()->player.x - (float)ray_x - 1;
+		y_len = x_len * tan(angle);
+	}
+	float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
+	printf("\n%f\n", ray_len);
+	for (int i = 0; i <= ray_len * 32; i++)
+	{
+		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
+		int new_y = round(cub()->player.y * 32 + i * sin(angle));
+		mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+	}
 }
 
 static int close_window(int param)
@@ -72,7 +181,7 @@ static float handle_ninety(float x, float y)
 		if (counter < 0)
 			counter *= -1;
 		y -= counter;
-		printf("%f, %f\n", y, counter);
+		//printf("%f, %f\n", y, counter);
 		while(cub()->map[rd(y)][rd(x)] != '1')
 			y--, counter++;
 	}
@@ -88,14 +197,15 @@ static int get_ray_len(float x, float y, float angle)
 	ray_x = rd(x + counter * cos(angle));
 	ray_y = rd(y + counter * sin(angle));
 	counter += 0.25;
-	while (cub()->map[ray_y][ray_x] != '1' && cub()->map[ray_y][ray_x])
+	while (cub()->map[ray_y][ray_x] && cub()->map[ray_y][ray_x] != '1')
 	{
 		ray_x = rd(x + counter * cos(angle));
 		ray_y = rd(y + counter * sin(angle));
 		counter += 0.25;
 	}
 	print_square(cub(), ray_x * 32, ray_y * 32, create_trgb(1, 0, 255, 0));
-	printf("%i, %i\n", ray_x, ray_y);
+	// printf("%i, %i\n", ray_x, ray_y);
+	//printf("%i\n", to_deg(angle));
 	if (to_deg(angle) == 90 || to_deg(angle) == -90 || to_deg(angle) == 270 || to_deg(angle) == -270)
 	{
 		float ray_len = handle_ninety(cub()->player.x, cub()->player.y);
@@ -107,32 +217,13 @@ static int get_ray_len(float x, float y, float angle)
 			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
 		}
 	}
-	else if (angle < (float)1.570794 && angle > (float)-1.570794 )
+	else if ((to_deg(angle) > -90 && to_deg(angle) < 90) || to_deg(angle) < -270 || to_deg(angle) > 270)
 	{
-		float x_len = (float)ray_x - x;
-		float y_len = x_len * tan(angle);
-		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
-		for (int i = 0; i <= ray_len * 32; i++)
-		{
-			int	new_x = round(x * 32 + i * cos(angle));
-			int new_y = round(y * 32 + i * sin(angle));
-			//printf("%i, %f\n", new_x, cub()->player.x * 32);
-			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
-		}
+		right_ray(ray_x, ray_y, angle);
 	}
 	else
 	{
-		float x_len = x - (float)ray_x - 1;
-		float y_len = x_len * tan(angle);
-		printf("%f. %f\n", x_len, y_len);
-		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
-		for (int i = 0; i <= ray_len * 32; i++)
-		{
-			int	new_x = round(x * 32 + i * cos(angle));
-			int new_y = round(y * 32 + i * sin(angle));
-			//printf("%i, %f\n", new_x, cub()->player.x * 32);
-			mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
-		}
+		left_ray(ray_x, ray_y, angle);
 	}
 	return 1;
 }
