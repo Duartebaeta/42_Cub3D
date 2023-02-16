@@ -95,20 +95,36 @@ typedef struct s_cub3d
 } t_cub3d;
 
 int		arg_checker(char *filename);
-void create_map_from_file(t_cub3d *cub3d);
-void check_map();
+void	create_map_from_file(t_cub3d *cub3d);
+void	check_map();
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
 int		check_textures(t_cub3d *cub3d, char *line, int counter);
 /* UTILS */
-void *protected_calloc(size_t count, size_t size);
+void	*protected_calloc(size_t count, size_t size);
 bool	ft_isspace(int c);
-int	array_len(char **array);
+int		array_len(char **array);
+int		create_trgb(int t, int r, int g, int b);
+float	to_deg(float radian);
+int		rd(float n);
+float	to_radian(float degree);
 t_cub3d	*cub(void);
 /* ERROR HANDLING */
-void program_errors(char *errname, bool clear, bool stop);
-void clear_data(void);
+void	program_errors(char *errname, bool clear, bool stop);
+void	clear_data(void);
 /*MAP GENERATING*/
-int	generate_map(t_cub3d *cub3d);
+int		generate_map(t_cub3d *cub3d);
+int		keyhook(int keycode, t_cub3d *cub3d);
+void	print_horizontal(t_cub3d *cub3d, int x, int y, int color);
+void	print_vertical(t_cub3d *cub3d, int x, int y, int color);
+void	print_square(t_cub3d *cub3d, int x, int y, int color);
+void	print_player(t_cub3d *cub3d, float x, float y, int r);
+void	print_lines(t_cub3d *cub3d);
+/*RAYCASTING*/
+void	print_ray(float x, float y, float angle);
+void	handle_ninety(float x, float y, float angle);
+void	left_ray(int ray_x, int ray_y, float angle);
+void	right_ray(int ray_x, int ray_y, float angle);
+int		is_onx(int ray_x, int ray_y, float angle);
 
 #endif

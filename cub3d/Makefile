@@ -31,7 +31,10 @@ SRCS		:=	get_next_line.c \
 				utils.c \
 				error_handling.c \
 				textures_checker.c \
-				generate_map.c
+				generate_map.c \
+				map_printer.c \
+				ray_printer.c \
+				raycasting_utils.c
 
 SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
 #SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))
