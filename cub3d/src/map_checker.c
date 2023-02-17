@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:46:06 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/01/31 22:35:48 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/17 23:52:49 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,13 @@ static bool	is_closed(char **map, t_point p, int max_x, int max_y)
 		return (check_map_edges(map, p, max_x, max_y));
 	else
 	{
-		if (map[p.y - 1][p.x] && is_map_char(map[p.y - 1][p.x]))
+		if (map[p.y - 1][p.x] && is_map_char(map[p.y - 1][p.x])
+			&& map[p.y - 1][p.x - 1] && is_map_char(map[p.y - 1][p.x - 1])
+			&& map[p.y - 1][p.x + 1] && is_map_char(map[p.y - 1][p.x + 1]))
 			adjacent++;
-		if (map[p.y + 1][p.x] && is_map_char(map[p.y + 1][p.x]))
+		if (map[p.y + 1][p.x] && is_map_char(map[p.y + 1][p.x])
+			&& map[p.y + 1][p.x - 1] && is_map_char(map[p.y + 1][p.x - 1])
+			&& map[p.y + 1][p.x + 1] && is_map_char(map[p.y + 1][p.x + 1]))
 			adjacent++;
 		if (map[p.y][p.x - 1] && is_map_char(map[p.y][p.x - 1]))
 			adjacent++;
