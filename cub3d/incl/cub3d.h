@@ -119,7 +119,7 @@ float	to_deg(float radian);
 int		rd(float n);
 float	to_radian(float degree);
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color);
-void	draw_img(void);
+void	draw_imgs(void);
 t_cub3d	*cub(void);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);
