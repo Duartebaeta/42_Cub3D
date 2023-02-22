@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:41:45 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/01/31 16:22:12 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/22 21:40:28 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,12 @@ int	array_len(char **array)
 	while (array[counter] != NULL)
 		counter++;
 	return (counter);
+}
+
+void my_mlx_pixel_put(t_image *img, int x, int y, int color)
+{
+	char *dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bpp / 8));
+	*(unsigned int *)dst = color;
 }

@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   generate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/16 19:13:17 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/22 21:35:54 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-static int	close_window(int param)
+static void init_imgs(void);
+
+static int close_window(int param)
 {
 	exit(param);
 	return (1);
@@ -37,8 +39,7 @@ int	keyhook(int keycode, t_cub3d *cub3d)
 		close_window(1);
 	if (cub()->player.angle >= 6.283175 || cub()->player.angle <= -6.283175)
 		cub()->player.angle = 0;
-	print_lines(cub());
-	print_player(cub(), cub()->player.x * 32, cub()->player.y * 32, 11);
+	draw_img();
 	return (0);
 }
 
@@ -48,13 +49,33 @@ int	generate_map(t_cub3d *cub3d)
 
 	test = 1;
 	cub3d->mlx = mlx_init();
-	cub3d->win = mlx_new_window(cub3d->mlx, (cub()->map_x + 1) * 32,
-			cub()->map_y * 32, "teste");
+	cub3d->win = mlx_new_window(cub3d->mlx, W_3D, H_3D, "teste");
 	mlx_clear_window(cub3d->mlx, cub3d->win);
-	print_lines(cub3d);
-	print_player(cub3d, cub3d->player.x * 32, cub3d->player.y * 32, 11);
+	init_imgs();
+	draw_img();
 	mlx_key_hook(cub3d->win, keyhook, &cub3d);
 	mlx_hook(cub3d->win, 17, 0L, close_window, &test);
 	mlx_loop(cub3d->mlx);
 	return (1);
+}
+
+static void init_imgs(void)
+{
+	t_image *img_2d;
+	t_image *img_3d;
+
+	img_2d = (t_image *)protected_calloc(sizeof(t_image), 1);
+	img_2d->width = W_2D;
+	img_2d->height = H_2D;
+	img_2d->img = mlx_new_image(cub()->mlx, W_2D, H_2D);
+	img_2d->addr = mlx_get_data_addr(img_2d->img,
+		&img_2d->bpp, &img_2d->line_length, &img_2d->endian);
+	img_3d = (t_image *)protected_calloc(sizeof(t_image), 1);
+	img_3d->width = W_3D;
+	img_3d->height = H_3D;
+	img_3d->img = mlx_new_image(cub()->mlx, W_3D, H_3D);
+	img_3d->addr = mlx_get_data_addr(img_3d->img,
+		&img_3d->bpp, &img_3d->line_length, &img_3d->endian);
+	cub()->img_2d = img_2d;
+	cub()->img_3d = img_3d;
 }

@@ -24,6 +24,15 @@
 # define KEY_RIGHT 65363
 # define KEY_DOWN 40
 
+/* MAPS SIZES */
+# define W_2D 1000
+# define H_2D 1000
+# define W_3D 1000
+# define H_3D 1000
+
+/* COLOURS */
+#define BLACK 0x000000
+
 typedef struct s_point
 {
 	int	x;
@@ -53,8 +62,8 @@ typedef struct s_image
 	int bpp;
 	int line_length;
 	int endian;
-	int max_z;
-	int min_z;
+	int width;
+	int height;
 	int map_start_x;
 	int map_start_y;
 	int shift_x;
@@ -84,7 +93,8 @@ typedef struct s_cub3d
 	char *filename;
 	char **file;
 	char **map;
-	t_image *img;
+	t_image *img_2d;
+	t_image *img_3d;
 	t_texture	*no;
 	t_texture	*so;
 	t_texture	*we;
@@ -108,6 +118,8 @@ int		create_trgb(int t, int r, int g, int b);
 float	to_deg(float radian);
 int		rd(float n);
 float	to_radian(float degree);
+void	my_mlx_pixel_put(t_image *img, int x, int y, int color);
+void	draw_img(void);
 t_cub3d	*cub(void);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);

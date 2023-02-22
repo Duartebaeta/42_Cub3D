@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_printer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:49:20 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/16 19:16:32 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/22 21:31:27 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_horizontal(t_cub3d *cub3d, int x, int y, int color)
 
 	counter = -1;
 	while(++counter < 32)
-		mlx_pixel_put(cub3d->mlx, cub3d->win, x + counter, y, color);
+		my_mlx_pixel_put(cub3d->img_2d, x + counter, y, color);
 }
 
 void	print_vertical(t_cub3d *cub3d, int x, int y, int color)
@@ -27,7 +27,7 @@ void	print_vertical(t_cub3d *cub3d, int x, int y, int color)
 
 	counter = -1;
 	while(++counter < 32)
-		mlx_pixel_put(cub3d->mlx, cub3d->win, x, y + counter, color);
+		my_mlx_pixel_put(cub3d->img_2d, x, y + counter, color);
 }
 
 void	print_square(t_cub3d *cub3d, int x, int y, int color)
@@ -52,7 +52,7 @@ void	print_player(t_cub3d *cub3d, float x, float y, int ray)
 		{
 			x1 = r * cos(angle * PI / 180);
 			y1 = r * sin(angle * PI / 180);
-			mlx_pixel_put(cub3d->mlx, cub3d->win, x + x1, y + y1, create_trgb(1, 70, 120 , 20));
+			my_mlx_pixel_put(cub3d->img_2d, x + x1, y + y1, create_trgb(1, 70, 120, 20));
 		}
 	}
 	for (float tmp = to_deg(cub3d->player.angle); tmp > to_deg(cub3d->player.angle) - 20; tmp -= 0.01)

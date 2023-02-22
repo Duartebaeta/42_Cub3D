@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_printer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:52:48 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/16 19:06:49 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/22 21:25:12 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	handle_ninety(float x, float y, float angle)
 	{
 		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
 		int new_y = round(cub()->player.y * 32 + i * sin(angle));
-		mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, create_trgb(1, 255, 0, 0));
 	}
 }
 
@@ -85,7 +85,7 @@ void	left_ray(int ray_x, int ray_y, float angle)
 	{
 		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
 		int new_y = round(cub()->player.y * 32 + i * sin(angle));
-		mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, create_trgb(1, 255, 0, 0));
 	}
 }
 
@@ -110,7 +110,7 @@ void	right_ray(int ray_x, int ray_y, float angle)
 	{
 		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
 		int new_y = round(cub()->player.y * 32 + i * sin(angle));
-		mlx_pixel_put(cub()->mlx, cub()->win, new_x, new_y, create_trgb(1, 255, 0, 0));
+		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, create_trgb(1, 255, 0, 0));
 	}
 }
 
@@ -139,7 +139,6 @@ int	is_onx(int ray_x, int ray_y, float angle)
 		}
 		new_x = rd(cub()->player.x + counter * cos(angle));
 		new_y = rd(cub()->player.y + counter * sin(angle));
-			
 		counter += 0.25;
 	}
 	return 0;
