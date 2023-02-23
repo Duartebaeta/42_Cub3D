@@ -25,10 +25,11 @@
 # define KEY_DOWN 40
 
 /* MAPS SIZES */
-# define W_2D 1000
+# define W_2D 1800
 # define H_2D 1000
-# define W_3D 1000
+# define W_3D 1800
 # define H_3D 1000
+# define ZOOM 16
 
 /* COLOURS */
 #define BLACK 0x000000

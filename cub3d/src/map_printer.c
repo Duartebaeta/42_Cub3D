@@ -6,7 +6,7 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:49:20 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/22 21:31:27 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/02/23 23:00:53 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_horizontal(t_cub3d *cub3d, int x, int y, int color)
 	int	counter;
 
 	counter = -1;
-	while(++counter < 32)
+	while(++counter < ZOOM)
 		my_mlx_pixel_put(cub3d->img_2d, x + counter, y, color);
 }
 
@@ -26,7 +26,7 @@ void	print_vertical(t_cub3d *cub3d, int x, int y, int color)
 	int	counter;
 
 	counter = -1;
-	while(++counter < 32)
+	while (++counter < ZOOM)
 		my_mlx_pixel_put(cub3d->img_2d, x, y + counter, color);
 }
 
@@ -35,7 +35,7 @@ void	print_square(t_cub3d *cub3d, int x, int y, int color)
 	int counter;
 
 	counter = -1;
-	while (++counter < 32)
+	while (++counter < ZOOM)
 		print_horizontal(cub3d, x, y + counter, color);
 }
 
@@ -80,13 +80,13 @@ void	print_lines(t_cub3d *cub3d)
 			if (cub3d->map[counter][sub] == '1' || cub3d->map[counter][sub] == '0')
 			{
 				if (cub3d->map[counter][sub] == '1')
-					print_square(cub3d, sub * 32, counter * 32, create_trgb(1, 255, 255, 255));
+					print_square(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
 				else
-					print_square(cub3d, sub * 32, counter * 32, create_trgb(1, 0, 0, 0));
-				print_horizontal(cub3d, sub * 32, counter * 32, create_trgb(1, 255, 255, 255));
-				print_horizontal(cub3d, sub * 32, (counter + 1) * 32, create_trgb(1, 255, 255, 255));
-				print_vertical(cub3d, sub * 32, counter * 32, create_trgb(1, 255, 255, 255));
-				print_vertical(cub3d, (sub + 1) * 32, counter * 32, create_trgb(1, 255, 255, 255));
+					print_square(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 0, 0, 0));
+				print_horizontal(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
+				print_horizontal(cub3d, sub * ZOOM, (counter + 1) * ZOOM, create_trgb(1, 255, 255, 255));
+				print_vertical(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
+				print_vertical(cub3d, (sub + 1) * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
 			}
 		}
 	}

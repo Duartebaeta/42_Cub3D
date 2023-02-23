@@ -6,7 +6,7 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:52:48 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/22 21:25:12 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:59:54 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	handle_ninety(float x, float y, float angle)
 		while(cub()->map[rd(y)][rd(x)] != '1')
 			y--, counter++;
 	}
-	for (int i = 0; i <= counter * 32; i++)
+	for (int i = 0; i <= counter * ZOOM; i++)
 	{
-		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
-		int new_y = round(cub()->player.y * 32 + i * sin(angle));
+		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));
+		int new_y = round(cub()->player.y * ZOOM + i * sin(angle));
 		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, create_trgb(1, 255, 0, 0));
 	}
 }
@@ -81,10 +81,10 @@ void	left_ray(int ray_x, int ray_y, float angle)
 		y_len = x_len * tan(angle);
 	}
 	float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
-	for (int i = 0; i <= ray_len * 32; i++)
+	for (int i = 0; i <= ray_len * ZOOM; i++)
 	{
-		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
-		int new_y = round(cub()->player.y * 32 + i * sin(angle));
+		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));
+		int new_y = round(cub()->player.y * ZOOM + i * sin(angle));
 		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, create_trgb(1, 255, 0, 0));
 	}
 }
@@ -106,10 +106,10 @@ void	right_ray(int ray_x, int ray_y, float angle)
 		y_len = x_len * tan(angle);
 	}
 	float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
-	for (int i = 0; i <= ray_len * 32; i++)
+	for (int i = 0; i <= ray_len * ZOOM; i++)
 	{
-		int	new_x = round(cub()->player.x * 32 + i * cos(angle));
-		int new_y = round(cub()->player.y * 32 + i * sin(angle));
+		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));
+		int new_y = round(cub()->player.y * ZOOM + i * sin(angle));
 		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, create_trgb(1, 255, 0, 0));
 	}
 }

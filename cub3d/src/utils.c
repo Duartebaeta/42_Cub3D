@@ -6,7 +6,7 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:41:45 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/02/22 21:40:28 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:19:23 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void my_mlx_pixel_put(t_image *img, int x, int y, int color)
 {
 	char *dst;
 
-	dst = img->addr + (y * img->line_length + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
+	if (x > 0 && x < img->width && y > 0 && y < img->height)
+	{
+		dst = img->addr + (y * img->line_length + x * (img->bpp / 8));
+		*(unsigned int *)dst = color;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/22 22:20:22 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:49:58 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void init_imgs(void)
 	img_2d = (t_image *)protected_calloc(sizeof(t_image), 1);
 	img_2d->width = W_2D;
 	img_2d->height = H_2D;
+	img_2d->zoom = ZOOM;
 	img_2d->img = mlx_new_image(cub()->mlx, W_2D, H_2D);
 	img_2d->addr = mlx_get_data_addr(img_2d->img,
 		&img_2d->bpp, &img_2d->line_length, &img_2d->endian);
