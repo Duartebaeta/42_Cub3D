@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_imgs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:31:29 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/02/23 22:54:16 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:28:06 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	draw_imgs(void)
 	reset_img3d();
 	print_lines(cub3d);
 	print_player(cub3d, cub3d->player.x * ZOOM, cub3d->player.y * ZOOM, ZOOM / 2);
-	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img_2d->img, 0, 0);
+	//mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img_2d->img, 0, 0);
+	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img_3d->img, 0, 0);
 }
 
 static void	reset_img2d(void)

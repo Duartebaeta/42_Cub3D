@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/27 18:34:06 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:27:03 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ float	get_ray_dist(float x, float y, float angle)
 		ray_x = rd(x + counter * cos(angle));
 		ray_y = rd(y + counter * sin(angle));
 	}
+	if (is_onx(ray_x, ray_y, angle))
+		cub()->onx = 1;
+	else
+		cub()->onx = 0;
 	if ((int)to_deg(angle) == 90 || (int)to_deg(angle) == -90 || (int)to_deg(angle) == 270 || (int)to_deg(angle) == -270)
 		return(v_handle_ninety(x, y, angle));
 	else if (((int)to_deg(angle) > -90 && (int)to_deg(angle) < 90) || (int)to_deg(angle) < -270 || (int)to_deg(angle) > 270)
@@ -99,19 +103,21 @@ float	get_ray_dist(float x, float y, float angle)
 		return(v_left_ray(ray_x, ray_y, angle));
 }
 
-static float	plane_dist(float ray_len, float angle, int x)
+static float	plane_dist(float ray_len, float angle)
 {
 	float plane;
 	float new_ang;
 
-	if (x <= W_3D / 2)
+	if (angle < cub()->player.angle)
 	{
 		new_ang = to_radian(to_deg(cub()->player.angle) - 90) + angle;
+		printf("MINUS: %f\n", new_ang);
 		plane = sin(new_ang) * ray_len;
 	}
 	else
 	{
 		new_ang = to_radian(to_deg(cub()->player.angle) + 90) - angle;
+		printf("PLUS: %f\n", new_ang);
 		plane = sin(new_ang) * ray_len;
 	}
 	return plane;
@@ -121,7 +127,8 @@ static void vertical_line(int x, int start, int end, int color)
 {
 	while (start <= end)
 	{
-		mlx_pixel_put(cub()->mlx, cub()->win, x, start, color);
+		my_mlx_pixel_put(cub()->img_3d, x, start, color);
+		//mlx_pixel_put(cub()->img_3d, cub()->win, x, start, color);
 		start++;
 	}
 }
@@ -142,14 +149,14 @@ void	visualizer(t_cub3d *cub3d)
 			ray_angle = cub3d->player.angle + (to_radian((float)(66.0 / W_3D) * x));
 
 		ray_dist = get_ray_dist(cub3d->player.x, cub3d->player.y, ray_angle);
-		camera_dist = plane_dist(ray_dist, ray_angle, x);
+		camera_dist = plane_dist(ray_dist, ray_angle);
 
 		int lineHeight = (int)(H_3D / camera_dist);
 		int drawStart = -lineHeight / 2 + H_3D / 2;
 		if(drawStart < 0)drawStart = 0;
 		int drawEnd = lineHeight / 2 + H_3D / 2;
 		if(drawEnd >= H_3D)drawEnd = H_3D - 1;
-		int color = cub3d->onx ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
+		int color = cub3d->onx == 1 ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
 		vertical_line(x, drawStart, drawEnd, color);
 	}
 }
