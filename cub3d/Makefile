@@ -35,7 +35,8 @@ SRCS		:=	get_next_line.c \
 				map_printer.c \
 				ray_printer.c \
 				render_imgs.c \
-				raycasting_utils.c
+				raycasting_utils.c \
+				visualizer.c
 
 SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
 #SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))

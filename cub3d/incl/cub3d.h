@@ -103,6 +103,7 @@ typedef struct s_cub3d
 	int		floor[3];
 	int		ceiling[3];
 	t_player	player;
+	int onx;
 } t_cub3d;
 
 int		arg_checker(char *filename);
@@ -139,5 +140,7 @@ void	handle_ninety(float x, float y, float angle);
 void	left_ray(int ray_x, int ray_y, float angle);
 void	right_ray(int ray_x, int ray_y, float angle);
 int		is_onx(int ray_x, int ray_y, float angle);
+/* 3D VISUALIZING */
+void	visualizer(t_cub3d *cub3d);
 
 #endif
