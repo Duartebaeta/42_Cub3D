@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/27 18:20:46 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:34:06 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,12 @@ static float	plane_dist(float ray_len, float angle, int x)
 	return plane;
 }
 
-static void vertical(int x, int start, int end, int color)
+static void vertical_line(int x, int start, int end, int color)
 {
 	while (start <= end)
 	{
-		
+		mlx_pixel_put(cub()->mlx, cub()->win, x, start, color);
+		start++;
 	}
 }
 
@@ -148,5 +149,7 @@ void	visualizer(t_cub3d *cub3d)
 		if(drawStart < 0)drawStart = 0;
 		int drawEnd = lineHeight / 2 + H_3D / 2;
 		if(drawEnd >= H_3D)drawEnd = H_3D - 1;
+		int color = cub3d->onx ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
+		vertical_line(x, drawStart, drawEnd, color);
 	}
 }
