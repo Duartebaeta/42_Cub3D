@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/27 19:27:03 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:14:55 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,11 @@ static float	plane_dist(float ray_len, float angle)
 	if (angle < cub()->player.angle)
 	{
 		new_ang = to_radian(to_deg(cub()->player.angle) - 90) + angle;
-		printf("MINUS: %f\n", new_ang);
 		plane = sin(new_ang) * ray_len;
 	}
 	else
 	{
 		new_ang = to_radian(to_deg(cub()->player.angle) + 90) - angle;
-		printf("PLUS: %f\n", new_ang);
 		plane = sin(new_ang) * ray_len;
 	}
 	return plane;
@@ -128,7 +126,6 @@ static void vertical_line(int x, int start, int end, int color)
 	while (start <= end)
 	{
 		my_mlx_pixel_put(cub()->img_3d, x, start, color);
-		//mlx_pixel_put(cub()->img_3d, cub()->win, x, start, color);
 		start++;
 	}
 }

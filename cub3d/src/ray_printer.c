@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_printer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:52:48 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/23 22:59:54 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/02/28 18:28:23 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_ray(float x, float y, float angle)
 	ray_y = rd(y + counter * sin(angle));
 	while (cub()->map[ray_y][ray_x] && cub()->map[ray_y][ray_x] != '1')
 	{
-		counter += 0.25;
+		counter += 0.05;
 		ray_x = rd(x + counter * cos(angle));
 		ray_y = rd(y + counter * sin(angle));
 	}
@@ -40,25 +40,25 @@ void	handle_ninety(float x, float y, float angle)
 	float counter;
 	if ((int)to_deg(angle) == 90 || (int)to_deg(angle) == -270)
 	{
-		counter = roundf(y) - y < 0 ? 1.0 + (roundf(y) - y) : roundf(y) - y;
+		counter = roundf(y) - y <= 0 ? 1.0 + (roundf(y) - y) : roundf(y) - y;
 		y += counter;
 		while(cub()->map[(int)y][(int)x] != '1')
 			y++, counter++;
+		for (int i = cub()->player.y * ZOOM; i <= y * ZOOM; i++)
+			my_mlx_pixel_put(cub()->img_2d, x * ZOOM, i, create_trgb(1, 255, 0, 0));
+
 	}
 	else
 	{
-		counter = roundf(y) - y < 0 ? (roundf(y) - y) : 1.0 - (roundf(y) - y);
+		counter = roundf(y) - y <= 0 ? (roundf(y) - y) : 1.0 - (roundf(y) - y);
 		if (counter < 0)
 			counter *= -1;
 		y -= counter;
 		while(cub()->map[rd(y)][rd(x)] != '1')
 			y--, counter++;
-	}
-	for (int i = 0; i <= counter * ZOOM; i++)
-	{
-		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));
-		int new_y = round(cub()->player.y * ZOOM + i * sin(angle));
-		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, create_trgb(1, 255, 0, 0));
+		y++;
+		for (int i = cub()->player.y * ZOOM; i > y * ZOOM; i--)
+			my_mlx_pixel_put(cub()->img_2d, x * ZOOM, i, create_trgb(1, 255, 0, 0));
 	}
 }
 
@@ -114,6 +114,22 @@ void	right_ray(int ray_x, int ray_y, float angle)
 	}
 }
 
+static int	lateral_check(int x, int y, float angle)
+{
+	if (is_right(angle) == 1)
+	{
+		if (cub()->map[y][x - 1] == '1')
+			return 0;
+		return 1;
+	}
+	else
+	{
+		if (cub()->map[y][x + 1] == '1')
+			return 0;
+		return 1;
+	}
+}
+
 int	is_onx(int ray_x, int ray_y, float angle)
 {
 	int new_angle = (int)to_deg(angle);
@@ -124,9 +140,13 @@ int	is_onx(int ray_x, int ray_y, float angle)
 	counter = 0;
 	new_x = rd(cub()->player.x + counter * cos(angle));
 	new_y = rd(cub()->player.y + counter * sin(angle));
-	counter += 0.25;
+	counter += 0.05;
+	print_square(cub(), ray_x * 32, ray_y * 32, create_trgb(0.3, 100, 255 ,100));
+	if (lateral_check(ray_x, ray_y, angle) == 1)
+		return 0;
 	while (cub()->map[new_y][new_x] && cub()->map[new_y][new_x] != '1')
 	{
+		print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 100, 100 ,100));
 		if ((new_angle >= 0 && new_angle <= 180) || (new_angle <= -180))
 		{
 			if (new_x == ray_x && new_y == ray_y - 1)
@@ -139,7 +159,8 @@ int	is_onx(int ray_x, int ray_y, float angle)
 		}
 		new_x = rd(cub()->player.x + counter * cos(angle));
 		new_y = rd(cub()->player.y + counter * sin(angle));
-		counter += 0.25;
+		counter += 0.05;
 	}
+	print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 100, 100 ,0));
 	return 0;
 }

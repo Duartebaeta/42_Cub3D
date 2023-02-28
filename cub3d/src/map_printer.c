@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_printer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:49:20 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/23 23:00:53 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:47:51 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,16 @@ void	print_player(t_cub3d *cub3d, float x, float y, int ray)
 			my_mlx_pixel_put(cub3d->img_2d, x + x1, y + y1, create_trgb(1, 70, 120, 20));
 		}
 	}
-	for (float tmp = to_deg(cub3d->player.angle); tmp > to_deg(cub3d->player.angle) - 20; tmp -= 0.01)
-	{
-		print_ray(cub3d->player.x, cub3d->player.y, to_radian(tmp));
-	}
-	for (float tmp = to_deg(cub3d->player.angle); tmp < to_deg(cub3d->player.angle) + 20; tmp += 0.1)
-	{
-		print_ray(cub3d->player.x, cub3d->player.y, to_radian(tmp));
-	}
+	// for (float tmp = to_deg(cub3d->player.angle); tmp > to_deg(cub3d->player.angle) - 20; tmp -= 5)
+	// {
+	// 	print_ray(cub3d->player.x, cub3d->player.y, to_radian(tmp));
+	// }
+	// for (float tmp = to_deg(cub3d->player.angle); tmp < to_deg(cub3d->player.angle) + 20; tmp += 5)
+	// {
+	// 	print_ray(cub3d->player.x, cub3d->player.y, to_radian(tmp));
+	// }
 	print_ray(cub3d->player.x, cub3d->player.y, cub3d->player.angle);
+	// raycast(cub3d->player.x, cub3d->player.y, cub3d->player.angle);
 }
 
 void	print_lines(t_cub3d *cub3d)

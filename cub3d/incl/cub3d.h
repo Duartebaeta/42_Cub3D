@@ -29,7 +29,7 @@
 # define H_2D 1000
 # define W_3D 1800
 # define H_3D 1000
-# define ZOOM 16
+# define ZOOM 32
 
 /* COLOURS */
 #define BLACK 0x000000
@@ -123,6 +123,8 @@ float	to_radian(float degree);
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color);
 void	draw_imgs(void);
 t_cub3d	*cub(void);
+int	is_up(float angle);
+int	is_right(float angle);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);
 void	clear_data(void);
@@ -140,6 +142,7 @@ void	handle_ninety(float x, float y, float angle);
 void	left_ray(int ray_x, int ray_y, float angle);
 void	right_ray(int ray_x, int ray_y, float angle);
 int		is_onx(int ray_x, int ray_y, float angle);
+float raycast(float x, float y, float angle);
 /* 3D VISUALIZING */
 void	visualizer(t_cub3d *cub3d);
 
