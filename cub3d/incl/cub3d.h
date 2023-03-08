@@ -84,6 +84,18 @@ typedef struct s_texture
 
 }t_texture;
 
+typedef struct s_ray
+{
+	float x_coord;
+	float y_coord;
+	int hit;
+	float angle;
+	int right;
+	int up;
+	float step_x;
+	float step_y;
+} t_ray;
+
 typedef struct s_cub3d
 {
 	void *mlx;
@@ -104,6 +116,7 @@ typedef struct s_cub3d
 	int		ceiling[3];
 	t_player	player;
 	int onx;
+	t_ray	*ray;
 } t_cub3d;
 
 int		arg_checker(char *filename);
@@ -123,8 +136,8 @@ float	to_radian(float degree);
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color);
 void	draw_imgs(void);
 t_cub3d	*cub(void);
-int	is_up(float angle);
-int	is_right(float angle);
+int		is_up(float angle);
+int		is_right(float angle);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);
 void	clear_data(void);
@@ -142,7 +155,7 @@ void	handle_ninety(float x, float y, float angle);
 void	left_ray(int ray_x, int ray_y, float angle);
 void	right_ray(int ray_x, int ray_y, float angle);
 int		is_onx(int ray_x, int ray_y, float angle);
-float raycast(float x, float y, float angle);
+void	raycast(float x, float y, float angle);
 /* 3D VISUALIZING */
 void	visualizer(t_cub3d *cub3d);
 

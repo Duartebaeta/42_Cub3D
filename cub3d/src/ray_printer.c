@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:52:48 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/28 18:28:23 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/03/07 21:17:14 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ void	print_ray(float x, float y, float angle)
 	int		ray_y;
 
 	counter = 0;
-	ray_x = rd(x + counter * cos(angle));
+	ray_x = (int)(rd(x + counter * cos(angle)) - 0.00001);
 	ray_y = rd(y + counter * sin(angle));
 	while (cub()->map[ray_y][ray_x] && cub()->map[ray_y][ray_x] != '1')
 	{
 		counter += 0.05;
-		ray_x = rd(x + counter * cos(angle));
+		ray_x = (int)(rd(x + counter * cos(angle)) - 0.00001);
 		ray_y = rd(y + counter * sin(angle));
 	}
+	// printf("%i, %i\n", ray_x, ray_y);
 	if ((int)to_deg(angle) == 90 || (int)to_deg(angle) == -90 || (int)to_deg(angle) == 270 || (int)to_deg(angle) == -270)
 		handle_ninety(x, y, angle);
 	else if (((int)to_deg(angle) > -90 && (int)to_deg(angle) < 90) || (int)to_deg(angle) < -270 || (int)to_deg(angle) > 270)
@@ -70,9 +71,7 @@ void	left_ray(int ray_x, int ray_y, float angle)
 	{
 		y_len = cub()->player.y - (float)ray_y - 1;
 		if (((int)to_deg(angle) < 180 && (int)to_deg(angle) > 90) || (int)to_deg(angle) < -180)
-		{
 			y_len++;
-		}
 		x_len = y_len / tan(angle);
 	}
 	else
@@ -141,12 +140,12 @@ int	is_onx(int ray_x, int ray_y, float angle)
 	new_x = rd(cub()->player.x + counter * cos(angle));
 	new_y = rd(cub()->player.y + counter * sin(angle));
 	counter += 0.05;
-	print_square(cub(), ray_x * 32, ray_y * 32, create_trgb(0.3, 100, 255 ,100));
+	//print_square(cub(), ray_x * 32, ray_y * 32, create_trgb(0.3, 100, 255 ,100));
 	if (lateral_check(ray_x, ray_y, angle) == 1)
 		return 0;
 	while (cub()->map[new_y][new_x] && cub()->map[new_y][new_x] != '1')
 	{
-		print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 100, 100 ,100));
+		//print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 100, 100 ,100));
 		if ((new_angle >= 0 && new_angle <= 180) || (new_angle <= -180))
 		{
 			if (new_x == ray_x && new_y == ray_y - 1)
@@ -161,6 +160,6 @@ int	is_onx(int ray_x, int ray_y, float angle)
 		new_y = rd(cub()->player.y + counter * sin(angle));
 		counter += 0.05;
 	}
-	print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 100, 100 ,0));
+	//print_square(cub(), new_x * 32, new_y * 32, create_trgb(1, 100, 100 ,0));
 	return 0;
 }

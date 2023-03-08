@@ -25,7 +25,7 @@ void create_map_from_file(t_cub3d *cub3d)
 			{
 				cub3d->player.x = x;
 				cub3d->player.y = y;
-				cub3d->player.angle = 0;
+				cub3d->player.angle = to_radian(-15);
 			}
 		}
 	}
