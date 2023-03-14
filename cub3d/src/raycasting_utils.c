@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:55:19 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/02/28 18:13:40 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:33:55 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_right(float angle)
 
 int	is_up(float angle)
 {
-	if (((int)to_deg(angle) > 0 && (int)to_deg(angle) < 180) || (int)to_deg(angle) > -180)
-		return (1);
-	return (-1);
+	if (((int)to_deg(angle) > 0 && (int)to_deg(angle) < 180) || (int)to_deg(angle) < -180)
+		return (-1);
+	return (1);
 }
