@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/07 17:04:29 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/03/14 20:21:35 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	keyhook(int keycode, t_cub3d *cub3d)
 	if (cub()->player.angle >= 6.283175 || cub()->player.angle <= -6.283175)
 		cub()->player.angle = 0;
 	draw_imgs();
-	//visualizer(cub());
+	visualizer(cub());
 	return (0);
 }
 

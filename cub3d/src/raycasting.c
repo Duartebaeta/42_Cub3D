@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_algorithm.c                                    :+:      :+:    :+:   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/14 19:04:30 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/03/14 20:19:36 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static void init_ray(t_cub3d *cub3d, float angle)
 {
-	cub3d->ray = protected_calloc(1, sizeof(t_ray));
-	cub3d->ray->angle = angle;
-	cub3d->ray->hit = 0;
-	cub3d->ray->right = is_right(angle);
-	cub3d->ray->up = is_up(angle);
+	cub3d->ray.angle = angle;
+	cub3d->ray.hit = 0;
+	cub3d->ray.right = is_right(angle);
+	cub3d->ray.up = is_up(angle);
+	cub3d->ray.vert = 0;
 }
 
 static void init_horizontal(float x, float y, t_ray *ray)
 {
-	float		a_tan;
+	float	a_tan;
 
 	a_tan = -1 / tan(ray->angle);
 	if (ray->up == -1)
@@ -33,7 +33,7 @@ static void init_horizontal(float x, float y, t_ray *ray)
 	ray->x_coord = ((y - ray->y_coord) * a_tan + x);
 	ray->step_y = (-ray->up);
 	ray->step_x = (-ray->step_y) * a_tan;
-	if (ray->angle == 0 || ray->angle == 3.14)
+	if (ray->angle == 0 || ray->angle == 3.1415926535)
 	{
 		ray->x_coord = x;
 		ray->y_coord = y;
@@ -114,15 +114,18 @@ void raycast(float x, float y, float angle)
 	float final_dist;
 
 	init_ray(cub(), angle);
-	vertical_dist = vertical_ray(x, y, cub()->ray);
-	free(cub()->ray);
+	vertical_dist = vertical_ray(x, y, &cub()->ray);
 	init_ray(cub(), angle);
-	horizontal_dist = horizontal_ray(x, y, cub()->ray);
-	free(cub()->ray);
-	final_dist = vertical_dist < horizontal_dist ? sqrt(vertical_dist) : sqrt(horizontal_dist);
+	horizontal_dist = horizontal_ray(x, y, &cub()->ray);
+	if (vertical_dist < horizontal_dist)
+	{
+		cub()->ray.vert = 1;
+		final_dist = sqrt(vertical_dist);
+	}
+	else
+		final_dist = sqrt(horizontal_dist);
+	cub()->ray.dist = final_dist;
 	int color = vertical_dist < horizontal_dist ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
-	if (color == create_trgb(1, 0, 255, 0))
-		printf("VERTCAL: %f, HORIZONTAL: %f\n", sqrt(vertical_dist), sqrt(horizontal_dist));
 	for (int i = 0; i <= final_dist * ZOOM; i++)
 	{
 		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));

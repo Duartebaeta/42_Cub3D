@@ -29,7 +29,7 @@
 # define H_2D 1000
 # define W_3D 1800
 # define H_3D 1000
-# define ZOOM 32
+# define ZOOM 16
 
 /* COLOURS */
 #define BLACK 0x000000
@@ -86,37 +86,39 @@ typedef struct s_texture
 
 typedef struct s_ray
 {
-	float x_coord;
-	float y_coord;
-	int hit;
-	float angle;
-	int right;
-	int up;
-	float step_x;
-	float step_y;
+	float	x_coord;
+	float	y_coord;
+	int		hit;
+	float	angle;
+	int		right;
+	int		up;
+	float	step_x;
+	float	step_y;
+	int		vert;
+	float	dist;
 } t_ray;
 
 typedef struct s_cub3d
 {
-	void *mlx;
-	void *win;
-	int fd;
-	int map_x;
-	int map_y;
-	char *filename;
-	char **file;
-	char **map;
-	t_image *img_2d;
-	t_image *img_3d;
+	void		*mlx;
+	void		*win;
+	int			fd;
+	int			map_x;
+	int			map_y;
+	char		*filename;
+	char		**file;
+	char		**map;
+	t_image		*img_2d;
+	t_image		*img_3d;
 	t_texture	*no;
 	t_texture	*so;
 	t_texture	*we;
 	t_texture	*ea;
-	int		floor[3];
-	int		ceiling[3];
+	int			floor[3];
+	int			ceiling[3];
 	t_player	player;
-	int onx;
-	t_ray	*ray;
+	int			onx;
+	t_ray		ray;
 } t_cub3d;
 
 int		arg_checker(char *filename);
@@ -150,11 +152,6 @@ void	print_square(t_cub3d *cub3d, int x, int y, int color);
 void	print_player(t_cub3d *cub3d, float x, float y, int r);
 void	print_lines(t_cub3d *cub3d);
 /*RAYCASTING*/
-void	print_ray(float x, float y, float angle);
-void	handle_ninety(float x, float y, float angle);
-void	left_ray(int ray_x, int ray_y, float angle);
-void	right_ray(int ray_x, int ray_y, float angle);
-int		is_onx(int ray_x, int ray_y, float angle);
 void	raycast(float x, float y, float angle);
 /* 3D VISUALIZING */
 void	visualizer(t_cub3d *cub3d);
