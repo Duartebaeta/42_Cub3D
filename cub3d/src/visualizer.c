@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visualizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/14 20:20:45 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/03/21 23:15:16 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,30 +126,145 @@ static void vertical_line(int x, int start, int end, int color)
 	}
 }
 
-void	visualizer(t_cub3d *cub3d)
+void visualizer(t_cub3d *cub3d)
 {
-	float min_ang = to_radian(to_deg(cub3d->player.angle) - 33);
+	float curr_angle;
+	float angle_step;
+	int i;
 
-	for (int x = 0; x < W_3D; x++)
+	curr_angle = to_radian(to_deg(cub3d->player.angle) - (FOV / 2));
+	angle_step = to_radian(FOV) / W_3D;
+	i = -1;
+	while (++i < W_3D)
 	{
-		float ray_angle;
-		float ray_dist;
-		float camera_dist;
-
-		if (x <= W_3D / 2)
-			ray_angle = min_ang + (to_radian((float)(66.0 / W_3D) * x));
-		else
-			ray_angle = cub3d->player.angle + (to_radian((float)(66.0 / W_3D) * x));
-
-		ray_dist = cub()->ray.dist;
-		camera_dist = plane_dist(ray_dist, ray_angle);
-
-		int lineHeight = (int)(H_3D / camera_dist);
-		int drawStart = -lineHeight / 2 + H_3D / 2;
-		if(drawStart < 0)drawStart = 0;
-		int drawEnd = lineHeight / 2 + H_3D / 2;
-		if(drawEnd >= H_3D)drawEnd = H_3D - 1;
-		int color = cub()->ray.vert == 0 ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
-		vertical_line(x, drawStart, drawEnd, color);
+		send_rays(curr_angle);
+		curr_angle += angle_step;
 	}
+
 }
+
+void send_rays(float angle)
+{
+	t_point vert_hit;
+	t_point horiz_hit;
+	t_ray	ray;
+
+	ray.up = is_angle_up(angle);
+	ray.right = is_angle_right(angle);
+	ray.angle = norm_angle(angle);
+	vert_hit = vertical_intersection(angle, ray);
+	horiz_hit = horizontal_intersection(angle, ray);
+}
+
+t_point vertical_intersection(float angle, t_ray ray)
+{
+	t_point intersection;
+
+	ray.x_coord = floor(cub()->player.x / TILESIZE) * TILESIZE;
+	if (ray.right)
+		ray.x_coord += TILESIZE;
+	ray.y_coord = cub()->player.y + (ray.x_coord - cub()->player.x) * tan(ray.angle);
+	ray.step_x = TILESIZE;
+	if (!ray.right)
+		ray.step_x *= -1;
+	ray.step_y = TILESIZE * tan(ray.angle);
+	if (ray.up && ray.right || !ray.up && !ray.right)
+		ray.step_y *= -1;
+	return (find_wall_intersection(ray));
+}
+
+t_point horizontal_intersection(float angle, t_ray ray)
+{
+	t_point intersection;
+
+	ray.y_coord = floor(cub()->player.y / TILESIZE) * TILESIZE;
+	if (!ray.up)
+		ray.y_coord += TILESIZE;
+	ray.x_coord = cub()->player.x + (ray.y_coord - cub()->player.y) * tan(ray.angle);
+	ray.step_y = TILESIZE;
+	if (ray.up)
+		ray.step_y *= -1;
+	ray.step_x = TILESIZE * tan(ray.angle);
+	if (ray.up && ray.right || !ray.up && !ray.right)
+		ray.step_y *= -1;
+	return (find_wall_intersection(ray));
+}
+
+bool is_angle_up(float angle)
+{
+	if (angle >= 0 && angle <= M_PI)
+		return (false);
+	else
+		return (true);
+}
+
+bool is_angle_right(float angle)
+{
+	if (angle >= M_PI_2 && angle <= (3 * M_PI_2))
+		return (false);
+	else
+		return (true);
+}
+
+float norm_ang(float angle)
+{
+	if (angle >= (2 * M_PI))
+		angle -= (2 * M_PI);
+	if (angle < 0)
+		angle += (2 * M_PI);
+	return (angle);
+}
+
+t_point find_wall_intersection(t_ray ray)
+{
+	t_point inter;
+
+	while (true)
+	{
+		if (hit_wall(ray))
+			break;
+		ray.x_coord += ray.step_x;
+		ray.y_coord += ray.step_y;
+	}
+	inter.x = ray.x_coord;
+	inter.y = ray.y_coord;
+	inter.player_dist = points_distance(cub()->player.x, cub()->player.y, ray.x_coord, ray.y_coord);
+	return (inter);
+}
+
+bool hit_wall(t_ray ray)
+{
+	//TODO: Implement me
+}
+
+float points_distance(float x1, float y1, float x2, float y2)
+{
+	return (sqrt(powf((x2 - x1), 2) + powf((y2 - y1), 2)));
+}
+	// void	visualizer(t_cub3d *cub3d)
+	// {
+	// 	float min_ang = to_radian(to_deg(cub3d->player.angle) - (FOV / 2));
+
+	// 	for (int x = 0; x < W_3D; x++)
+	// 	{
+	// 		float ray_angle;
+	// 		float ray_dist;
+	// 		float camera_dist;
+
+	// 		if (x <= W_3D / 2)
+	// 			ray_angle = min_ang + (to_radian((float)(FOV / W_3D) * x));
+	// 		else
+	// 			ray_angle = cub3d->player.angle + (to_radian((float)(FOV / W_3D) * x));
+
+	// 		ray_dist = cub()->ray.dist;
+	// 		camera_dist = plane_dist(ray_dist, ray_angle);
+
+	// 		int lineHeight = (int)(H_3D / camera_dist);
+	// 		int drawStart = -lineHeight / 2 + H_3D / 2;
+	// 		if(drawStart < 0)drawStart = 0;
+	// 		int drawEnd = lineHeight / 2 + H_3D / 2;
+	// 		if(drawEnd >= H_3D)drawEnd = H_3D - 1;
+	// 		int color = cub()->ray.vert == 0 ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
+	// 		vertical_line(x, drawStart, drawEnd, color);
+	// 	}
+	// }

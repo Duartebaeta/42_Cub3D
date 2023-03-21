@@ -32,12 +32,20 @@
 # define ZOOM 16
 
 /* COLOURS */
-#define BLACK 0x000000
+# define BLACK 0x000000
+
+/* CUB3D CONSTANTS */
+# define FOV 60.0		// Field of view in degrees
+# define PPW 320		// Projection Plane Width
+# define PPH 200		// Projection Plane Heigth
+# define PHEIGHT 32		// Player Heigth
+# define TILESIZE 64	// Size of Walls, Floors, Ceilings
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	float	player_dist;
 } t_point;
 
 typedef struct s_player
@@ -88,10 +96,9 @@ typedef struct s_ray
 {
 	float	x_coord;
 	float	y_coord;
-	int		hit;
 	float	angle;
-	int		right;
-	int		up;
+	bool	right;
+	bool	up;
 	float	step_x;
 	float	step_y;
 	int		vert;
