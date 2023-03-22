@@ -6,7 +6,7 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:46:06 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/02/17 23:52:49 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/03/22 21:44:00 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	is_map_closed(char **map)
 		while (map[i][++j])
 		{
 			if (!(map[i][j] == '1' || ft_isspace(map[i][j]))
-				&& !is_closed(map, (t_point){j, i}, max_x, max_y))
+				&& !is_closed(map, (t_point){j, i, 0}, max_x, max_y))
 				program_errors("Map not closed", true, true);
 		}
 	}

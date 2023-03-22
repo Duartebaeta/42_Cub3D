@@ -99,6 +99,7 @@ typedef struct s_ray
 	float	angle;
 	bool	right;
 	bool	up;
+	bool	hit;
 	float	step_x;
 	float	step_y;
 	int		vert;

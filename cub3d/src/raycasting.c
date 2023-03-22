@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/14 20:19:36 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/03/22 22:21:54 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void init_ray(t_cub3d *cub3d, float angle)
 {
 	cub3d->ray.angle = angle;
-	cub3d->ray.hit = 0;
+	cub3d->ray.hit = false;
 	cub3d->ray.right = is_right(angle);
 	cub3d->ray.up = is_up(angle);
 	cub3d->ray.vert = 0;
@@ -26,9 +26,9 @@ static void init_horizontal(float x, float y, t_ray *ray)
 	float	a_tan;
 
 	a_tan = -1 / tan(ray->angle);
-	if (ray->up == -1)
+	if (!ray->up)
 		ray->y_coord = floor(y) + 1;
-	else if (ray->up == 1)
+	else if (ray->up)
 		ray->y_coord = floor(y) - 0.0001;
 	ray->x_coord = ((y - ray->y_coord) * a_tan + x);
 	ray->step_y = (-ray->up);
@@ -55,9 +55,9 @@ static void	init_vertical(float x, float y, t_ray *ray)
 	else
 	{
 		a_tan = -tan(ray->angle);
-		if (ray->right == -1)
+		if (!ray->right)
 			ray->x_coord = floor(x) - 0.0001;
-		else if (ray->right == 1)
+		else if (ray->right)
 			ray->x_coord = floor(x) + 1;
 		ray->y_coord = (x - ray->x_coord) * a_tan + y;
 		ray->step_x = ray->right;
@@ -94,7 +94,7 @@ static float	vertical_ray(float x, float y, t_ray *ray)
 		if (ray->x_coord > 0 && ray->y_coord > 0 && ray->x_coord < cub()->map_x + 1 && ray->y_coord < cub()->map_y)
 		{
 			if (cub()->map[(int)ray->y_coord][(int)ray->x_coord] == '1')
-				ray->hit = 1;
+				ray->hit = true;
 			else
 			{
 				ray->x_coord += ray->step_x;
@@ -102,7 +102,7 @@ static float	vertical_ray(float x, float y, t_ray *ray)
 			}
 		}
 		else
-			ray->hit = 1;
+			ray->hit = true;
 	}
 	return(pow(ray->x_coord - x, 2) + pow(ray->y_coord - y, 2));
 }
