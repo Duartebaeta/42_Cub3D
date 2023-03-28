@@ -50,16 +50,18 @@ typedef struct s_point
 
 typedef struct s_player
 {
-	float	x;
-	float	y;
-	float	angle;
+	double	x;
+	double	y;
+	double	map_x;
+	double	map_y;
+	double	angle;
 } t_player;
 
 typedef struct s_coord
 {
-	float x;
-	float y;
-	float z;
+	double x;
+	double y;
+	double z;
 	bool end;
 	int color;
 } t_coord;
@@ -94,16 +96,16 @@ typedef struct s_texture
 
 typedef struct s_ray
 {
-	float	x_coord;
-	float	y_coord;
-	float	angle;
+	double	x_coord;
+	double	y_coord;
+	double	angle;
+	float	step_x;
+	float	step_y;
+	float	dist;
+	int		vert;
 	bool	right;
 	bool	up;
 	bool	hit;
-	float	step_x;
-	float	step_y;
-	int		vert;
-	float	dist;
 } t_ray;
 
 typedef struct s_cub3d

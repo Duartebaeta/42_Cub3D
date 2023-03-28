@@ -6,20 +6,20 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/22 23:08:41 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:47:37 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-void send_rays(float angle);
+void send_rays(double angle);
 t_point vertical_intersection(t_ray ray);
 t_point horizontal_intersection(t_ray ray);
 bool is_angle_up(float angle);
 bool is_angle_right(float angle);
 float norm_angle(float angle);
 bool hit_wall(t_ray ray);
-float points_distance(float x1, float y1, float x2, float y2);
+double points_distance(double x1, double y1, double x2, double y2);
 t_point find_wall_intersection(t_ray ray);
 
 // static float v_handle_ninety(float x, float y, float angle)
@@ -136,91 +136,93 @@ t_point find_wall_intersection(t_ray ray);
 // 		}
 // 	}
 
-static void init_ray(t_cub3d *cub3d, float angle)
+static void init_ray(t_cub3d *cub3d, double angle)
 {
 	cub3d->ray.angle = angle;
 	cub3d->ray.hit = false;
-	cub3d->ray.right = is_right(angle);
-	cub3d->ray.up = is_angle_right(angle);
+	cub3d->ray.right = is_angle_right(angle);
+	cub3d->ray.up = is_angle_up(angle);
 	cub3d->ray.vert = 0;
 }
 
-	void visualizer(t_cub3d *cub3d)
+void visualizer(t_cub3d *cub3d)
+{
+	float curr_angle;
+	float angle_step;
+	int i;
+
+	cub()->player.map_x = cub()->player.x * TILESIZE;
+	cub()->player.map_y = cub()->player.y * TILESIZE;
+	curr_angle = to_radian(to_deg(cub3d->player.angle) - (FOV / 2));
+	angle_step = to_radian(FOV) / W_3D;
+	i = -1;
+	while (++i < W_3D)
 	{
-		float curr_angle;
-		float angle_step;
-		int i;
-
-		curr_angle = to_radian(to_deg(cub3d->player.angle) - (FOV / 2));
-		angle_step = to_radian(FOV) / W_3D;
-		i = -1;
-		while (++i < W_3D)
-		{
-			send_rays(curr_angle);
-			curr_angle += angle_step;
-		}
-
+		send_rays(curr_angle);
+		curr_angle += angle_step;
 	}
 
-	void send_rays(float angle)
-	{
-		t_point vert_hit;
-		t_point horiz_hit;
+}
 
-		init_ray(cub(), angle);
-		vert_hit = vertical_intersection(cub()->ray);
-		horiz_hit = horizontal_intersection(cub()->ray);
-		if (vert_hit.player_dist < horiz_hit.player_dist)
-			printf("Point %f\n", vert_hit.player_dist);
-		else
-			printf("Point %f\n", horiz_hit.player_dist);
-	}
+void send_rays(double angle)
+{
+	t_point vert_hit;
+	t_point horiz_hit;
 
-	t_point vertical_intersection(t_ray ray)
-	{
-		ray.x_coord = floor(cub()->player.x / TILESIZE) * TILESIZE;
-		if (ray.right)
-			ray.x_coord += TILESIZE;
-		ray.y_coord = cub()->player.y + (ray.x_coord - cub()->player.x) * tan(ray.angle);
-		ray.step_x = TILESIZE;
-		if (!ray.right)
-			ray.step_x *= -1;
-		ray.step_y = TILESIZE * tan(ray.angle);
-		if ((ray.up && ray.right) || (!ray.up && !ray.right))
-			ray.step_y *= -1;
-		return (find_wall_intersection(ray));
-	}
+	init_ray(cub(), angle);
+	vert_hit = vertical_intersection(cub()->ray);
+	horiz_hit = horizontal_intersection(cub()->ray);
+	if (vert_hit.player_dist < horiz_hit.player_dist)
+		printf("Point %f\n", vert_hit.player_dist);
+	else
+		printf("Point %f\n", horiz_hit.player_dist);
+}
 
-	t_point horizontal_intersection(t_ray ray)
-	{
-		ray.y_coord = floor(cub()->player.y / TILESIZE) * TILESIZE;
-		if (!ray.up)
-			ray.y_coord += TILESIZE;
-		ray.x_coord = cub()->player.x + (ray.y_coord - cub()->player.y) * tan(ray.angle);
-		ray.step_y = TILESIZE;
-		if (ray.up)
-			ray.step_y *= -1;
-		ray.step_x = TILESIZE * tan(ray.angle);
-		if ((ray.up && ray.right) || (!ray.up && !ray.right))
-			ray.step_y *= -1;
-		return (find_wall_intersection(ray));
-	}
+t_point vertical_intersection(t_ray ray)
+{
+	ray.x_coord = floor(cub()->player.map_x / TILESIZE) * TILESIZE;
+	if (ray.right)
+		ray.x_coord += TILESIZE;
+	ray.y_coord = cub()->player.map_y + (ray.x_coord - cub()->player.map_x) * tan(ray.angle);
+	ray.step_x = TILESIZE;
+	if (!ray.right)
+		ray.step_x *= -1;
+	ray.step_y = TILESIZE * tan(ray.angle);
+	if ((ray.up && ray.right) || (!ray.up && !ray.right))
+		ray.step_y *= -1;
+	return (find_wall_intersection(ray));
+}
 
-	bool is_angle_up(float angle)
-	{
-		if (angle >= 0 && angle <= M_PI)
-			return (false);
-		else
-			return (true);
-	}
+t_point horizontal_intersection(t_ray ray)
+{
+	ray.y_coord = floor(cub()->player.map_y / TILESIZE) * TILESIZE;
+	if (!ray.up)
+		ray.y_coord += TILESIZE;
+	ray.x_coord = cub()->player.map_x + (ray.y_coord - cub()->player.map_y) * tan(ray.angle);
+	ray.step_y = TILESIZE;
+	if (ray.up)
+		ray.step_y *= -1;
+	ray.step_x = TILESIZE * tan(ray.angle);
+	if ((ray.up && ray.right) || (!ray.up && !ray.right))
+		ray.step_y *= -1;
+	return (find_wall_intersection(ray));
+}
 
-	bool is_angle_right(float angle)
-	{
-		if (angle >= M_PI_2 && angle <= (3 * M_PI_2))
-			return (false);
-		else
-			return (true);
-	}
+bool is_angle_up(float angle)
+{
+	if (angle >= 0 && angle <= M_PI)
+		return (false);
+	else
+		return (true);
+}
+
+bool is_angle_right(float angle)
+{
+	if (angle >= M_PI_2 && angle <= (3 * M_PI_2))
+		return (false);
+	else
+		return (true);
+}
 
 	float norm_angle(float angle)
 	{
@@ -244,7 +246,7 @@ t_point find_wall_intersection(t_ray ray)
 	}
 	inter.x = ray.x_coord;
 	inter.y = ray.y_coord;
-	inter.player_dist = points_distance(cub()->player.x, cub()->player.y, ray.x_coord, ray.y_coord);
+	inter.player_dist = points_distance(cub()->player.map_x, cub()->player.map_y, ray.x_coord, ray.y_coord);
 	return (inter);
 }
 
@@ -257,19 +259,18 @@ bool hit_wall(t_ray ray)
 		return (true);
 	map_x = (int)floor(ray.x_coord / TILESIZE);
 	map_y = (int)floor(ray.y_coord / TILESIZE);
-	printf("X :%d\t Y: %d\n", map_x, map_y);
-	if (map_x >= W_3D || map_y >= H_3D)
+	if (map_x >= (W_3D / TILESIZE) || map_y >= (H_3D / TILESIZE))
 		return (true);
-	else if (cub ()->map[map_x][map_y] == '1') //TODO: Corrigir heap buffer overflow
+	if (cub()->map[map_y][map_x] == '1')
 	{
 		return (true);
 	}
 	return (false);
 }
 
-float points_distance(float x1, float y1, float x2, float y2)
+double points_distance(double x1, double y1, double x2, double y2)
 {
-	return (sqrt(powf((x2 - x1), 2) + powf((y2 - y1), 2)));
+	return (sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)));
 }
 	// void	visualizer(t_cub3d *cub3d)
 	// {
