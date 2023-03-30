@@ -38,6 +38,7 @@
 # define FOV 60.0		// Field of view in degrees
 # define PPW 320		// Projection Plane Width
 # define PPH 200		// Projection Plane Heigth
+# define PPD 277		// Projection Plane Distance
 # define PHEIGHT 32		// Player Heigth
 # define TILESIZE 64	// Size of Walls, Floors, Ceilings
 

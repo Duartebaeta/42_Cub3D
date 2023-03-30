@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/14 20:21:35 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/03/30 23:11:03 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	generate_map(t_cub3d *cub3d)
 	cub3d->win = mlx_new_window(cub3d->mlx, W_3D, H_3D, "teste");
 	mlx_clear_window(cub3d->mlx, cub3d->win);
 	init_imgs();
-	draw_imgs();
 	visualizer(cub());
+	draw_imgs();
 	mlx_key_hook(cub3d->win, keyhook, &cub3d);
 	mlx_hook(cub3d->win, 17, 0L, close_window, &test);
 	mlx_loop(cub3d->mlx);

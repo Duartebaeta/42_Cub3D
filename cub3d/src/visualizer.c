@@ -6,13 +6,13 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/28 22:47:37 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/03/30 23:01:45 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-void send_rays(double angle);
+void send_rays(double angle, int i);
 t_point vertical_intersection(t_ray ray);
 t_point horizontal_intersection(t_ray ray);
 bool is_angle_up(float angle);
@@ -21,120 +21,121 @@ float norm_angle(float angle);
 bool hit_wall(t_ray ray);
 double points_distance(double x1, double y1, double x2, double y2);
 t_point find_wall_intersection(t_ray ray);
+void draw_wall(t_point point, int i);
 
-// static float v_handle_ninety(float x, float y, float angle)
-// {
-// 	float counter;
-// 	if ((int)to_deg(angle) == 90 || (int)to_deg(angle) == -270)
-// 	{
-// 		counter = roundf(y) - y < 0 ? 1.0 + (roundf(y) - y) : roundf(y) - y;
-// 		y += counter;
-// 		while(cub()->map[(int)y][(int)x] != '1')
-// 			y++, counter++;
-// 	}
-// 	else
-// 	{
-// 		counter = roundf(y) - y < 0 ? (roundf(y) - y) : 1.0 - (roundf(y) - y);
-// 		if (counter < 0)
-// 			counter *= -1;
-// 		y -= counter;
-// 			while(cub()->map[rd(y)][rd(x)] != '1')
-// 				y--, counter++;
-// 		}
-// 		return counter;
-// 	}
+	// static float v_handle_ninety(float x, float y, float angle)
+	// {
+	// 	float counter;
+	// 	if ((int)to_deg(angle) == 90 || (int)to_deg(angle) == -270)
+	// 	{
+	// 		counter = roundf(y) - y < 0 ? 1.0 + (roundf(y) - y) : roundf(y) - y;
+	// 		y += counter;
+	// 		while(cub()->map[(int)y][(int)x] != '1')
+	// 			y++, counter++;
+	// 	}
+	// 	else
+	// 	{
+	// 		counter = roundf(y) - y < 0 ? (roundf(y) - y) : 1.0 - (roundf(y) - y);
+	// 		if (counter < 0)
+	// 			counter *= -1;
+	// 		y -= counter;
+	// 			while(cub()->map[rd(y)][rd(x)] != '1')
+	// 				y--, counter++;
+	// 		}
+	// 		return counter;
+	// 	}
 
-// 	static float	v_left_ray(int ray_x, int ray_y, float angle)
-// 	{
-// 		float y_len;
-// 		float x_len;
-// 		if (!cub()->ray.vert)
-// 		{
-// 			y_len = cub()->player.y - (float)ray_y - 1;
-// 			if (((int)to_deg(angle) < 180 && (int)to_deg(angle) > 90) || (int)to_deg(angle) < -180)
-// 			{
-// 				y_len++;
-// 			}
-// 			x_len = y_len / tan(angle);
-// 		}
-// 		else
-// 		{
-// 			x_len = cub()->player.x - (float)ray_x - 1;
-// 			y_len = x_len * tan(angle);
-// 		}
-// 		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
-// 		return ray_len;
-// 	}
+	// 	static float	v_left_ray(int ray_x, int ray_y, float angle)
+	// 	{
+	// 		float y_len;
+	// 		float x_len;
+	// 		if (!cub()->ray.vert)
+	// 		{
+	// 			y_len = cub()->player.y - (float)ray_y - 1;
+	// 			if (((int)to_deg(angle) < 180 && (int)to_deg(angle) > 90) || (int)to_deg(angle) < -180)
+	// 			{
+	// 				y_len++;
+	// 			}
+	// 			x_len = y_len / tan(angle);
+	// 		}
+	// 		else
+	// 		{
+	// 			x_len = cub()->player.x - (float)ray_x - 1;
+	// 			y_len = x_len * tan(angle);
+	// 		}
+	// 		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
+	// 		return ray_len;
+	// 	}
 
-// 	static float	v_right_ray(int ray_x, int ray_y, float angle)
-// 	{
-// 		float y_len;
-// 		float x_len;
-// 		if (!cub()->ray.vert)
-// 		{
-// 			y_len = (float)ray_y - cub()->player.y + 1;
-// 			if (((int)to_deg(angle) < 90 && (int)to_deg(angle) > 0) || (int)to_deg(angle) < -270)
-// 				y_len--;
-// 			x_len = y_len / tan(angle);
-// 		}
-// 		else
-// 		{
-// 			x_len = (float)ray_x - cub()->player.x;
-// 			y_len = x_len * tan(angle);
-// 		}
-// 		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
-// 		return ray_len;
-// 	}
+	// 	static float	v_right_ray(int ray_x, int ray_y, float angle)
+	// 	{
+	// 		float y_len;
+	// 		float x_len;
+	// 		if (!cub()->ray.vert)
+	// 		{
+	// 			y_len = (float)ray_y - cub()->player.y + 1;
+	// 			if (((int)to_deg(angle) < 90 && (int)to_deg(angle) > 0) || (int)to_deg(angle) < -270)
+	// 				y_len--;
+	// 			x_len = y_len / tan(angle);
+	// 		}
+	// 		else
+	// 		{
+	// 			x_len = (float)ray_x - cub()->player.x;
+	// 			y_len = x_len * tan(angle);
+	// 		}
+	// 		float ray_len = sqrtf(powf(x_len, 2) + powf(y_len, 2));
+	// 		return ray_len;
+	// 	}
 
-// 	float	get_ray_dist(float x, float y, float angle)
-// 	{
-// 		float	counter;
-// 		int		ray_x;
-// 		int		ray_y;
+	// 	float	get_ray_dist(float x, float y, float angle)
+	// 	{
+	// 		float	counter;
+	// 		int		ray_x;
+	// 		int		ray_y;
 
-// 		counter = 0;
-// 		ray_x = rd(x + counter * cos(angle));
-// 		ray_y = rd(y + counter * sin(angle));
-// 		while (cub()->map[ray_y][ray_x] && cub()->map[ray_y][ray_x] != '1')
-// 		{
-// 			counter += 0.25;
-// 			ray_x = rd(x + counter * cos(angle));
-// 			ray_y = rd(y + counter * sin(angle));
-// 		}
-// 		if ((int)to_deg(angle) == 90 || (int)to_deg(angle) == -90 || (int)to_deg(angle) == 270 || (int)to_deg(angle) == -270)
-// 			return(v_handle_ninety(x, y, angle));
-// 		else if (((int)to_deg(angle) > -90 && (int)to_deg(angle) < 90) || (int)to_deg(angle) < -270 || (int)to_deg(angle) > 270)
-// 			return(v_right_ray(ray_x, ray_y, angle));
-// 		else
-// 			return(v_left_ray(ray_x, ray_y, angle));
-// 	}
+	// 		counter = 0;
+	// 		ray_x = rd(x + counter * cos(angle));
+	// 		ray_y = rd(y + counter * sin(angle));
+	// 		while (cub()->map[ray_y][ray_x] && cub()->map[ray_y][ray_x] != '1')
+	// 		{
+	// 			counter += 0.25;
+	// 			ray_x = rd(x + counter * cos(angle));
+	// 			ray_y = rd(y + counter * sin(angle));
+	// 		}
+	// 		if ((int)to_deg(angle) == 90 || (int)to_deg(angle) == -90 || (int)to_deg(angle) == 270 || (int)to_deg(angle) == -270)
+	// 			return(v_handle_ninety(x, y, angle));
+	// 		else if (((int)to_deg(angle) > -90 && (int)to_deg(angle) < 90) || (int)to_deg(angle) < -270 || (int)to_deg(angle) > 270)
+	// 			return(v_right_ray(ray_x, ray_y, angle));
+	// 		else
+	// 			return(v_left_ray(ray_x, ray_y, angle));
+	// 	}
 
-// 	static float	plane_dist(float ray_len, float angle)
-// 	{
-// 		float plane;
-// 		float new_ang;
+	// 	static float	plane_dist(float ray_len, float angle)
+	// 	{
+	// 		float plane;
+	// 		float new_ang;
 
-// 		if (angle < cub()->player.angle)
-// 		{
-// 			new_ang = to_radian(to_deg(cub()->player.angle) - 90) + angle;
-// 			plane = sin(new_ang) * ray_len;
-// 		}
-// 		else
-// 		{
-// 			new_ang = to_radian(to_deg(cub()->player.angle) + 90) - angle;
-// 			plane = sin(new_ang) * ray_len;
-// 		}
-// 		return plane;
-// 	}
+	// 		if (angle < cub()->player.angle)
+	// 		{
+	// 			new_ang = to_radian(to_deg(cub()->player.angle) - 90) + angle;
+	// 			plane = sin(new_ang) * ray_len;
+	// 		}
+	// 		else
+	// 		{
+	// 			new_ang = to_radian(to_deg(cub()->player.angle) + 90) - angle;
+	// 			plane = sin(new_ang) * ray_len;
+	// 		}
+	// 		return plane;
+	// 	}
 
-// 	static void vertical_line(int x, int start, int end, int color)
-// 	{
-// 		while (start <= end)
-// 		{
-// 			my_mlx_pixel_put(cub()->img_3d, x, start, color);
-// 			start++;
-// 		}
-// 	}
+	// 	static void vertical_line(int x, int start, int end, int color)
+	// 	{
+	// 		while (start <= end)
+	// 		{
+	// 			my_mlx_pixel_put(cub()->img_3d, x, start, color);
+	// 			start++;
+	// 		}
+	// 	}
 
 static void init_ray(t_cub3d *cub3d, double angle)
 {
@@ -158,13 +159,13 @@ void visualizer(t_cub3d *cub3d)
 	i = -1;
 	while (++i < W_3D)
 	{
-		send_rays(curr_angle);
+		send_rays(curr_angle, i);
 		curr_angle += angle_step;
 	}
 
 }
 
-void send_rays(double angle)
+void send_rays(double angle, int i)
 {
 	t_point vert_hit;
 	t_point horiz_hit;
@@ -173,9 +174,15 @@ void send_rays(double angle)
 	vert_hit = vertical_intersection(cub()->ray);
 	horiz_hit = horizontal_intersection(cub()->ray);
 	if (vert_hit.player_dist < horiz_hit.player_dist)
+	{
 		printf("Point %f\n", vert_hit.player_dist);
+		draw_wall(vert_hit, i);
+	}
 	else
+	{
 		printf("Point %f\n", horiz_hit.player_dist);
+		draw_wall(horiz_hit, i);
+	}
 }
 
 t_point vertical_intersection(t_ray ray)
@@ -271,6 +278,22 @@ bool hit_wall(t_ray ray)
 double points_distance(double x1, double y1, double x2, double y2)
 {
 	return (sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)));
+}
+
+void draw_wall(t_point point, int i)
+{
+	double	psh;
+	int		low_y;
+	int		hi_y;
+
+	psh = point.player_dist * (TILESIZE / PPD);
+	low_y = (H_3D / 2) - (psh / 2);
+	hi_y = (H_3D / 2) + (psh / 2);
+	while (low_y < hi_y)
+	{
+		my_mlx_pixel_put(cub()->img_3d, i, low_y, create_trgb(1, 255, 0, 0));
+	}
+
 }
 	// void	visualizer(t_cub3d *cub3d)
 	// {
