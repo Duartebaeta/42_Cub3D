@@ -6,7 +6,7 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/30 23:01:45 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/03/31 22:33:55 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,12 +286,13 @@ void draw_wall(t_point point, int i)
 	int		low_y;
 	int		hi_y;
 
-	psh = point.player_dist * (TILESIZE / PPD);
+	psh = point.player_dist * ((double)TILESIZE / (double)PPD);
 	low_y = (H_3D / 2) - (psh / 2);
 	hi_y = (H_3D / 2) + (psh / 2);
 	while (low_y < hi_y)
 	{
 		my_mlx_pixel_put(cub()->img_3d, i, low_y, create_trgb(1, 255, 0, 0));
+		low_y++;
 	}
 
 }
