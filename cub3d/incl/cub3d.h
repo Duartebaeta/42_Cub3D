@@ -49,6 +49,13 @@ typedef struct s_point
 	float	player_dist;
 } t_point;
 
+typedef struct s_dpoint
+{
+	double	x;
+	double	y;
+	double	player_dist;
+} t_dpoint;
+
 typedef struct s_player
 {
 	double	x;
