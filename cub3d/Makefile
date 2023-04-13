@@ -6,7 +6,7 @@ NAME		:=	cub3d
 
 ### COMPILATION ###
 CC			:=	gcc
-CFLAGS		:=	-Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		:=	-Wall -Werror -Wextra -g
 #CFLAGS		:=	-g -fsanitize=address
 
 ### PATHS ###
