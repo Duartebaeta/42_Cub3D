@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:31:29 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/04/13 16:17:27 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:18:54 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ void	draw_imgs(void)
 	reset_img2d();
 	reset_img3d();
 	visualizer(cub());
-	//print_lines(cub3d);
-	//print_player(cub3d, cub3d->player.x * ZOOM, cub3d->player.y * ZOOM, ZOOM / 2);
-	//mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img_2d->img, 0, 0);
+	if (cub()->minimap)
+	{
+		print_lines(cub3d);
+		print_player(cub3d, cub3d->player.x * ZOOM, cub3d->player.y * ZOOM, ZOOM / 2);
+		//mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img_2d->img, 0, 0);
+	}
 	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img_3d->img, 0, 0);
 }
 

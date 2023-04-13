@@ -19,6 +19,7 @@
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+# define KEY_M 109
 # define KEY_LEFT 65361
 # define KEY_UP 38
 # define KEY_RIGHT 65363
@@ -137,6 +138,7 @@ typedef struct s_cub3d
 	t_player	player;
 	int			onx;
 	t_ray		ray;
+	bool		minimap;
 } t_cub3d;
 
 int		arg_checker(char *filename);

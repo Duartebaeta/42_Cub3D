@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/22 22:21:54 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:18:01 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ static void init_ray(t_cub3d *cub3d, float angle)
 {
 	cub3d->ray.angle = angle;
 	cub3d->ray.hit = false;
-	cub3d->ray.right = is_right(angle);
-	cub3d->ray.up = is_up(angle);
+	cub3d->ray.right = false;
+	cub3d->ray.up = false;
+	if (is_right(angle) == 1)
+		cub3d->ray.right = true;
+	if (is_up(angle) == 1)
+		cub3d->ray.up = true;
 	cub3d->ray.vert = 0;
 }
 
@@ -31,7 +35,7 @@ static void init_horizontal(float x, float y, t_ray *ray)
 	else if (ray->up)
 		ray->y_coord = floor(y) - 0.0001;
 	ray->x_coord = ((y - ray->y_coord) * a_tan + x);
-	ray->step_y = (-ray->up);
+	ray->step_y = (-is_up(ray->angle));
 	ray->step_x = (-ray->step_y) * a_tan;
 	if (ray->angle == 0 || ray->angle == 3.1415926535)
 	{
@@ -60,7 +64,7 @@ static void	init_vertical(float x, float y, t_ray *ray)
 		else if (ray->right)
 			ray->x_coord = floor(x) + 1;
 		ray->y_coord = (x - ray->x_coord) * a_tan + y;
-		ray->step_x = ray->right;
+		ray->step_x = is_right(ray->angle);
 		ray->step_y = (-ray->step_x) * a_tan;
 	}
 }
@@ -130,6 +134,6 @@ void raycast(float x, float y, float angle)
 	{
 		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));
 		int new_y = round(cub()->player.y * ZOOM + i * sin(angle));
-		my_mlx_pixel_put(cub()->img_2d, new_x, new_y, color);
+		my_mlx_pixel_put(cub()->img_3d, new_x, new_y, color);
 	}
 }

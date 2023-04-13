@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visualizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/12 23:31:14 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:03:10 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ bool hit_wall(t_ray ray)
 	int map_x;
 	int map_y;
 
-	if (ray.x_coord < 0 || ray.y_coord < 0)
+	if (ray.x_coord < 0 || ray.y_coord < 0 || ray.x_coord > cub()->map_x || ray.y_coord > cub()->map_y)
 		return (true);
 	map_x = (int)floor(ray.x_coord / TILESIZE);
 	map_y = (int)floor(ray.y_coord / TILESIZE);
@@ -288,11 +288,10 @@ void draw_wall(t_dpoint point, double angle, int i)
 	double	low_y;
 	double	hi_y;
 	double	corr_dist;
-
 	corr_dist = point.player_dist * cos(norm_angle(angle - cub()->player.angle)) * 2;
 	// (void) angle;
-	// corr_dist = point.player_dist;
-	psh = corr_dist * ((double)TILESIZE / (double)PPD);
+	// corr_dist = point.player_dist / 2;
+	psh = (corr_dist * (double)TILESIZE);
 	low_y = (H_3D / 2) - (psh / 2);
 	hi_y = (H_3D / 2) + (psh / 2);
 	while (low_y < hi_y)

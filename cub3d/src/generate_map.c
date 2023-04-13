@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/03/30 23:11:03 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:01:13 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	keyhook(int keycode, t_cub3d *cub3d)
 		cub()->player.angle += 0.261799;
 	else if (keycode == KEY_ESC)
 		close_window(1);
+	else if (keycode == KEY_M)
+		cub()->minimap = !cub()->minimap;
 	if (cub()->player.angle >= 6.283175 || cub()->player.angle <= -6.283175)
 		cub()->player.angle = 0;
 	draw_imgs();
@@ -51,6 +53,7 @@ int	generate_map(t_cub3d *cub3d)
 	test = 1;
 	cub3d->mlx = mlx_init();
 	cub3d->win = mlx_new_window(cub3d->mlx, W_3D, H_3D, "teste");
+	cub3d->minimap = false;
 	mlx_clear_window(cub3d->mlx, cub3d->win);
 	init_imgs();
 	visualizer(cub());
