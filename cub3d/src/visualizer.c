@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/13 21:03:10 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:43:53 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ float norm_angle(float angle);
 bool hit_wall(t_ray ray);
 double points_distance(double x1, double y1, double x2, double y2);
 t_dpoint find_wall_intersection(t_ray ray);
-void draw_wall(t_dpoint point, double angle, int i);
+void draw_wall(double angle, int i);
 
 	// static float v_handle_ninety(float x, float y, float angle)
 	// {
@@ -150,7 +150,7 @@ void visualizer(t_cub3d *cub3d)
 {
 	double	curr_angle;
 	double	angle_step;
-	t_dpoint intersection;
+	//t_dpoint intersection;
 	int		i;
 
 	cub()->player.map_x = cub()->player.x * TILESIZE;
@@ -160,9 +160,10 @@ void visualizer(t_cub3d *cub3d)
 	i = -1;
 	while (++i < W_3D)
 	{
-		intersection = send_rays(curr_angle);
-		draw_wall(intersection, curr_angle, i);
+		//intersection = send_rays(curr_angle);
+		draw_wall(curr_angle, i);
 		curr_angle += angle_step;
+		printf("counter =%i", i);
 	}
 
 }
@@ -282,21 +283,24 @@ double points_distance(double x1, double y1, double x2, double y2)
 	return (sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)));
 }
 
-void draw_wall(t_dpoint point, double angle, int i)
+// void draw_wall(t_dpoint point, double angle, int i);
+void draw_wall(double angle, int i)
 {
 	double	psh;
 	double	low_y;
 	double	hi_y;
 	double	corr_dist;
-	corr_dist = point.player_dist * cos(norm_angle(angle - cub()->player.angle)) * 2;
+	raycast(cub()->player.x, cub()->player.y, angle);
+	printf("aqui :%f\n", cub()->ray.dist);
+	corr_dist = cub()->ray.dist * cos(norm_angle(angle - cub()->player.angle)) * 2;
 	// (void) angle;
 	// corr_dist = point.player_dist / 2;
-	psh = (corr_dist * (double)TILESIZE);
+	psh = (H_3D / corr_dist);
 	low_y = (H_3D / 2) - (psh / 2);
 	hi_y = (H_3D / 2) + (psh / 2);
 	while (low_y < hi_y)
 	{
-		my_mlx_pixel_put(cub()->img_3d, i, low_y, create_trgb(1, 255, 0, 0));
+		my_mlx_pixel_put(cub()->img_3d, i, low_y, cub()->ray.color);
 		low_y++;
 	}
 

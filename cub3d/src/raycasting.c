@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/13 20:18:01 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:35:18 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,11 @@ void raycast(float x, float y, float angle)
 	else
 		final_dist = sqrt(horizontal_dist);
 	cub()->ray.dist = final_dist;
-	int color = vertical_dist < horizontal_dist ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
+	cub()->ray.color = vertical_dist < horizontal_dist ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
 	for (int i = 0; i <= final_dist * ZOOM; i++)
 	{
 		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));
 		int new_y = round(cub()->player.y * ZOOM + i * sin(angle));
-		my_mlx_pixel_put(cub()->img_3d, new_x, new_y, color);
+		my_mlx_pixel_put(cub()->img_3d, new_x, new_y, cub()->ray.color);
 	}
 }

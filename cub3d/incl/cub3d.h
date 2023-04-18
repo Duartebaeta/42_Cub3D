@@ -115,6 +115,7 @@ typedef struct s_ray
 	bool	right;
 	bool	up;
 	bool	hit;
+	int		color;
 } t_ray;
 
 typedef struct s_cub3d
