@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strarray_dup.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: j <marvin@42.fr>                           +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 10:01:48 by jocaetan          #+#    #+#             */
-/*   Updated: 2022/04/28 10:50:41 by j                ###   ########.fr       */
+/*   Updated: 2023/04/18 18:28:53 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static size_t	ft_str2dlen(char **s)
 	size_t	l;
 
 	l = 0;
-	while (s[l] != 0)
+	while (s[l] != NULL)
 		l++;
 	return (l);
 }

@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/18 16:43:53 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/04/26 06:57:13 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,15 +155,13 @@ void visualizer(t_cub3d *cub3d)
 
 	cub()->player.map_x = cub()->player.x * TILESIZE;
 	cub()->player.map_y = cub()->player.y * TILESIZE;
-	curr_angle = to_radian(to_deg(cub3d->player.angle) - (FOV / 2));
+	curr_angle = cub3d->player.angle - to_radian(FOV / 2);
 	angle_step = to_radian(FOV) / W_3D;
 	i = -1;
 	while (++i < W_3D)
 	{
-		//intersection = send_rays(curr_angle);
 		draw_wall(curr_angle, i);
 		curr_angle += angle_step;
-		printf("counter =%i", i);
 	}
 
 }
@@ -291,14 +289,11 @@ void draw_wall(double angle, int i)
 	double	hi_y;
 	double	corr_dist;
 	raycast(cub()->player.x, cub()->player.y, angle);
-	printf("aqui :%f\n", cub()->ray.dist);
 	corr_dist = cub()->ray.dist * cos(norm_angle(angle - cub()->player.angle)) * 2;
-	// (void) angle;
-	// corr_dist = point.player_dist / 2;
 	psh = (H_3D / corr_dist);
 	low_y = (H_3D / 2) - (psh / 2);
 	hi_y = (H_3D / 2) + (psh / 2);
-	while (low_y < hi_y)
+	while (low_y <= hi_y)
 	{
 		my_mlx_pixel_put(cub()->img_3d, i, low_y, cub()->ray.color);
 		low_y++;

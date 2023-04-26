@@ -6,7 +6,7 @@ NAME		:=	cub3d
 
 ### COMPILATION ###
 CC			:=	gcc
-CFLAGS		:=	-Wall -Werror -Wextra -g
+CFLAGS		:=	-Wall -Werror -Wextra -g -O3 -march=native
 #CFLAGS		:=	-g -fsanitize=address
 
 ### PATHS ###
@@ -36,7 +36,8 @@ SRCS		:=	get_next_line.c \
 				render_imgs.c \
 				raycasting_utils.c \
 				visualizer.c \
-				raycasting.c
+				raycasting.c \
+				movement.c
 
 SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
 #SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))

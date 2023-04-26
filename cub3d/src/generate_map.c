@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/13 20:01:13 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/04/18 17:53:03 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	keyhook(int keycode, t_cub3d *cub3d)
 {
 	(void)cub3d;
 	if (keycode == KEY_W)
-		cub()->player.y -= 0.25;
+		move_w(cub()->player.angle);
 	else if (keycode == KEY_A)
 		cub()->player.x -= 0.25;
 	else if (keycode == KEY_S)

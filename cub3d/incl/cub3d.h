@@ -1,7 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "libft.h"
+# include "../libft/incl/libft.h"
 # include <mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -176,5 +176,7 @@ void	print_lines(t_cub3d *cub3d);
 void	raycast(float x, float y, float angle);
 /* 3D VISUALIZING */
 void	visualizer(t_cub3d *cub3d);
+/* MOVEMENT */
+void move_w(double angle);
 
 #endif
