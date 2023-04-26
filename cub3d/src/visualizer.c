@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/26 06:57:13 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/04/26 06:59:27 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ void visualizer(t_cub3d *cub3d)
 {
 	double	curr_angle;
 	double	angle_step;
-	//t_dpoint intersection;
 	int		i;
 
 	cub()->player.map_x = cub()->player.x * TILESIZE;

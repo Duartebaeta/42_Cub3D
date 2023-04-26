@@ -177,6 +177,6 @@ void	raycast(float x, float y, float angle);
 /* 3D VISUALIZING */
 void	visualizer(t_cub3d *cub3d);
 /* MOVEMENT */
-void move_w(double angle);
+void move(double relative_angle);
 
 #endif

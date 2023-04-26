@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:55:19 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/13 20:03:32 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/04/26 10:57:56 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	rd(float n)
 
 float	to_radian(float degree)
 {
-	return (degree * (3.14159 / 180));
+	return (degree * (M_PI / 180));
 }
 
 float	to_deg(float radian)
