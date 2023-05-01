@@ -6,42 +6,52 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:55:19 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/26 10:57:56 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:27:59 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-int	rd(float n)
+void	print_minimap(float angle)
 {
-	return (round(n) - n <= 0 ? round(n) : round(n) - 1);
+	int	i;
+	int	new_x;
+	int	new_y;
+
+	i = -1;
+	while (++i <= cub()->ray.dist * ZOOM)
+	{
+		new_x = round(cub()->player.x * ZOOM + i * cos(angle));
+		new_y = round(cub()->player.y * ZOOM + i * sin(angle));
+		my_mlx_pixel_put(cub()->img_3d, new_x, new_y, cub()->ray.color);
+	}
 }
 
-float	to_radian(float degree)
+void	init_ray(t_cub3d *cub3d, float angle)
 {
-	return (degree * (M_PI / 180));
-}
-
-float	to_deg(float radian)
-{
-	return (round(radian * 57.295779513));
-}
-
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
+	cub3d->ray.angle = angle;
+	cub3d->ray.hit = false;
+	cub3d->ray.right = false;
+	cub3d->ray.up = false;
+	if (is_right(angle) == 1)
+		cub3d->ray.right = true;
+	if (is_up(angle) == 1)
+		cub3d->ray.up = true;
+	cub3d->ray.vert = 0;
 }
 
 int	is_right(float angle)
 {
-	if (((int)to_deg(angle) > -90 && (int)to_deg(angle) < 90) || (int)to_deg(angle) < -270 || (int)to_deg(angle) > 270)
+	if (((int)to_deg(angle) > -90 && (int)to_deg(angle) < 90)
+		|| (int)to_deg(angle) < -270 || (int)to_deg(angle) > 270)
 		return (1);
 	return (-1);
 }
 
 int	is_up(float angle)
 {
-	if (((int)to_deg(angle) > 0 && (int)to_deg(angle) < 180) || (int)to_deg(angle) < -180)
+	if (((int)to_deg(angle) > 0 && (int)to_deg(angle) < 180)
+		|| (int)to_deg(angle) < -180)
 		return (-1);
 	return (1);
 }

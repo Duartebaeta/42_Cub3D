@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
+/*   Updated: 2023/05/01 17:30:53 by dhomem-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -48,14 +60,14 @@ typedef struct s_point
 	int		x;
 	int		y;
 	float	player_dist;
-} t_point;
+}	t_point;
 
 typedef struct s_dpoint
 {
 	double	x;
 	double	y;
 	double	player_dist;
-} t_dpoint;
+}	t_dpoint;
 
 typedef struct s_player
 {
@@ -64,36 +76,36 @@ typedef struct s_player
 	double	map_x;
 	double	map_y;
 	double	angle;
-} t_player;
+}	t_player;
 
 typedef struct s_coord
 {
-	double x;
-	double y;
-	double z;
-	bool end;
-	int color;
-} t_coord;
+	double	x;
+	double	y;
+	double	z;
+	bool	end;
+	int		color;
+}	t_coord;
 
 typedef struct s_image
 {
-	void *img;
-	char *addr;
-	int bpp;
-	int line_length;
-	int endian;
-	int width;
-	int height;
-	int map_start_x;
-	int map_start_y;
-	int shift_x;
-	int shift_y;
-	int palette;
-	int projection;
-	int zoom;
-	double z_zoom;
-	double angle;
-} t_image;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		width;
+	int		height;
+	int		map_start_x;
+	int		map_start_y;
+	int		shift_x;
+	int		shift_y;
+	int		palette;
+	int		projection;
+	int		zoom;
+	double	z_zoom;
+	double	angle;
+}	t_image;
 
 typedef struct s_texture
 {
@@ -101,7 +113,7 @@ typedef struct s_texture
 	char	*addr;
 	int		fd;
 
-}t_texture;
+}	t_texture;
 
 typedef struct s_ray
 {
@@ -116,7 +128,7 @@ typedef struct s_ray
 	bool	up;
 	bool	hit;
 	int		color;
-} t_ray;
+}	t_ray;
 
 typedef struct s_cub3d
 {
@@ -140,11 +152,11 @@ typedef struct s_cub3d
 	int			onx;
 	t_ray		ray;
 	bool		minimap;
-} t_cub3d;
+}	t_cub3d;
 
 int		arg_checker(char *filename);
 void	create_map_from_file(t_cub3d *cub3d);
-void	check_map();
+void	check_map(void);
 int		main(int argc, char **argv);
 char	*get_next_line(int fd);
 int		check_textures(t_cub3d *cub3d, char *line, int counter);
@@ -173,10 +185,12 @@ void	print_square(t_cub3d *cub3d, int x, int y, int color);
 void	print_player(t_cub3d *cub3d, float x, float y, int r);
 void	print_lines(t_cub3d *cub3d);
 /*RAYCASTING*/
-void	raycast(float x, float y, float angle);
+void	raycast(float x, float y, float angle, t_cub3d *cub3d);
+void	init_ray(t_cub3d *cub3d, float angle);
 /* 3D VISUALIZING */
 void	visualizer(t_cub3d *cub3d);
+void	print_minimap(float angle);
 /* MOVEMENT */
-void move(double relative_angle);
+void	move(double relative_angle);
 
 #endif

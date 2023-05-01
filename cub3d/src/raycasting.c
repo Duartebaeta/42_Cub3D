@@ -6,26 +6,13 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/26 06:57:21 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:21:31 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-static void init_ray(t_cub3d *cub3d, float angle)
-{
-	cub3d->ray.angle = angle;
-	cub3d->ray.hit = false;
-	cub3d->ray.right = false;
-	cub3d->ray.up = false;
-	if (is_right(angle) == 1)
-		cub3d->ray.right = true;
-	if (is_up(angle) == 1)
-		cub3d->ray.up = true;
-	cub3d->ray.vert = 0;
-}
-
-static void init_horizontal(float x, float y, t_ray *ray)
+static void	init_horizontal(float x, float y, t_ray *ray)
 {
 	float	a_tan;
 
@@ -74,7 +61,8 @@ static float	horizontal_ray(float x, float y, t_ray *ray)
 	init_horizontal(x, y, ray);
 	while (!ray->hit)
 	{
-		if (ray->x_coord > 0 && ray->y_coord > 0 && ray->x_coord < cub()->map_x + 1 && ray->y_coord < cub()->map_y)
+		if (ray->x_coord > 0 && ray->y_coord > 0 && ray->x_coord < cub()->map_x
+			+ 1 && ray->y_coord < cub()->map_y)
 		{
 			if (cub()->map[(int)ray->y_coord][(int)ray->x_coord] == '1')
 				ray->hit = 1;
@@ -87,7 +75,7 @@ static float	horizontal_ray(float x, float y, t_ray *ray)
 		else
 			ray->hit = 1;
 	}
-	return(pow(ray->x_coord - x, 2) + pow(ray->y_coord - y, 2));
+	return (pow(ray->x_coord - x, 2) + pow(ray->y_coord - y, 2));
 }
 
 static float	vertical_ray(float x, float y, t_ray *ray)
@@ -95,7 +83,8 @@ static float	vertical_ray(float x, float y, t_ray *ray)
 	init_vertical(x, y, ray);
 	while (!ray->hit)
 	{
-		if (ray->x_coord > 0 && ray->y_coord > 0 && ray->x_coord < cub()->map_x + 1 && ray->y_coord < cub()->map_y)
+		if (ray->x_coord > 0 && ray->y_coord > 0 && ray->x_coord < cub()->map_x
+			+ 1 && ray->y_coord < cub()->map_y)
 		{
 			if (cub()->map[(int)ray->y_coord][(int)ray->x_coord] == '1')
 				ray->hit = true;
@@ -108,32 +97,29 @@ static float	vertical_ray(float x, float y, t_ray *ray)
 		else
 			ray->hit = true;
 	}
-	return(pow(ray->x_coord - x, 2) + pow(ray->y_coord - y, 2));
+	return (pow(ray->x_coord - x, 2) + pow(ray->y_coord - y, 2));
 }
 
-void raycast(float x, float y, float angle)
+void	raycast(float x, float y, float angle, t_cub3d *cub3d)
 {
-	float vertical_dist;
-	float horizontal_dist;
-	float final_dist;
+	float	vertical_dist;
+	float	horizontal_dist;
+	float	final_dist;
 
 	init_ray(cub(), angle);
 	vertical_dist = vertical_ray(x, y, &cub()->ray);
 	init_ray(cub(), angle);
 	horizontal_dist = horizontal_ray(x, y, &cub()->ray);
+	cub3d->ray.color = create_trgb(1, 0, 255, 0);
 	if (vertical_dist < horizontal_dist)
 	{
 		cub()->ray.vert = 1;
 		final_dist = sqrt(vertical_dist);
+		cub3d->ray.color = create_trgb(1, 255, 0, 0);
 	}
 	else
 		final_dist = sqrt(horizontal_dist);
 	cub()->ray.dist = final_dist;
-	cub()->ray.color = vertical_dist < horizontal_dist ? create_trgb(1, 255, 0, 0) : create_trgb(1, 0, 255, 0);
-	for (int i = 0; i <= final_dist * ZOOM; i++)
-	{
-		int new_x = round(cub()->player.x * ZOOM + i * cos(angle));
-		int new_y = round(cub()->player.y * ZOOM + i * sin(angle));
-		my_mlx_pixel_put(cub()->img_3d, new_x, new_y, cub()->ray.color);
-	}
+	if (cub()->minimap)
+		print_minimap(angle);
 }

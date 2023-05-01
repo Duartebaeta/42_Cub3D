@@ -37,7 +37,8 @@ SRCS		:=	get_next_line.c \
 				raycasting_utils.c \
 				visualizer.c \
 				raycasting.c \
-				movement.c
+				movement.c \
+				more_utils.c
 
 SRCS_NAME	:=	$(addprefix $(SRCS_PATH), $(SRC_NAME) $(SRCS))
 #SRCS_BONUS=	$(addprefix $(SRCS_PATH), $(SRC_BONUS) $(SRCS))

@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:31:29 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/04/18 16:15:43 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:08:26 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	draw_imgs(void)
 	if (cub()->minimap)
 	{
 		print_lines(cub3d);
-		print_player(cub3d, cub3d->player.x * ZOOM, cub3d->player.y * ZOOM, ZOOM / 2);
+		print_player(cub3d, cub3d->player.x * ZOOM,
+			cub3d->player.y * ZOOM, ZOOM / 2);
 	}
 	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img_3d->img, 0, 0);
 }
@@ -49,11 +50,11 @@ static void	reset_img2d(void)
 	}
 }
 
-static void reset_img3d(void)
+static void	reset_img3d(void)
 {
-	int *image;
-	int i;
-	t_image *img_3d;
+	int		*image;
+	int		i;
+	t_image	*img_3d;
 
 	img_3d = cub()->img_3d;
 	ft_bzero(img_3d->addr, W_3D * H_3D * (img_3d->bpp / 8));

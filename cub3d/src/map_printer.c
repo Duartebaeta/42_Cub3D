@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:49:20 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/04/18 16:16:06 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:59:18 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_horizontal(t_cub3d *cub3d, int x, int y, int color)
 	int	counter;
 
 	counter = -1;
-	while(++counter < ZOOM)
+	while (++counter < ZOOM)
 		my_mlx_pixel_put(cub3d->img_3d, x + counter, y, color);
 }
 
@@ -32,7 +32,7 @@ void	print_vertical(t_cub3d *cub3d, int x, int y, int color)
 
 void	print_square(t_cub3d *cub3d, int x, int y, int color)
 {
-	int counter;
+	int	counter;
 
 	counter = -1;
 	while (++counter < ZOOM)
@@ -41,53 +41,52 @@ void	print_square(t_cub3d *cub3d, int x, int y, int color)
 
 void	print_player(t_cub3d *cub3d, float x, float y, int ray)
 {
-	static const double PI = 3.1415926535;
-	double i, angle, x1, y1;
+	static double	pi = 3.1415926535;
+	double			angle;
+	double			x1;
+	double			y1;
+	int				r;
 
-	for(i = 0; i < 360; i += 0.1)
+	angle = 0;
+	while (angle < 360)
 	{
-		angle = i;
-		int r = ray;
+		r = ray;
 		while (--r)
 		{
-			x1 = r * cos(angle * PI / 180);
-			y1 = r * sin(angle * PI / 180);
-			my_mlx_pixel_put(cub3d->img_3d, x + x1, y + y1, create_trgb(1, 70, 120, 20));
+			x1 = r * cos(angle * pi / 180);
+			y1 = r * sin(angle * pi / 180);
+			my_mlx_pixel_put(cub3d->img_3d, x + x1, y + y1,
+				create_trgb(1, 70, 120, 20));
 		}
+		angle += 0.1;
 	}
-	// for (float tmp = to_deg(cub3d->player.angle); tmp > to_deg(cub3d->player.angle) - 20; tmp -= 0.1)
-	// {
-	// 	raycast(cub3d->player.x, cub3d->player.y, to_radian(tmp));
-	// }
-	// for (float tmp = to_deg(cub3d->player.angle); tmp < to_deg(cub3d->player.angle) + 20; tmp += 0.1)
-	// {
-	// 	raycast(cub3d->player.x, cub3d->player.y, to_radian(tmp));
-	// }
-	// raycast(cub3d->player.x, cub3d->player.y, cub3d->player.angle);
 }
 
 void	print_lines(t_cub3d *cub3d)
 {
-	int	counter;
+	int	c;
 	int	sub;
+	int	white;
+	int	black;
 
-	counter = -1;
-	while(cub3d->map[++counter])
+	c = -1;
+	white = create_trgb(1, 255, 255, 255);
+	black = create_trgb(1, 0, 0, 0);
+	while (cub3d->map[++c])
 	{
 		sub = -1;
-		while (cub3d->map[counter][++sub])
+		while (cub3d->map[c][++sub])
 		{
-			if (cub3d->map[counter][sub] == '1' || cub3d->map[counter][sub] == '0')
-			{
-				if (cub3d->map[counter][sub] == '1')
-					print_square(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
-				else
-					print_square(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 0, 0, 0));
-				print_horizontal(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
-				print_horizontal(cub3d, sub * ZOOM, (counter + 1) * ZOOM, create_trgb(1, 255, 255, 255));
-				print_vertical(cub3d, sub * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
-				print_vertical(cub3d, (sub + 1) * ZOOM, counter * ZOOM, create_trgb(1, 255, 255, 255));
-			}
+			if (cub3d->map[c][sub] != '1' && cub3d->map[c][sub] != '0')
+				continue ;
+			if (cub3d->map[c][sub] == '1')
+				print_square(cub3d, sub * ZOOM, c * ZOOM, white);
+			else
+				print_square(cub3d, sub * ZOOM, c * ZOOM, black);
+			print_horizontal(cub3d, sub * ZOOM, c * ZOOM, white);
+			print_horizontal(cub3d, sub * ZOOM, (c + 1) * ZOOM, white);
+			print_vertical(cub3d, sub * ZOOM, c * ZOOM, white);
+			print_vertical(cub3d, (sub + 1) * ZOOM, c * ZOOM, white);
 		}
 	}
 }
