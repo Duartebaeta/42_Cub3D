@@ -6,13 +6,11 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/03 18:48:48 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/03 20:10:37 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
-
-static void	init_imgs(void);
 
 static int	close_window(int param)
 {
@@ -20,26 +18,65 @@ static int	close_window(int param)
 	return (1);
 }
 
-int	keyhook(int keycode, t_cub3d *cub3d)
+int	key_press(int keycode, t_cub3d *cub3d)
 {
 	(void)cub3d;
 	if (keycode == KEY_W)
-		move(0);
-	else if (keycode == KEY_A)
-		move(-M_PI_2);
-	else if (keycode == KEY_S)
-		move(M_PI);
-	else if (keycode == KEY_D)
-		move(M_PI_2);
-	else if (keycode == KEY_LEFT)
-		cub()->player.angle -= M_PI / 24;
-	else if (keycode == KEY_RIGHT)
-		cub()->player.angle += M_PI / 24;
-	else if (keycode == KEY_ESC)
-		close_window(1);
-	else if (keycode == KEY_M)
+		cub()->movement.w = 1;
+	if (keycode == KEY_A)
+		cub()->movement.a = 1;
+	if (keycode == KEY_S)
+		cub()->movement.s = 1;
+	if (keycode == KEY_D)
+		cub()->movement.d = 1;
+	if (keycode == KEY_RIGHT)
+		cub()->movement.right = 1;
+	if (keycode == KEY_LEFT)
+		cub()->movement.left = 1;
+	if (keycode == KEY_M)
 		cub()->minimap = !cub()->minimap;
-	if (cub()->player.angle >= 2 * M_PI || cub()->player.angle <= -2 * M_PI)
+	if (keycode == KEY_ESC)
+		close_window(1);
+	printf("press\n");
+	return (0);
+}
+
+int	key_release(int keycode, t_cub3d *cub3d)
+{
+	(void)cub3d;
+	if (keycode == KEY_W)
+		cub()->movement.w = 0;
+	if (keycode == KEY_A)
+		cub()->movement.a = 0;
+	if (keycode == KEY_S)
+		cub()->movement.s = 0;
+	if (keycode == KEY_D)
+		cub()->movement.d = 0;
+	if (keycode == KEY_RIGHT)
+		cub()->movement.right = 0;
+	if (keycode == KEY_LEFT)
+		cub()->movement.left = 0;
+	printf("release\n");
+	return (0);
+}
+
+int	ft_hook(t_cub3d *cub3d)
+{
+	(void)cub3d;
+	if (cub()->movement.w)
+		move(0);
+	if (cub()->movement.a)
+		move(-M_PI_2);
+	if (cub()->movement.s)
+		move(M_PI);
+	if (cub()->movement.d)
+		move(M_PI_2);
+	if (cub()->movement.left)
+		cub()->player.angle -= M_PI / 36;
+	if (cub()->movement.right)
+		cub()->player.angle += M_PI / 36;
+	if (cub()->player.angle >= 2 * M_PI
+		|| cub()->player.angle <= -2 * M_PI)
 		cub()->player.angle = 0;
 	draw_imgs();
 	return (0);
@@ -57,30 +94,10 @@ int	generate_map(t_cub3d *cub3d)
 	init_imgs();
 	visualizer(cub());
 	draw_imgs();
-	mlx_key_hook(cub3d->win, keyhook, &cub3d);
+	mlx_hook(cub3d->win, 02, 1L << 0, &key_press, &cub3d);
+	mlx_hook(cub3d->win, 03, 1L << 1, &key_release, &cub3d);
+	mlx_loop_hook(cub3d->mlx, &ft_hook, &cub3d);
 	mlx_hook(cub3d->win, 17, 0L, close_window, &test);
 	mlx_loop(cub3d->mlx);
 	return (1);
-}
-
-static void	init_imgs(void)
-{
-	t_image	*img_2d;
-	t_image	*img_3d;
-
-	img_2d = (t_image *)protected_calloc(sizeof(t_image), 1);
-	img_2d->width = W_2D;
-	img_2d->height = H_2D;
-	img_2d->zoom = ZOOM;
-	img_2d->img = mlx_new_image(cub()->mlx, W_2D, H_2D);
-	img_2d->addr = mlx_get_data_addr(img_2d->img,
-			&img_2d->bpp, &img_2d->line_length, &img_2d->endian);
-	img_3d = (t_image *)protected_calloc(sizeof(t_image), 1);
-	img_3d->width = W_3D;
-	img_3d->height = H_3D;
-	img_3d->img = mlx_new_image(cub()->mlx, W_3D, H_3D);
-	img_3d->addr = mlx_get_data_addr(img_3d->img,
-			&img_3d->bpp, &img_3d->line_length, &img_3d->endian);
-	cub()->img_2d = img_2d;
-	cub()->img_3d = img_3d;
 }

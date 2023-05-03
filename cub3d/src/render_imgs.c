@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:31:29 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/05/03 18:50:15 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/03 20:14:23 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,26 @@ static void	reset_img3d(void)
 			image[i] = BLACK;
 		i++;
 	}
+}
+
+void	init_imgs(void)
+{
+	t_image	*img_2d;
+	t_image	*img_3d;
+
+	img_2d = (t_image *)protected_calloc(sizeof(t_image), 1);
+	img_2d->width = W_2D;
+	img_2d->height = H_2D;
+	img_2d->zoom = ZOOM;
+	img_2d->img = mlx_new_image(cub()->mlx, W_2D, H_2D);
+	img_2d->addr = mlx_get_data_addr(img_2d->img,
+			&img_2d->bpp, &img_2d->line_length, &img_2d->endian);
+	img_3d = (t_image *)protected_calloc(sizeof(t_image), 1);
+	img_3d->width = W_3D;
+	img_3d->height = H_3D;
+	img_3d->img = mlx_new_image(cub()->mlx, W_3D, H_3D);
+	img_3d->addr = mlx_get_data_addr(img_3d->img,
+			&img_3d->bpp, &img_3d->line_length, &img_3d->endian);
+	cub()->img_2d = img_2d;
+	cub()->img_3d = img_3d;
 }

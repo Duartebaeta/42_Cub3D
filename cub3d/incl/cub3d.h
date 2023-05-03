@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/03 16:00:57 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/03 20:14:36 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@
 # define PPD 277		// Projection Plane Distance
 # define PHEIGHT 32		// Player Heigth
 # define TILESIZE 64	// Size of Walls, Floors, Ceilings
+
+typedef struct s_movement
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	right;
+	int	left;
+}	t_movement;
 
 typedef struct s_point
 {
@@ -152,6 +162,7 @@ typedef struct s_cub3d
 	int			onx;
 	t_ray		ray;
 	bool		minimap;
+	t_movement	movement;
 }	t_cub3d;
 
 int		arg_checker(char *filename);
@@ -173,6 +184,7 @@ void	draw_imgs(void);
 t_cub3d	*cub(void);
 int		is_up(float angle);
 int		is_right(float angle);
+void	init_imgs(void);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);
 void	clear_data(void);

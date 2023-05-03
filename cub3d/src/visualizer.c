@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/03 19:24:56 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/03 20:11:44 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 {
 	double	counter;
 	int		ceiling;
-	int 	color;
+	int		color;
 
-	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1], cub()->ceiling[2]);
+	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1],
+			cub()->ceiling[2]);
 	color = create_trgb(1, cub()->floor[0], cub()->floor[1], cub()->floor[2]);
 	counter = -1.0;
 	while (++counter <= ceil(low_y))
