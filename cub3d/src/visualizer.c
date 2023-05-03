@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/01 17:13:32 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:24:56 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 float	norm_angle(float angle);
 void	draw_wall(double angle, int i);
+void	draw_ceiling_floor(double low_y, double hi_y, int i);
 
 void	visualizer(t_cub3d *cub3d)
 {
@@ -55,9 +56,28 @@ void	draw_wall(double angle, int i)
 	psh = (H_3D / corr_dist);
 	low_y = (H_3D / 2) - (psh / 2);
 	hi_y = (H_3D / 2) + (psh / 2);
-	while (low_y <= hi_y)
+	draw_ceiling_floor(low_y, hi_y, i);
+}
+
+void	draw_ceiling_floor(double low_y, double hi_y, int i)
+{
+	double	counter;
+	int		ceiling;
+	int 	color;
+
+	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1], cub()->ceiling[2]);
+	color = create_trgb(1, cub()->floor[0], cub()->floor[1], cub()->floor[2]);
+	counter = -1.0;
+	while (++counter <= ceil(low_y))
+		my_mlx_pixel_put(cub()->img_3d, i, counter, color);
+	while (counter <= hi_y)
 	{
-		my_mlx_pixel_put(cub()->img_3d, i, low_y, cub()->ray.color);
-		low_y++;
+		my_mlx_pixel_put(cub()->img_3d, i, counter, cub()->ray.color);
+		counter++;
+	}
+	while (counter <= H_3D)
+	{
+		my_mlx_pixel_put(cub()->img_3d, i, counter, ceiling);
+		counter++;
 	}
 }

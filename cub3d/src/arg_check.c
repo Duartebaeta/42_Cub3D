@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 01:01:54 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/01 16:27:17 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:47:19 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ int	arg_checker(char	*filename)
 	}
 	get_input(cub());
 	if (parse_textures(cub()))
-		return (1);
+		return (4);
 	return (0);
 }

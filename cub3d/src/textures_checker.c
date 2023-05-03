@@ -6,11 +6,13 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 16:04:09 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/01/31 23:20:14 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:45:51 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
+#include <errno.h>
+#include <string.h>
 
 static int	check_values(char **values)
 {
@@ -47,10 +49,10 @@ static int	assign_values(t_cub3d *cub3d, char **path)
 	if (array_len(values) != 3)
 	{
 		ft_strarray_clear(&values);
-		return (1);
+		return (3);
 	}
 	if (check_values(values))
-		return (2);
+		return (4);
 	counter = -1;
 	if (ft_strncmp("F\0", path[0], 2) == 0)
 	{
@@ -79,13 +81,13 @@ static int	check_path(t_cub3d *cub3d, char **path)
 	if (fd < 0)
 		return (2);
 	if (ft_strncmp("NO\0", path[0], 3) == 0)
-		cub3d->no->addr = path[1];
+		cub3d->no.addr = path[1];
 	else if (ft_strncmp("SO\0", path[0], 3) == 0)
-		cub3d->so->addr = path[1];
+		cub3d->so.addr = path[1];
 	else if (ft_strncmp("WE\0", path[0], 3) == 0)
-		cub3d->we->addr = path[1];
+		cub3d->we.addr = path[1];
 	else if (ft_strncmp("EA\0", path[0], 3) == 0)
-		cub3d->ea->addr = path[1];
+		cub3d->ea.addr = path[1];
 	close(fd);
 	return (0);
 }

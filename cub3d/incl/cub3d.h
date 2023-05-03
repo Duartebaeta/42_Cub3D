@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/01 17:30:53 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:00:57 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,10 @@ typedef struct s_cub3d
 	char		**map;
 	t_image		*img_2d;
 	t_image		*img_3d;
-	t_texture	*no;
-	t_texture	*so;
-	t_texture	*we;
-	t_texture	*ea;
+	t_texture	no;
+	t_texture	so;
+	t_texture	we;
+	t_texture	ea;
 	int			floor[3];
 	int			ceiling[3];
 	t_player	player;

@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:49:20 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/01 16:59:18 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/03 18:56:47 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	print_player(t_cub3d *cub3d, float x, float y, int ray)
 		}
 		angle += 0.1;
 	}
+	raycast(cub3d->player.x, cub3d->player.y, cub3d->player.angle, cub3d);
 }
 
 void	print_lines(t_cub3d *cub3d)
@@ -71,7 +72,7 @@ void	print_lines(t_cub3d *cub3d)
 
 	c = -1;
 	white = create_trgb(1, 255, 255, 255);
-	black = create_trgb(1, 0, 0, 0);
+	black = create_trgb(0, 0, 0, 0);
 	while (cub3d->map[++c])
 	{
 		sub = -1;
