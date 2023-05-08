@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/03 20:14:36 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:53:35 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct s_ray
 	bool	up;
 	bool	hit;
 	int		color;
+	int		cardinal;
 }	t_ray;
 
 typedef struct s_cub3d
@@ -185,6 +186,7 @@ t_cub3d	*cub(void);
 int		is_up(float angle);
 int		is_right(float angle);
 void	init_imgs(void);
+void	set_cardinal(float angle);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);
 void	clear_data(void);

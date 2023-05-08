@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/03 20:11:44 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:55:45 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 		my_mlx_pixel_put(cub()->img_3d, i, counter, color);
 	while (counter <= hi_y)
 	{
-		my_mlx_pixel_put(cub()->img_3d, i, counter, cub()->ray.color);
+		my_mlx_pixel_put(cub()->img_3d, i, counter, cub()->ray.cardinal);
 		counter++;
 	}
 	while (counter <= H_3D)

@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/01 17:21:31 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:59:47 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,11 @@ void	raycast(float x, float y, float angle, t_cub3d *cub3d)
 	{
 		cub()->ray.vert = 1;
 		final_dist = sqrt(vertical_dist);
-		cub3d->ray.color = create_trgb(1, 255, 0, 0);
 	}
 	else
 		final_dist = sqrt(horizontal_dist);
 	cub()->ray.dist = final_dist;
+	set_cardinal(angle);
 	if (cub()->minimap)
 		print_minimap(angle);
 }

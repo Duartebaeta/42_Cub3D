@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/03 20:10:37 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:59:34 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	key_press(int keycode, t_cub3d *cub3d)
 		cub()->minimap = !cub()->minimap;
 	if (keycode == KEY_ESC)
 		close_window(1);
-	printf("press\n");
 	return (0);
 }
 
@@ -56,7 +55,6 @@ int	key_release(int keycode, t_cub3d *cub3d)
 		cub()->movement.right = 0;
 	if (keycode == KEY_LEFT)
 		cub()->movement.left = 0;
-	printf("release\n");
 	return (0);
 }
 
