@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 22:09:45 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:16:47 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 		curr = cub()->we;
 	else
 		curr = cub()->ea;
-	int		tex_x = (int)(cub()->ray.calc_dist * curr.w) % curr.w;
-	float aspect_ratio_scale = (float)H_3D / W_3D;
+	int		tex_x = (int)(cub()->ray.calc_dist * 32.0) % curr.w;
 
 	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1],
 			cub()->ceiling[2]);
@@ -99,7 +98,7 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 		my_mlx_pixel_put(cub()->img_3d, i, counter, color);
 	while (counter <= hi_y)
 	{
-		int tex_y = (int)((counter - low_y) * aspect_ratio_scale * (float)curr.h / (hi_y - low_y));
+		int tex_y = (int)((counter - low_y) * curr.h / (hi_y - low_y));
 		__uint32_t new_color = get_color(tex_x, tex_y, curr);
 		my_mlx_pixel_put(cub()->img_3d, i, counter, new_color);
 		counter++;
