@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:31:29 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/05/03 20:14:23 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 20:56:32 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ void	init_imgs(void)
 			&img_3d->bpp, &img_3d->line_length, &img_3d->endian);
 	cub()->img_2d = img_2d;
 	cub()->img_3d = img_3d;
+	load_textures();
 }

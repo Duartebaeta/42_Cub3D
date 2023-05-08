@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 17:59:34 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 21:43:29 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	ft_hook(t_cub3d *cub3d)
 int	generate_map(t_cub3d *cub3d)
 {
 	int	test;
-
 	test = 1;
 	cub3d->mlx = mlx_init();
 	cub3d->win = mlx_new_window(cub3d->mlx, W_3D, H_3D, "teste");

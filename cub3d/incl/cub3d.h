@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 17:53:35 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 21:42:18 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ typedef struct s_texture
 	void	*img;
 	char	*addr;
 	int		fd;
+	int		w;
+	int		h;
 
 }	t_texture;
 
@@ -138,7 +140,10 @@ typedef struct s_ray
 	bool	up;
 	bool	hit;
 	int		color;
-	int		cardinal;
+	char	cardinal;
+	float	y_dist;
+	float	x_dist;
+	float	calc_dist;
 }	t_ray;
 
 typedef struct s_cub3d
@@ -206,5 +211,7 @@ void	visualizer(t_cub3d *cub3d);
 void	print_minimap(float angle);
 /* MOVEMENT */
 void	move(double relative_angle);
+/* TEXTURES */
+void	load_textures();
 
 #endif

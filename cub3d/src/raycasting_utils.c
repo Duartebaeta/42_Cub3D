@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:55:19 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 18:00:15 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 21:34:18 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	set_cardinal(float angle)
 	int	cardinal;
 
 	if (cub()->ray.vert == 1 && is_right(angle) == -1)
-		cardinal = create_trgb(1, 186, 13, 13);
+		cardinal = 'w';
 	else if (cub()->ray.vert == 1 && is_right(angle) == 1)
-		cardinal = create_trgb(1, 74, 178, 164);
+		cardinal = 'e';
 	else if (cub()->ray.vert == 0 && is_up(angle) == -1)
-		cardinal = create_trgb(1, 193, 140, 34);
+		cardinal = 's';
 	else
-		cardinal = create_trgb(1, 174, 17, 242);
+		cardinal = 'n';
 	cub()->ray.cardinal = cardinal;
 }

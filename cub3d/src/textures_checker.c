@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 16:04:09 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/01 19:45:51 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 20:53:38 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ static int	check_path(t_cub3d *cub3d, char **path)
 	if (fd < 0)
 		return (2);
 	if (ft_strncmp("NO\0", path[0], 3) == 0)
-		cub3d->no.addr = path[1];
+		cub3d->no.addr = ft_strdup(path[1]);
 	else if (ft_strncmp("SO\0", path[0], 3) == 0)
-		cub3d->so.addr = path[1];
+		cub3d->so.addr = ft_strdup(path[1]);
 	else if (ft_strncmp("WE\0", path[0], 3) == 0)
-		cub3d->we.addr = path[1];
+		cub3d->we.addr = ft_strdup(path[1]);
 	else if (ft_strncmp("EA\0", path[0], 3) == 0)
-		cub3d->ea.addr = path[1];
+		cub3d->ea.addr = ft_strdup(path[1]);
 	close(fd);
 	return (0);
 }
@@ -132,6 +132,7 @@ int	check_textures(t_cub3d *cub3d, char *line, int counter)
 	}
 	else if (check_path(cub3d, split))
 	{
+		printf("\nenter\n");
 		ft_strarray_clear(&split);
 		return (2);
 	}

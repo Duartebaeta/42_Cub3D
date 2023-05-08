@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 17:55:45 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:09:45 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,37 @@ void	draw_wall(double angle, int i)
 	draw_ceiling_floor(low_y, hi_y, i);
 }
 
+static __uint32_t get_color(int tex_x, int tex_y, t_texture curr)
+{
+	int bpp, line_size, endian;
+
+	char *data = mlx_get_data_addr(curr.img, &bpp, &line_size, &endian);
+	bpp /= 8;
+
+	__uint32_t color = 0;
+	for (int i = 0; i < bpp; i++)
+	{
+		color |= (unsigned char)data[tex_y * line_size + tex_x * bpp + i] << (8 * i);
+	}
+	return color;
+}
+
 void	draw_ceiling_floor(double low_y, double hi_y, int i)
 {
 	double	counter;
 	int		ceiling;
 	int		color;
+	t_texture curr;
+	if (cub()->ray.cardinal == 'n')
+		curr = cub()->no;
+	else if (cub()->ray.cardinal == 's')
+		curr = cub()->so;
+	else if (cub()->ray.cardinal == 'w')
+		curr = cub()->we;
+	else
+		curr = cub()->ea;
+	int		tex_x = (int)(cub()->ray.calc_dist * curr.w) % curr.w;
+	float aspect_ratio_scale = (float)H_3D / W_3D;
 
 	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1],
 			cub()->ceiling[2]);
@@ -73,7 +99,9 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 		my_mlx_pixel_put(cub()->img_3d, i, counter, color);
 	while (counter <= hi_y)
 	{
-		my_mlx_pixel_put(cub()->img_3d, i, counter, cub()->ray.cardinal);
+		int tex_y = (int)((counter - low_y) * aspect_ratio_scale * (float)curr.h / (hi_y - low_y));
+		__uint32_t new_color = get_color(tex_x, tex_y, curr);
+		my_mlx_pixel_put(cub()->img_3d, i, counter, new_color);
 		counter++;
 	}
 	while (counter <= H_3D)
