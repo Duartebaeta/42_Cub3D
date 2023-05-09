@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visualizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 22:16:47 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:36:07 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,35 @@ void	draw_wall(double angle, int i)
 	draw_ceiling_floor(low_y, hi_y, i);
 }
 
-static __uint32_t get_color(int tex_x, int tex_y, t_texture curr)
+static	__uint32_t	get_color(int tex_x, int tex_y, t_texture curr)
 {
-	int bpp, line_size, endian;
+	int			bpp;
+	int			line_size;
+	int			endian;
+	char		*data;
+	int			i;
+	__uint32_t	color;
 
-	char *data = mlx_get_data_addr(curr.img, &bpp, &line_size, &endian);
+	data = mlx_get_data_addr(curr.img, &bpp, &line_size, &endian);
 	bpp /= 8;
-
-	__uint32_t color = 0;
-	for (int i = 0; i < bpp; i++)
-	{
-		color |= (unsigned char)data[tex_y * line_size + tex_x * bpp + i] << (8 * i);
-	}
-	return color;
+	color = 0;
+	i = -1;
+	while (++i < bpp)
+		color |= (unsigned char)data[tex_y * line_size
+			+ tex_x * bpp + i] << (8 * i);
+	return (color);
 }
 
 void	draw_ceiling_floor(double low_y, double hi_y, int i)
 {
-	double	counter;
-	int		ceiling;
-	int		color;
-	t_texture curr;
+	double		counter;
+	int			ceiling;
+	int			color;
+	int			tex_x;
+	int			tex_y;
+	t_texture	curr;
+	__uint32_t	new_color;
+
 	if (cub()->ray.cardinal == 'n')
 		curr = cub()->no;
 	else if (cub()->ray.cardinal == 's')
@@ -88,8 +96,7 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 		curr = cub()->we;
 	else
 		curr = cub()->ea;
-	int		tex_x = (int)(cub()->ray.calc_dist * 32.0) % curr.w;
-
+	tex_x = (int)(cub()->ray.calc_dist * 32.0) % curr.w;
 	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1],
 			cub()->ceiling[2]);
 	color = create_trgb(1, cub()->floor[0], cub()->floor[1], cub()->floor[2]);
@@ -98,8 +105,8 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 		my_mlx_pixel_put(cub()->img_3d, i, counter, color);
 	while (counter <= hi_y)
 	{
-		int tex_y = (int)((counter - low_y) * curr.h / (hi_y - low_y));
-		__uint32_t new_color = get_color(tex_x, tex_y, curr);
+		tex_y = (int)((counter - low_y) * curr.h / (hi_y - low_y));
+		new_color = get_color(tex_x, tex_y, curr);
 		my_mlx_pixel_put(cub()->img_3d, i, counter, new_color);
 		counter++;
 	}

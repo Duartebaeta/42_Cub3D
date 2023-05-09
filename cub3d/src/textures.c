@@ -3,19 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 19:16:39 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 20:59:00 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:51:22 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-void	load_textures()
+void	load_textures(void)
 {
-	cub()->no.img = mlx_xpm_file_to_image(cub()->mlx, cub()->no.addr, &cub()->no.w, &cub()->no.h);
-	cub()->so.img = mlx_xpm_file_to_image(cub()->mlx, cub()->so.addr, &cub()->so.w, &cub()->so.h);
-	cub()->we.img = mlx_xpm_file_to_image(cub()->mlx, cub()->we.addr, &cub()->we.w, &cub()->we.h);
-	cub()->ea.img = mlx_xpm_file_to_image(cub()->mlx, cub()->ea.addr, &cub()->ea.w, &cub()->ea.h);
+	void	*mlx;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+
+	mlx = cub()->mlx;
+	no = cub()->no.addr;
+	so = cub()->so.addr;
+	we = cub()->we.addr;
+	ea = cub()->ea.addr;
+	cub()->no.img = mlx_xpm_file_to_image(mlx, no, &cub()->no.w, &cub()->no.h);
+	cub()->so.img = mlx_xpm_file_to_image(mlx, so, &cub()->so.w, &cub()->so.h);
+	cub()->we.img = mlx_xpm_file_to_image(mlx, we, &cub()->we.w, &cub()->we.h);
+	cub()->ea.img = mlx_xpm_file_to_image(mlx, ea, &cub()->ea.w, &cub()->ea.h);
 }
