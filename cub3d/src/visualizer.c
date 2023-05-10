@@ -6,17 +6,18 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/09 23:36:07 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/05/11 00:26:51 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-float	norm_angle(float angle);
-void	draw_wall(double angle, int i);
-void	draw_ceiling_floor(double low_y, double hi_y, int i);
+float		norm_angle(float angle);
+void		draw_wall(double angle, int i);
+void		draw_ceiling_floor(double low_y, double hi_y, int i);
+t_texture	select_texture(char c);
 
-void	visualizer(t_cub3d *cub3d)
+void visualizer(t_cub3d *cub3d)
 {
 	double	curr_angle;
 	double	angle_step;
@@ -88,14 +89,7 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 	t_texture	curr;
 	__uint32_t	new_color;
 
-	if (cub()->ray.cardinal == 'n')
-		curr = cub()->no;
-	else if (cub()->ray.cardinal == 's')
-		curr = cub()->so;
-	else if (cub()->ray.cardinal == 'w')
-		curr = cub()->we;
-	else
-		curr = cub()->ea;
+	curr = select_texture(cub()->ray.cardinal);
 	tex_x = (int)(cub()->ray.calc_dist * 32.0) % curr.w;
 	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1],
 			cub()->ceiling[2]);
@@ -103,16 +97,29 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 	counter = -1.0;
 	while (++counter <= ceil(low_y))
 		my_mlx_pixel_put(cub()->img_3d, i, counter, color);
-	while (counter <= hi_y)
+	counter--;
+	while (++counter <= hi_y)
 	{
 		tex_y = (int)((counter - low_y) * curr.h / (hi_y - low_y));
 		new_color = get_color(tex_x, tex_y, curr);
 		my_mlx_pixel_put(cub()->img_3d, i, counter, new_color);
-		counter++;
 	}
-	while (counter <= H_3D)
-	{
+	counter--;
+	while (++counter <= H_3D)
 		my_mlx_pixel_put(cub()->img_3d, i, counter, ceiling);
-		counter++;
-	}
+}
+
+t_texture select_texture(char c)
+{
+	t_texture curr;
+
+	if (c == 'n')
+		curr = cub()->no;
+	else if (c == 's')
+		curr = cub()->so;
+	else if (c == 'w')
+		curr = cub()->we;
+	else
+		curr = cub()->ea;
+	return (curr);
 }
