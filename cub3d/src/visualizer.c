@@ -6,18 +6,17 @@
 /*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/11 00:26:51 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/05/14 20:19:34 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-float		norm_angle(float angle);
-void		draw_wall(double angle, int i);
-void		draw_ceiling_floor(double low_y, double hi_y, int i);
-t_texture	select_texture(char c);
+float				norm_angle(float angle);
+void				draw_wall(double angle, int i);
+void				draw_ceiling_floor(double low_y, double hi_y, int i);
 
-void visualizer(t_cub3d *cub3d)
+void	visualizer(t_cub3d *cub3d)
 {
 	double	curr_angle;
 	double	angle_step;
@@ -60,37 +59,12 @@ void	draw_wall(double angle, int i)
 	draw_ceiling_floor(low_y, hi_y, i);
 }
 
-static	__uint32_t	get_color(int tex_x, int tex_y, t_texture curr)
-{
-	int			bpp;
-	int			line_size;
-	int			endian;
-	char		*data;
-	int			i;
-	__uint32_t	color;
-
-	data = mlx_get_data_addr(curr.img, &bpp, &line_size, &endian);
-	bpp /= 8;
-	color = 0;
-	i = -1;
-	while (++i < bpp)
-		color |= (unsigned char)data[tex_y * line_size
-			+ tex_x * bpp + i] << (8 * i);
-	return (color);
-}
-
 void	draw_ceiling_floor(double low_y, double hi_y, int i)
 {
 	double		counter;
 	int			ceiling;
 	int			color;
-	int			tex_x;
-	int			tex_y;
-	t_texture	curr;
-	__uint32_t	new_color;
 
-	curr = select_texture(cub()->ray.cardinal);
-	tex_x = (int)(cub()->ray.calc_dist * 32.0) % curr.w;
 	ceiling = create_trgb(1, cub()->ceiling[0], cub()->ceiling[1],
 			cub()->ceiling[2]);
 	color = create_trgb(1, cub()->floor[0], cub()->floor[1], cub()->floor[2]);
@@ -98,28 +72,8 @@ void	draw_ceiling_floor(double low_y, double hi_y, int i)
 	while (++counter <= ceil(low_y))
 		my_mlx_pixel_put(cub()->img_3d, i, counter, color);
 	counter--;
-	while (++counter <= hi_y)
-	{
-		tex_y = (int)((counter - low_y) * curr.h / (hi_y - low_y));
-		new_color = get_color(tex_x, tex_y, curr);
-		my_mlx_pixel_put(cub()->img_3d, i, counter, new_color);
-	}
-	counter--;
+	draw_wall_texture(low_y, hi_y, i);
+	counter = hi_y - 1;
 	while (++counter <= H_3D)
 		my_mlx_pixel_put(cub()->img_3d, i, counter, ceiling);
-}
-
-t_texture select_texture(char c)
-{
-	t_texture curr;
-
-	if (c == 'n')
-		curr = cub()->no;
-	else if (c == 's')
-		curr = cub()->so;
-	else if (c == 'w')
-		curr = cub()->we;
-	else
-		curr = cub()->ea;
-	return (curr);
 }
