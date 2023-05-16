@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visualizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/14 20:19:34 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/05/16 18:13:45 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	draw_wall(double angle, int i)
 
 	raycast(cub()->player.x, cub()->player.y, angle, cub());
 	corr_dist = cub()->ray.dist * cos(norm_angle(angle
-				- cub()->player.angle)) * 2;
+				- cub()->player.angle));
 	psh = (H_3D / corr_dist);
 	low_y = (H_3D / 2) - (psh / 2);
 	hi_y = (H_3D / 2) + (psh / 2);

@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:01:02 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/03 19:53:47 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:11:45 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	move(double relative_angle)
 	double	move_y;
 
 	final_angle = cub()->player.angle + relative_angle;
-	move_x = 0.05 * cos(final_angle);
-	move_y = 0.05 * sin(final_angle);
+	move_x = 0.05 * cos(final_angle) * cub()->movement.sprint;
+	move_y = 0.05 * sin(final_angle) * cub()->movement.sprint;
 	if (check_collisions(move_x, move_y))
 		return ;
 	cub()->player.x += move_x;

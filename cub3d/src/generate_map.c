@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:16:26 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/09 23:22:04 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:12:39 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	key_press(int keycode, t_cub3d *cub3d)
 		cub()->minimap = !cub()->minimap;
 	if (keycode == KEY_ESC)
 		close_window(1);
+	if (keycode == KEY_SHIFT)
+		cub()->movement.sprint = 3;
 	return (0);
 }
 
@@ -55,6 +57,8 @@ int	key_release(int keycode, t_cub3d *cub3d)
 		cub()->movement.right = 0;
 	if (keycode == KEY_LEFT)
 		cub()->movement.left = 0;
+	if (keycode == KEY_SHIFT)
+		cub()->movement.sprint = 1;
 	return (0);
 }
 
@@ -88,6 +92,7 @@ int	generate_map(t_cub3d *cub3d)
 	cub3d->mlx = mlx_init();
 	cub3d->win = mlx_new_window(cub3d->mlx, W_3D, H_3D, "teste");
 	cub3d->minimap = false;
+	cub()->movement.sprint = 1;
 	mlx_clear_window(cub3d->mlx, cub3d->win);
 	init_imgs();
 	visualizer(cub());

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/14 20:18:36 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/05/16 18:03:43 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@
 # define KEY_UP 38
 # define KEY_RIGHT 65363
 # define KEY_DOWN 40
+# define KEY_SHIFT 65505
 
 /* MAPS SIZES */
-# define W_2D 1800
-# define H_2D 1000
+# define W_2D 1280
+# define H_2D 720
 # define W_3D 1800
-# define H_3D 1000
+# define H_3D 1080
 # define ZOOM 16
 
 /* COLOURS */
@@ -53,7 +54,7 @@
 # define PPH 200		// Projection Plane Heigth
 # define PPD 277		// Projection Plane Distance
 # define PHEIGHT 32		// Player Heigth
-# define TILESIZE 64	// Size of Walls, Floors, Ceilings
+# define TILESIZE 32	// Size of Walls, Floors, Ceilings
 
 typedef struct s_movement
 {
@@ -63,6 +64,7 @@ typedef struct s_movement
 	int	d;
 	int	right;
 	int	left;
+	int	sprint;
 }	t_movement;
 
 typedef struct s_point
