@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/16 18:03:43 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/19 23:30:05 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ void	print_minimap(float angle);
 /* MOVEMENT */
 void	move(double relative_angle);
 /* TEXTURES */
-void	load_textures();
+void	load_textures(t_cub3d *cub3d);
 void	draw_wall_texture(double low_y, double hi_y, int i);
 
 #endif
