@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_imgs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:31:29 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/05/08 20:56:32 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/19 23:27:11 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ void	init_imgs(void)
 			&img_3d->bpp, &img_3d->line_length, &img_3d->endian);
 	cub()->img_2d = img_2d;
 	cub()->img_3d = img_3d;
-	load_textures();
+	load_textures(cub());
 }
