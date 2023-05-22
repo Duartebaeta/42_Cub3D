@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 16:04:09 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 20:53:38 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:56:34 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ int	check_textures(t_cub3d *cub3d, char *line, int counter)
 	}
 	else if (check_path(cub3d, split))
 	{
-		printf("\nenter\n");
 		ft_strarray_clear(&split);
 		return (2);
 	}

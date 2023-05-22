@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 16:30:02 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/01 16:51:28 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:14:15 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static char	*replace_tab_to_spaces(char *line);
 static char	**reformat_map(char **map, int max_x);
-static void	set_player(int x, int y, t_cub3d *cub3d); //thank you norminette
+static void	set_player(int x, int y, char cardinal,
+				t_cub3d *cub3d); //thank you norminette
 
 void	create_map_from_file(t_cub3d *cub3d)
 {
@@ -35,7 +36,7 @@ void	create_map_from_file(t_cub3d *cub3d)
 			if (x > max_x)
 				max_x = x;
 			if (ft_strchr("NSEW", map[y][x]))
-				set_player(x, y, cub3d);
+				set_player(x, y, map[y][x], cub3d);
 		}
 	}
 	cub3d->map = reformat_map(map, max_x);
@@ -95,9 +96,16 @@ static char	**reformat_map(char **map, int max_x)
 	return (map);
 }
 
-static void	set_player(int x, int y, t_cub3d *cub3d)
+static void	set_player(int x, int y, char cardinal, t_cub3d *cub3d)
 {
 	cub3d->player.x = (double)x;
 	cub3d->player.y = (double)y;
-	cub3d->player.angle = to_radian(-15);
+	if (cardinal == 'E')
+		cub3d->player.angle = to_radian(0);
+	else if (cardinal == 'W')
+		cub3d->player.angle = M_PI;
+	else if (cardinal == 'N')
+		cub3d->player.angle = -M_PI / 2;
+	else if (cardinal == 'S')
+		cub3d->player.angle = M_PI / 2;
 }
