@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:46:06 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/03/22 21:44:00 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:25:36 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static bool	is_closed(char **map, t_point p, int max_x, int max_y)
 			&& map[p.y - 1][p.x - 1] && is_map_char(map[p.y - 1][p.x - 1])
 			&& map[p.y - 1][p.x + 1] && is_map_char(map[p.y - 1][p.x + 1]))
 			adjacent++;
-		if (map[p.y + 1][p.x] && is_map_char(map[p.y + 1][p.x])
+		if (map[p.y + 1] && map[p.y + 1][p.x] && is_map_char(map[p.y + 1][p.x])
 			&& map[p.y + 1][p.x - 1] && is_map_char(map[p.y + 1][p.x - 1])
 			&& map[p.y + 1][p.x + 1] && is_map_char(map[p.y + 1][p.x + 1]))
 			adjacent++;
