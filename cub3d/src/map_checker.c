@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:46:06 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/05/22 16:25:36 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:10:10 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static bool	check_map_edges(char **map, t_point p, int max_x, int max_y)
 		return (true);
 	if (p.y == max_y && (map[p.y][p.x] == '1' || ft_isspace(map[p.y][p.x])))
 		return (true);
-	if (p.x == 0 && (map[p.y][p.x] == '1' || ft_isspace(map[max_y][p.x])))
+	if (p.x == 0 && (map[p.y][p.x] == '1' || ft_isspace(map[max_y - 1][p.x])))
 		return (true);
 	if (p.x == max_x - 1 && (map[p.y][p.x] == '1' || ft_isspace(map[p.y][p.x])))
 		return (true);
