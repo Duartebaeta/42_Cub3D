@@ -6,20 +6,22 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 01:01:54 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 20:51:08 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:08:57 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	get_input(t_cub3d *cub3d)
+static int	get_input(t_cub3d *cub3d)
 {
 	char	*input;
 	char	*tmp;
 	char	*gnl_tmp;
 
-	input = ft_strdup("");
 	gnl_tmp = get_next_line(cub3d->fd);
+	if (gnl_tmp == NULL)
+		return (1);
+	input = ft_strdup("");
 	while (gnl_tmp != NULL)
 	{
 		if (ft_strlen(gnl_tmp) != 0)
@@ -35,6 +37,7 @@ static void	get_input(t_cub3d *cub3d)
 	free(gnl_tmp);
 	cub3d->file = ft_split(input, '\n');
 	free(input);
+	return (0);
 }
 
 int	parse_textures(t_cub3d *cub3d)
@@ -77,7 +80,8 @@ int	arg_checker(char	*filename)
 		}
 		return (2);
 	}
-	get_input(cub());
+	if (get_input(cub()))
+		return (5);
 	if (parse_textures(cub()))
 		return (4);
 	return (0);
