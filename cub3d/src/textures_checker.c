@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures_checker.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 16:04:09 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/22 15:56:34 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:03:17 by jocaetan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	assign_values(t_cub3d *cub3d, char **path)
 		while (values[++counter])
 			cub3d->ceiling[counter] = ft_atoi(values[counter]);
 	}
+	ft_strarray_clear(&values);
 	return (0);
 }
 

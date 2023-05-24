@@ -7,7 +7,7 @@ NAME		:=	cub3d
 ### COMPILATION ###
 CC			:=	gcc
 CFLAGS		:=	-Wall -Werror -Wextra -g -O3 -march=native
-#CFLAGS		:=	-g -fsanitize=address
+CFLAGS		:=	-g -fsanitize=address
 
 ### PATHS ###
 LIBFT_PATH	:=	./libft/
