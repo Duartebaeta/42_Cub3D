@@ -6,11 +6,12 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 10:01:48 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/04/18 18:28:53 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:34:46 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static size_t	ft_str2dlen(char **s);
 
@@ -25,12 +26,12 @@ char	**ft_strarray_dup(char **str_array)
 	char	**array;
 
 	size = ft_str2dlen(str_array);
-	array = ft_calloc(size, sizeof(char*) + 1);
+	array = ft_calloc(size + 1, sizeof(char*));
 	i = -1;
 	while (++i < size)
-		array[i] = ft_strdup(str_array[i]);
+		array[i] = ft_strdup(str_array[i]);	
 	array[i] = '\0';
-	return (array);	
+	return (array);
 }
 
 static size_t	ft_str2dlen(char **s)

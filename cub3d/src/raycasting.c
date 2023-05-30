@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/08 21:42:46 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:17:14 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	init_horizontal(float x, float y, t_ray *ray)
 	ray->x_coord = ((y - ray->y_coord) * a_tan + x);
 	ray->step_y = (-is_up(ray->angle));
 	ray->step_x = (-ray->step_y) * a_tan;
-	if (ray->angle == 0 || ray->angle == 3.1415926535)
+	if (ray->angle == 0 || ray->angle == M_PI)
 	{
 		ray->x_coord = x;
 		ray->y_coord = y;
@@ -36,7 +36,7 @@ static void	init_vertical(float x, float y, t_ray *ray)
 {
 	float	a_tan;
 
-	if (ray->angle == 3.1415926535 / 2 || ray->angle == -2 / 3.1415926535)
+	if (ray->angle == M_PI / 2 || ray->angle == M_PI / -2)
 	{
 		ray->x_coord = x;
 		ray->y_coord = y;
