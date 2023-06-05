@@ -6,13 +6,14 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/16 18:13:45 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:31:21 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
 float				norm_angle(float angle);
+float				range_angle(float angle);
 void				draw_wall(double angle, int i);
 void				draw_ceiling_floor(double low_y, double hi_y, int i);
 
@@ -24,14 +25,23 @@ void	visualizer(t_cub3d *cub3d)
 
 	cub()->player.map_x = cub()->player.x * TILESIZE;
 	cub()->player.map_y = cub()->player.y * TILESIZE;
-	curr_angle = cub3d->player.angle - to_radian(FOV / 2);
+	curr_angle = range_angle(cub3d->player.angle - to_radian(FOV / 2));
 	angle_step = to_radian(FOV) / W_3D;
 	i = -1;
 	while (++i < W_3D)
 	{
 		draw_wall(curr_angle, i);
-		curr_angle += angle_step;
+		curr_angle = range_angle(curr_angle + angle_step);
 	}
+}
+
+float range_angle(float angle)
+{
+	if (angle >= (2 * M_PI))
+		angle -= (2 * M_PI);
+	if (angle <= (-2 * M_PI))
+		angle -= (-2 * M_PI);
+	return (angle);
 }
 
 float	norm_angle(float angle)

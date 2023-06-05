@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:09:58 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/30 17:17:14 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:26:38 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	init_horizontal(float x, float y, t_ray *ray)
 	ray->x_coord = ((y - ray->y_coord) * a_tan + x);
 	ray->step_y = (-is_up(ray->angle));
 	ray->step_x = (-ray->step_y) * a_tan;
-	if (ray->angle == 0 || ray->angle == M_PI)
+	if (ray->angle == 0 || ray->angle == M_PI || ray->angle == -M_PI)
 	{
 		ray->x_coord = x;
 		ray->y_coord = y;
@@ -36,7 +36,7 @@ static void	init_vertical(float x, float y, t_ray *ray)
 {
 	float	a_tan;
 
-	if (ray->angle == M_PI / 2 || ray->angle == M_PI / -2)
+	if (ray->angle == M_PI / 2 || ray->angle == M_PI / -2 || ray->angle == 3 * M_PI / -2 || ray->angle == 3 * M_PI / 2)
 	{
 		ray->x_coord = x;
 		ray->y_coord = y;
@@ -59,6 +59,8 @@ static void	init_vertical(float x, float y, t_ray *ray)
 static float	horizontal_ray(float x, float y, t_ray *ray)
 {
 	init_horizontal(x, y, ray);
+	if (ray->angle == M_PI / 2 || ray->angle == M_PI / -2 || ray->angle == 3 * M_PI / -2 || ray->angle == 3 * M_PI / 2)
+		return (100000000.0);
 	while (!ray->hit)
 	{
 		if (ray->x_coord > 0 && ray->y_coord > 0 && ray->x_coord < cub()->map_x
@@ -82,6 +84,8 @@ static float	horizontal_ray(float x, float y, t_ray *ray)
 static float	vertical_ray(float x, float y, t_ray *ray)
 {
 	init_vertical(x, y, ray);
+	if (ray->angle == 0 || ray->angle == M_PI || ray->angle == -M_PI)
+		return (100000000.0);
 	while (!ray->hit)
 	{
 		if (ray->x_coord > 0 && ray->y_coord > 0 && ray->x_coord < cub()->map_x

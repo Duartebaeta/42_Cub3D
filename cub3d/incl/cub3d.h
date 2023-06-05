@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jocaetan <jocaetan@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/19 23:30:05 by jocaetan         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:32:26 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 /* MAPS SIZES */
 # define W_2D 1280
 # define H_2D 720
-# define W_3D 1800
+# define W_3D 1600
 # define H_3D 1080
 # define ZOOM 16
 
@@ -123,10 +123,11 @@ typedef struct s_texture
 {
 	void	*img;
 	char	*addr;
+	char	*data;
+	t_image	img_data;
 	int		fd;
 	int		w;
 	int		h;
-
 }	t_texture;
 
 typedef struct s_ray
