@@ -6,28 +6,11 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 19:16:39 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/05 17:32:11 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/05 21:27:04 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
-
-static __uint32_t	get_color(int tex_x, int tex_y, int i, t_texture *curr)
-{
-	int			bpp;
-	char		*data;
-	__uint32_t	color;
-
-	data = curr->data;
-	bpp = curr->img_data.bpp;
-	bpp /= 8;
-	color = 0;
-	i = -1;
-	while (++i < bpp)
-		color |= (unsigned char)data[tex_y * curr->img_data.line_length + tex_x * bpp + i]
-			<< (8 * i);
-	return (color);
-}
 
 static t_texture	select_texture(char c)
 {
@@ -44,6 +27,23 @@ static t_texture	select_texture(char c)
 	return (curr);
 }
 
+static int	get_color(int tex_x, int tex_y, int i, t_texture *curr)
+{
+	int			bpp;
+	char		*data;
+	int			color;
+
+	data = curr->data;
+	bpp = curr->img_data.bpp;
+	bpp /= 8;
+	color = 0;
+	int pixel_index = tex_y * curr->w + tex_x;
+	i = -1;
+	while (++i < bpp)
+		color |= data[(pixel_index * bpp) + i] << (8 * i);
+	return (color);
+}
+
 void	draw_wall_texture(double low_y, double hi_y, int i)
 {
 	t_texture	curr;
@@ -53,12 +53,12 @@ void	draw_wall_texture(double low_y, double hi_y, int i)
 	int			counter;
 
 	curr = select_texture(cub()->ray.cardinal);
-	hi_low_diff = 1.0 / (hi_y - low_y);
-	tex_x = (int)(cub()->ray.calc_dist * TILESIZE) % curr.w;
+	hi_low_diff = (hi_y - low_y);
+	tex_x = (int)(cub()->ray.calc_dist * curr.w);
 	counter = (int)ceil(low_y) - 1;
-	while (++counter <= hi_y)
+	while (++counter <= (int)hi_y)
 	{
-		tex_y = (int)((counter - low_y) * curr.h * hi_low_diff);
+		tex_y = (int)(((counter - low_y) / hi_low_diff) * curr.h);
 		my_mlx_pixel_put(cub()->img_3d, i, counter, get_color(tex_x, tex_y, counter, &curr));
 	}
 }
