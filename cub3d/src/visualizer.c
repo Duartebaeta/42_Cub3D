@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/05 19:19:30 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:19:10 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	visualizer(t_cub3d *cub3d)
 	i = -1;
 	while (++i < W_3D)
 	{
-		draw_wall(curr_angle, i);
+		draw_wall(norm_angle(curr_angle), i);
 		curr_angle = range_angle(curr_angle + angle_step);
 	}
 }
@@ -40,7 +40,7 @@ float range_angle(float angle)
 	if (angle >= (2 * M_PI))
 		angle -= (2 * M_PI);
 	if (angle <= (-2 * M_PI))
-		angle -= (-2 * M_PI);
+		angle += (2 * M_PI);
 	return (angle);
 }
 

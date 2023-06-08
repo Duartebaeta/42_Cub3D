@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/05 17:32:26 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/05 22:21:45 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@
 # define PPD 277		// Projection Plane Distance
 # define PHEIGHT 32		// Player Heigth
 # define TILESIZE 32	// Size of Walls, Floors, Ceilings
+
+# ifndef PI
+#  define PI  3.141592999999999857863031138549558818340301513671875
+# endif
+
+# ifndef PII
+#  define PII 6.283184999999999575948095298372209072113037109375
+# endif
+
+# ifndef PI3
+#  define PI3 4.7123889923095703125
+# endif
+
+# ifndef PI2
+#  define PI2 1.570796000000000081087137004942633211612701416015625
+# endif
 
 typedef struct s_movement
 {
