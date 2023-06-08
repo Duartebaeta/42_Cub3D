@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/08 16:19:10 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:34:42 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	visualizer(t_cub3d *cub3d)
 	}
 }
 
-float range_angle(float angle)
+float	range_angle(float angle)
 {
 	if (angle >= (2 * M_PI))
 		angle -= (2 * M_PI);
