@@ -6,31 +6,57 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 01:01:54 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/15 21:04:23 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:16:42 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static bool	has_map_started(char *line)
+{
+	char	*trim;
+
+	trim = ft_strtrim(line, " \t");
+	if (trim[0] && trim[0] == '1')
+	{
+		free(trim);
+		return true;
+	}
+	free(trim);
+	return false;
+}
 
 static int	get_input(t_cub3d *cub3d)
 {
 	char	*input;
 	char	*tmp;
 	char	*gnl_tmp;
+	bool	map_started;
 
 	gnl_tmp = get_next_line(cub3d->fd);
 	if (gnl_tmp == NULL)
 		return (1);
 	input = ft_strdup("");
+	map_started = false;
 	while (gnl_tmp != NULL)
 	{
-		if (ft_strlen(gnl_tmp) != 0 && !is_empty_line(gnl_tmp))
+		if (is_empty_line(gnl_tmp))
+		{
+			if (map_started)
+			{
+				free(gnl_tmp);
+				free(input);
+				return 1;
+			}
+		}
+		else
 		{
 			tmp = ft_strjoin(input, gnl_tmp);
 			free(input);
 			input = ft_strdup(tmp);
 			free(tmp);
 		}
+		map_started = has_map_started(gnl_tmp);
 		free(gnl_tmp);
 		gnl_tmp = get_next_line(cub3d->fd);
 	}
