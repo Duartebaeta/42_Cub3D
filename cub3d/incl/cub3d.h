@@ -212,9 +212,11 @@ int		is_right(float angle);
 void	init_imgs(void);
 void	set_cardinal(float angle);
 float	norm_angle(float angle);
+bool	is_empty_line(char *line);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);
 void	clear_data(void);
+void	check_extra_lines();
 /*MAP GENERATING*/
 int		generate_map(t_cub3d *cub3d);
 int		keyhook(int keycode, t_cub3d *cub3d);

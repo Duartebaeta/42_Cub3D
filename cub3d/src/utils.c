@@ -68,3 +68,16 @@ void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 		*(unsigned int *)dst = color;
 	}
 }
+
+bool	is_empty_line(char *line)
+{
+	int i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (!ft_isspace(line[i]) && line[i] != '\n')
+			return (false);
+	}
+	return (true);
+}

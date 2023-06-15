@@ -27,3 +27,17 @@ void	clear_data(void)
 	ft_strarray_clear(&cub()->file);
 	ft_strarray_clear(&cub()->map);
 }
+
+void	check_extra_lines()
+{
+	int	last_map_line;
+
+	last_map_line = 6 + cub()->map_y;
+	last_map_line--;
+	while (cub()->file[++last_map_line])
+	{
+		if (!is_empty_line(cub()->file[last_map_line]))
+			program_errors("Extra lines", true, true);
+	}
+	return ;
+}
