@@ -6,13 +6,12 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:17:59 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/08 16:34:42 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:58:34 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/cub3d.h"
 
-float				norm_angle(float angle);
 float				range_angle(float angle);
 void				draw_wall(double angle, int i);
 void				draw_ceiling_floor(double low_y, double hi_y, int i);
@@ -40,15 +39,6 @@ float	range_angle(float angle)
 	if (angle >= (2 * M_PI))
 		angle -= (2 * M_PI);
 	if (angle <= (-2 * M_PI))
-		angle += (2 * M_PI);
-	return (angle);
-}
-
-float	norm_angle(float angle)
-{
-	if (angle >= (2 * M_PI))
-		angle -= (2 * M_PI);
-	if (angle < 0)
 		angle += (2 * M_PI);
 	return (angle);
 }

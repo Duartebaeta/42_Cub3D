@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:28:50 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/05 22:21:45 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:56:15 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ int		is_up(float angle);
 int		is_right(float angle);
 void	init_imgs(void);
 void	set_cardinal(float angle);
+float	norm_angle(float angle);
 /* ERROR HANDLING */
 void	program_errors(char *errname, bool clear, bool stop);
 void	clear_data(void);

@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 19:16:39 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/06/08 16:38:28 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:57:27 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ void	draw_wall_texture(double low_y, double hi_y, int i)
 	hi_low_diff = (hi_y - low_y);
 	tex_x = (int)(cub()->ray.calc_dist * curr.w);
 	counter = (int)ceil(low_y) - 1;
-	while (++counter <= (int)hi_y)
+	if (counter < 0)
+		counter = -1;
+	while (++counter <= (int)hi_y && counter <= H_3D)
 	{
 		tex_y = (int)(((counter - low_y) / hi_low_diff) * curr.h);
 		my_mlx_pixel_put(cub()->img_3d, i, counter,
