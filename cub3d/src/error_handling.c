@@ -28,7 +28,7 @@ void	clear_data(void)
 	ft_strarray_clear(&cub()->map);
 }
 
-void	check_extra_lines()
+void	check_extra_lines(void)
 {
 	int	last_map_line;
 

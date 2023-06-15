@@ -86,3 +86,16 @@ int	arg_checker(char	*filename)
 		return (4);
 	return (0);
 }
+
+bool	is_empty_line(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (!ft_isspace(line[i]) && line[i] != '\n')
+			return (false);
+	}
+	return (true);
+}

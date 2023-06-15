@@ -21,6 +21,7 @@ void	check_map(void)
 {
 	create_map_from_file(cub());
 	is_map_closed(cub()->map);
+	check_extra_lines();
 }
 
 void	is_map_closed(char **map)
