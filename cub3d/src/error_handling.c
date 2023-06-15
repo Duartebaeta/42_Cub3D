@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:43:20 by jocaetan          #+#    #+#             */
-/*   Updated: 2023/06/15 21:32:10 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:34:27 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,16 @@ void	check_extra_lines(void)
 	return ;
 }
 
+bool	has_map_started(char *line)
+{
+	char	*trim;
+
+	trim = ft_strtrim(line, " \t");
+	if (trim[0] && trim[0] == '1')
+	{
+		free(trim);
+		return (true);
+	}
+	free(trim);
+	return (false);
+}
