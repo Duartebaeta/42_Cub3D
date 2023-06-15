@@ -6,13 +6,12 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 16:30:02 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/30 16:42:03 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:56:46 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char	*replace_tab_to_spaces(char *line);
 static char	**reformat_map(char **map, int max_x);
 static void	set_player(int x, int y, char cardinal,
 				t_cub3d *cub3d); //thank you norminette
@@ -43,7 +42,7 @@ void	create_map_from_file(t_cub3d *cub3d)
 	cub3d->map[(int)cub3d->player.y][(int)cub3d->player.x] = '0';
 }
 
-static char	*replace_tab_to_spaces(char *line)
+char	*replace_tab_to_spaces(char *line)
 {
 	char	*prefix;
 	char	*suffix;

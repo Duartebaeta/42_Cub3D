@@ -6,7 +6,7 @@
 /*   By: dhomem-d <dhomem-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 01:01:54 by dhomem-d          #+#    #+#             */
-/*   Updated: 2023/05/22 18:08:57 by dhomem-d         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:04:23 by dhomem-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	get_input(t_cub3d *cub3d)
 	input = ft_strdup("");
 	while (gnl_tmp != NULL)
 	{
-		if (ft_strlen(gnl_tmp) != 0)
+		if (ft_strlen(gnl_tmp) != 0 && !is_empty_line(gnl_tmp))
 		{
 			tmp = ft_strjoin(input, gnl_tmp);
 			free(input);
@@ -51,7 +51,7 @@ int	parse_textures(t_cub3d *cub3d)
 	while (counter < 6 && cub3d->file[++in_counter])
 	{
 		line = ft_strtrim(cub3d->file[in_counter], " ");
-		if (ft_strlen(line) == 0)
+		if (ft_strlen(line) == 0 || is_empty_line(line))
 			free(line);
 		else
 		{
